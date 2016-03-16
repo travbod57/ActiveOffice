@@ -13,6 +13,7 @@ using Model;
 using Model.Actors;
 using Model.Competitors;
 using Model.Leagues;
+using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
 using Model.Sports;
@@ -26,7 +27,7 @@ using System.Threading.Tasks;
 namespace Test
 {
     [TestClass]
-    public class ChallengeLeagueTests
+    public class ChallengeLeagueManagementTests
     {
         /* TODO: 
          * Match scheduling based on number of face offs
@@ -64,14 +65,15 @@ namespace Test
                 new SportColumn() { Id = 4, Name = "Draws" },
                 new SportColumn() { Id = 5, Name = "Losses" },
                 new SportColumn() { Id = 6, Name = "GoalsFor" },
-                new SportColumn() { Id = 7, Name = "GoalsAgainst" }
+                new SportColumn() { Id = 7, Name = "GoalsAgainst" },
+                new SportColumn() { Id = 8, Name = "GoalDifference" }
             };
 
             LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, sides, _auditLogger, sportColumns);
 
-            ChallengeLeague newChallengeLeague = new ChallengeLeague();
+            ChallengeLeague newChallengeLeague = new ChallengeLeague() { CompetitionType = new CompetitionType() { Id = 1, Name = "ChallengeLeague" } };
             ChallengeLeagueSorter sorter = new ChallengeLeagueSorter(newChallengeLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newChallengeLeague, _leagueCreatorDto);
+            NonMatchScheduler scheduler = new NonMatchScheduler();
 
             LeagueBuilder<ChallengeLeague> b1 = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, sorter, scheduler);
 
@@ -79,16 +81,23 @@ namespace Test
         }
 
         [TestMethod]
-        public void Award_Win_Football()
+        public void Award_Win_To_Challenger_Football()
         {
             // Arrange
 
-            LeagueMatch leagueMatch = _challengeLeague.LeagueMatches.First();
+            LeagueMatch leagueMatch = new LeagueMatch()
+            {
+                CompetitorA = _challengeLeague.LeagueCompetitors.Last(),
+                CompetitorAScore = 2,
+                CompetitorB = _challengeLeague.LeagueCompetitors.First(),
+                CompetitorBScore = 1
+            };
 
-            Competitor winner = leagueMatch.CompetitorA;
-            leagueMatch.CompetitorAScore = 2;
-            Competitor loser = leagueMatch.CompetitorB;
-            leagueMatch.CompetitorBScore = 1;
+            int intialChallengerPosition = ((LeagueCompetitor)leagueMatch.CompetitorA).InitialPositionNumber;
+            int intialChallengeePosition = ((LeagueCompetitor)leagueMatch.CompetitorB).InitialPositionNumber;
+
+            LeagueCompetitor winner = (LeagueCompetitor)leagueMatch.CompetitorA;
+            LeagueCompetitor loser = (LeagueCompetitor)leagueMatch.CompetitorB;
 
             ISportManager footballManager = new FootballManager(_challengeLeague.CompetitionType);
 
@@ -100,7 +109,7 @@ namespace Test
 
             // Assert
 
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Position").Value == 3);
+            Assert.IsTrue(winner.CurrentPositionNumber == intialChallengeePosition);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 1);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
@@ -109,7 +118,7 @@ namespace Test
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 1);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == 1);
 
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Position").Value == 0);
+            Assert.IsTrue(loser.CurrentPositionNumber == intialChallengeePosition + 1);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 0);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
@@ -118,5 +127,7 @@ namespace Test
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 2);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1); 
         }
+
+        // TODO: Do a test for all positions inbetween after a challenge inbetween
     }
 }

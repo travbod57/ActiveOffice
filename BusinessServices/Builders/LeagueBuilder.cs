@@ -13,6 +13,7 @@ using System.Diagnostics;
 
 namespace BusinessServices.Builders
 {
+
     public class LeagueBuilder<T> where T : League
     {
         private T _league;

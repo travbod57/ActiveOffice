@@ -28,12 +28,12 @@ namespace BusinessServices.Updaters
             SportManager = sportManager;
         }
 
-        public void AddMatch(Competitor competitorA, Competitor competitorB)
+        public void AddMatch(LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
             _league.LeagueMatches.Add(new LeagueMatch() { CompetitorA = competitorA, CompetitorB = competitorB });
         }
 
-        public virtual void AwardWin(LeagueMatch leagueMatch, Competitor winner, Competitor loser)
+        public virtual void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
         {
             WinnerRecords = CompetitorRecordHelpers.GetCompetitorRecords(winner);
             LoserRecords = CompetitorRecordHelpers.GetCompetitorRecords(loser);
@@ -60,7 +60,7 @@ namespace BusinessServices.Updaters
             CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, LoserRecords);
         }
 
-        public virtual void AwardDraw(LeagueMatch leagueMatch, Competitor competitorA, Competitor competitorB)
+        public virtual void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
             Dictionary<string, CompetitorRecord> competitorARecords = CompetitorRecordHelpers.GetCompetitorRecords(competitorA);
             Dictionary<string, CompetitorRecord> competitorBRecords = CompetitorRecordHelpers.GetCompetitorRecords(competitorB);

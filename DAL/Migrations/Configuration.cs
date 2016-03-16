@@ -65,7 +65,6 @@ namespace DAL.Migrations
             SportColumn GoalDifference = new SportColumn() { Id = 8, Name = "GoalDifference" };
             SportColumn Laps = new SportColumn() { Id = 9, Name = "Laps" };
             SportColumn Races = new SportColumn() { Id = 10, Name = "Races" };
-            SportColumn Position = new SportColumn() { Id = 11, Name = "Position" };
 
             context.SportColumns.AddOrUpdate(
               sc => sc.Name,
@@ -83,19 +82,18 @@ namespace DAL.Migrations
               new CompetitionTypeSportColumn() { Id = 7, CompetitionType = pointsLeague, SportType = Football, SportColumn = Points, ColumnOrder = 7, IsOptional = false },
               new CompetitionTypeSportColumn() { Id = 9, CompetitionType = pointsLeague, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false },
 
-              new CompetitionTypeSportColumn() { Id = 10, CompetitionType = challengeLeague, SportType = Football, SportColumn = Position, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 11, CompetitionType = challengeLeague, SportType = Football, SportColumn = Played, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 12, CompetitionType = challengeLeague, SportType = Football, SportColumn = Wins, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 13, CompetitionType = challengeLeague, SportType = Football, SportColumn = Draws, ColumnOrder = 4, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 14, CompetitionType = challengeLeague, SportType = Football, SportColumn = Losses, ColumnOrder = 5, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 15, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 6, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 16, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 7, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 17, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 8, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 10, CompetitionType = challengeLeague, SportType = Football, SportColumn = Played, ColumnOrder = 1, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 11, CompetitionType = challengeLeague, SportType = Football, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 12, CompetitionType = challengeLeague, SportType = Football, SportColumn = Draws, ColumnOrder = 3, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 13, CompetitionType = challengeLeague, SportType = Football, SportColumn = Losses, ColumnOrder = 4, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 14, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 5, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 15, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 6, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 16, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false },
               
-              new CompetitionTypeSportColumn() { Id = 18, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Points, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 20, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 21, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Races, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 22, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Laps, ColumnOrder = 4, IsOptional = false }
+              new CompetitionTypeSportColumn() { Id = 17, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Points, ColumnOrder = 1, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 18, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 19, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Races, ColumnOrder = 3, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 20, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Laps, ColumnOrder = 4, IsOptional = false }
             );
             
             context.Players.AddOrUpdate(

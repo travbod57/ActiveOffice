@@ -20,7 +20,13 @@ namespace BusinessServices.Updaters
             _challengeLeague = challengeLeague;
         }
 
-        public override void AwardDraw(LeagueMatch leagueMatch, Competitor competitorA, Competitor competitorB)
+        public override void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
+        {
+            base.AwardWin(leagueMatch, winner, loser);
+            UpdateStandings(winner, loser);
+        }
+
+        public override void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
             if (_challengeLeague.CanDraw)
             {
@@ -28,18 +34,26 @@ namespace BusinessServices.Updaters
             }
         }
 
-        private void UpdateStandings(Competitor winner, Competitor loser)
+        private void UpdateStandings(LeagueCompetitor winner, LeagueCompetitor loser)
         {
-            int winnerPosition = WinnerRecords["Position"].Value;
-            int loserPosition = LoserRecords["Position"].Value;
+            int winnerPosition = winner.CurrentPositionNumber;
+            int loserPosition = loser.CurrentPositionNumber;
 
-            bool challengerWins = winnerPosition < loserPosition;
+            bool challengerWins = winnerPosition > loserPosition;
 
             if (challengerWins)
             {
+                winner.CurrentPositionNumber = loserPosition;
+                loser.CurrentPositionNumber = loserPosition + 1;
 
+                int upperBound = winner.CurrentPositionNumber + 2;
+                int lowerBound = winnerPosition;
 
-
+                foreach (var competitor in _challengeLeague.LeagueCompetitors)
+	            {
+                    if (competitor.CurrentPositionNumber <= lowerBound && competitor.CurrentPositionNumber >= upperBound)
+                        competitor.CurrentPositionNumber--;
+	            }
             }
         }
 

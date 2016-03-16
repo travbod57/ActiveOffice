@@ -89,9 +89,9 @@ namespace Test
             // Arrange
             LeagueMatch leagueMatch = _pointsLeague.LeagueMatches.First();
 
-            Competitor winner = leagueMatch.CompetitorA;
+            LeagueCompetitor winner = (LeagueCompetitor)leagueMatch.CompetitorA;
             leagueMatch.CompetitorAScore = 2;
-            Competitor loser = leagueMatch.CompetitorB;
+            LeagueCompetitor loser = (LeagueCompetitor)leagueMatch.CompetitorB;
             leagueMatch.CompetitorBScore = 1;
 
             ISportManager footballManager = new FootballManager(_pointsLeague.CompetitionType, new PointsDto() { Win = _pointsLeague.PointsForWin, Draw = _pointsLeague.PointsForDraw, Loss = _pointsLeague.PointsForLoss });
@@ -130,9 +130,9 @@ namespace Test
 
             LeagueMatch leagueMatch = _pointsLeague.LeagueMatches.First();
 
-            Competitor winner = leagueMatch.CompetitorA;
+            LeagueCompetitor winner = (LeagueCompetitor)leagueMatch.CompetitorA;
             leagueMatch.CompetitorAScore = 2;
-            Competitor loser = leagueMatch.CompetitorB;
+            LeagueCompetitor loser = (LeagueCompetitor)leagueMatch.CompetitorB;
             leagueMatch.CompetitorBScore = 1;
 
             ISportManager footballManager = new FootballManager(_pointsLeague.CompetitionType, new PointsDto() { Win = _pointsLeague.PointsForWin, Draw = _pointsLeague.PointsForDraw, Loss = _pointsLeague.PointsForLoss });

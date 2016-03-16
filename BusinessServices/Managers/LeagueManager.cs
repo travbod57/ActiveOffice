@@ -13,17 +13,17 @@ namespace BusinessServices.Updaters
             _leagueManager = leagueManager;
         }
 
-        public void AddMatch(Competitor competitorA, Competitor competitorB)
+        public void AddMatch(LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
             _leagueManager.AddMatch(competitorA, competitorB);
         }
 
-        public void AwardWin(LeagueMatch leagueMatch, Competitor winner, Competitor loser)
+        public void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
         {
             _leagueManager.AwardWin(leagueMatch, winner, loser);
         }
 
-        public void AwardDraw(LeagueMatch leagueMatch, Competitor competitorA, Competitor competitorB)
+        public void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
             _leagueManager.AwardDraw(leagueMatch, competitorA, competitorB);
         }

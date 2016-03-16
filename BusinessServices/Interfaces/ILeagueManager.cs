@@ -7,9 +7,9 @@ namespace BusinessServices.Interfaces
 {
     public interface ILeagueManager
     {
-        void AwardWin(LeagueMatch leagueMatch,Competitor winner, Competitor loser);
-        void AwardDraw(LeagueMatch leagueMatch, Competitor competitorA, Competitor competitorB);
-        void AddMatch(Competitor competitorA, Competitor competitorB);
+        void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser);
+        void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB);
+        void AddMatch(LeagueCompetitor competitorA, LeagueCompetitor competitorB);
         List<LeagueTableRowDto> GetLeagueStandings();
     }
 }

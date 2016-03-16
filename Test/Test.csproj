@@ -69,7 +69,7 @@
     <Compile Include="PointsLeagueManagementTests.cs" />
     <Compile Include="PointsLeagueCreationTests.cs" />
     <Compile Include="ChallengeLeagueCreationTests.cs" />
-    <Compile Include="ChallengeLeagueTests.cs" />
+    <Compile Include="ChallengeLeagueManagementTests.cs" />
     <Compile Include="SchedulerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -14,8 +14,10 @@ namespace Model.Scheduling
     [Table("Match")]
     public class Match : DBEntity
     {
+        // might be challenger or home side
         public Competitor CompetitorA { get; set; }
         public int CompetitorAScore { get; set; }
+        // might be challengee or away side
         public Competitor CompetitorB { get; set; }
         public int CompetitorBScore { get; set; }
 
