@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Model.LeagueArrangements
 {
     public class Season : DBEntity
     {

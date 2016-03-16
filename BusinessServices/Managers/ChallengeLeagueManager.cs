@@ -43,25 +43,28 @@ namespace BusinessServices.Updaters
 
             if (challengerWins)
             {
-                winner.CurrentPositionNumber = loserPosition;
-                loser.CurrentPositionNumber = loserPosition + 1;
+                winner.CurrentPositionNumber = loserPosition; // CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, LoserRecords); to track posotion , need position column in congiguration file
+                loser.CurrentPositionNumber = loserPosition + 1; // CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, LoserRecords);
 
-                int upperBound = winner.CurrentPositionNumber + 2;
+                int upperBound = winner.CurrentPositionNumber + 1;
                 int lowerBound = winnerPosition;
 
-                foreach (var competitor in _challengeLeague.LeagueCompetitors)
+                foreach (var competitor in _challengeLeague.LeagueCompetitors.Where( lc => !lc.Equals(winner) && !lc.Equals(loser)))
 	            {
                     if (competitor.CurrentPositionNumber <= lowerBound && competitor.CurrentPositionNumber >= upperBound)
-                        competitor.CurrentPositionNumber--;
+                        competitor.CurrentPositionNumber++; // CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, LoserRecords);
 	            }
             }
         }
 
         public override List<LeagueTableRowDto> GetLeagueStandings()
         {
+
+
+
             List<LeagueTableRowDto> standings = base.GetLeagueStandings();
 
-            return standings.OrderByDescending(s => s.ColumnValues.Single(x => x.Item1 == "Position").Item2).ToList();
+            return standings.OrderBy(s => s.ColumnValues.Single(x => x.Item1 == "Position").Item2).ToList();
         }
     }
 }

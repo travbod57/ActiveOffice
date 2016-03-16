@@ -1,5 +1,6 @@
 ﻿using Model.CompetitionOwnership;
 using Model.Competitors;
+using Model.LeagueArrangements;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
@@ -49,6 +50,7 @@ namespace Model.Leagues
         public virtual Tournament Tournament { get; set; }
         public virtual SportType SportType { get; set; }
         public virtual Season Season { get; set; }
+        public virtual Division Division { get; set; }
         public virtual CompetitionType CompetitionType { get; set; }
 
         public virtual ICollection<LeagueMatch> LeagueMatches { get; set; }

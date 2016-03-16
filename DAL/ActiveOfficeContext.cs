@@ -3,6 +3,7 @@ using Model.Actors;
 using Model.CompetitionOwnership;
 using Model.Competitors;
 using Model.Knockouts;
+using Model.LeagueArrangements;
 using Model.Leagues;
 using Model.Packages;
 using Model.Record;
@@ -45,6 +46,12 @@ namespace DAL
 
         #region Knockout
         public DbSet<Knockout> Knockouts { get; set; } 
+        #endregion
+
+        #region LeagueArrangements
+        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Division> Divisions { get; set; }
+        public DbSet<Cluster> Clusters { get; set; } 
         #endregion
 
         #region Leagues
@@ -93,7 +100,6 @@ namespace DAL
         public DbSet<Account> Accounts { get; set; } 
         #endregion
 
-        public DbSet<Season> Seasons { get; set; }
         public DbSet<Audit> Audits { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

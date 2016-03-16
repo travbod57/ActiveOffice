@@ -110,6 +110,7 @@ namespace Test
             // Assert
 
             Assert.IsTrue(winner.CurrentPositionNumber == intialChallengeePosition);
+            Assert.IsTrue(winner.Side.Name == "Arsenal");
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 1);
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
@@ -119,13 +120,94 @@ namespace Test
             Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == 1);
 
             Assert.IsTrue(loser.CurrentPositionNumber == intialChallengeePosition + 1);
+            Assert.IsTrue(loser.Side.Name == "West Ham");
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 0);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 1);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 1);
             Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 2);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1); 
+            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1);
+
+            Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single( lc => lc.CurrentPositionNumber == 3).Side.Name == "Spurs");
+            Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single(lc => lc.CurrentPositionNumber == 4).Side.Name == "Leicester");
+            Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single(lc => lc.CurrentPositionNumber == 5).Side.Name == "Norwich");
+        }
+
+        [TestMethod]
+        public void Get_League_Standings()
+        {
+            // Arrange
+
+            LeagueMatch leagueMatch = new LeagueMatch()
+            {
+                CompetitorA = _challengeLeague.LeagueCompetitors.Last(),
+                CompetitorAScore = 2,
+                CompetitorB = _challengeLeague.LeagueCompetitors.First(),
+                CompetitorBScore = 1
+            };
+
+            int intialChallengerPosition = ((LeagueCompetitor)leagueMatch.CompetitorA).InitialPositionNumber;
+            int intialChallengeePosition = ((LeagueCompetitor)leagueMatch.CompetitorB).InitialPositionNumber;
+
+            LeagueCompetitor winner = (LeagueCompetitor)leagueMatch.CompetitorA;
+            LeagueCompetitor loser = (LeagueCompetitor)leagueMatch.CompetitorB;
+
+            ISportManager footballManager = new FootballManager(_challengeLeague.CompetitionType);
+
+            ChallengeLeagueManager manager = new ChallengeLeagueManager(_challengeLeague, footballManager);
+
+            // Act
+
+            manager.AwardWin(leagueMatch, winner, loser);
+            List<LeagueTableRowDto> standings = manager.GetLeagueStandings();
+
+            // Assert
+
+            Assert.IsTrue(standings[0].SideName == "Arsenal");
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 1);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 2);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 1);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 1);
+            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 1);
+
+            Assert.IsTrue(standings[1].SideName == "West Ham");
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 1);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 1);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 2);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == -1);
+            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 1);
+
+            Assert.IsTrue(standings[2].SideName == "Spurs");
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
+            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
+
+            Assert.IsTrue(standings[3].SideName == "Leicester");
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
+            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
+
+            Assert.IsTrue(standings[4].SideName == "Norwich");
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
+            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
         }
 
         // TODO: Do a test for all positions inbetween after a challenge inbetween
