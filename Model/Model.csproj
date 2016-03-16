@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeagueArrangements\Cluster.cs" />
-    <Compile Include="LeagueArrangements\Division.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Record\CompetitorHistoryRecord.cs" />
     <Compile Include="Record\PlayerRecord.cs" />

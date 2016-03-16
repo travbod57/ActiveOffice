@@ -7,6 +7,7 @@ using BusinessServices.Updaters;
 using DAL;
 using Model.Actors;
 using Model.Competitors;
+using Model.LeagueArrangements;
 using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
@@ -14,6 +15,7 @@ using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Extensions;
 
 namespace BusinessServices
 {
@@ -122,6 +124,60 @@ namespace BusinessServices
 
         }
 
+        #region Cluster Management
+        public void CreateLeagueCluster(string clusterName, int numberOfDivisions)
+        {
+            // TODO:  do you have permissions to create clusters?
+
+            Cluster cluster = new Cluster();
+            cluster.Name = clusterName;
+            cluster.NumberOfDivisions = numberOfDivisions;
+
+            _unitOfWork.GetRepository<Cluster>().Add(cluster);
+            _unitOfWork.Save();
+        }
+
+        public void ReorderClusterDivisions(int clusterId)
+        {
+            // TODO: if active cannot reorder
+
+        }
+
+        public void AddLeaguesToCluster(int clusterId, int[] leagueIds)
+        {
+            Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
+
+            IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
+
+            if (leagues.Intersect(cluster.Leagues).Count() > 0)
+                throw new Exception("You are attempting to add leagues to a cluster that are already in the cluster");
+
+            IEnumerable<League> allLeagues = leagues.Union(cluster.Leagues);
+            bool sameCompetitionType = allLeagues.Select(x => x.CompetitionType).Distinct().Count() == 1;
+
+            if (!sameCompetitionType)
+                throw new Exception("Clusters are not allowed to have leagues of different types");
+
+            // add the new leagues to the cluster
+            cluster.Leagues.AddRange<League>(leagues);
+            _unitOfWork.Save();
+        }
+
+        public void RemoveLeaguesFromCluster(int clusterId, int[] leagueIds)
+        {
+            Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
+
+            IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
+
+            if (leagues.Count(l => l.IsActive) > 0)
+                throw new Exception("One of the leagues you are trying to remove is active");
+
+            cluster.Leagues.RemoveRange(leagues);
+            _unitOfWork.Save();
+        }
+        #endregion
+
+
 
         public void CreatePointsLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler)
         {
@@ -186,7 +242,7 @@ namespace BusinessServices
         /// <param name="leagueId"></param>
         /// <param name="competitorAId"></param>
         /// <param name="competitorBId"></param>
-        public void AddPointsMatch(int leagueId, int competitorAId, int competitorBId)
+        public void AddPointsLeagueMatch(int leagueId, int competitorAId, int competitorBId)
         {
             PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueId);
 

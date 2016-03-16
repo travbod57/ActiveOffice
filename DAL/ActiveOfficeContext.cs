@@ -50,7 +50,6 @@ namespace DAL
 
         #region LeagueArrangements
         public DbSet<Season> Seasons { get; set; }
-        public DbSet<Division> Divisions { get; set; }
         public DbSet<Cluster> Clusters { get; set; } 
         #endregion
 

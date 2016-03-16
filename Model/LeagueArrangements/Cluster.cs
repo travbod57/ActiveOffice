@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Leagues;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,12 @@ namespace Model.LeagueArrangements
     {
         public Cluster()
         {
-            Divisions = new List<Division>();
+            Leagues = new List<League>();
         }
 
         public string Name { get; set; }
+        public int NumberOfDivisions { get; set; }
 
-        public ICollection<Division> Divisions { get; set; }
+        public ICollection<League> Leagues { get; set; }
     }
 }

@@ -8,11 +8,19 @@ namespace Core.Extensions
 {
     public static class Extensions
     {
-        public static void AddRange<T>(this ICollection<T> source, IList<T> items)
+        public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> items)
         {
             foreach (var item in items)
             {
                 source.Add(item);
+            }
+        }
+
+        public static void RemoveRange<T>(this ICollection<T> source, IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                source.Remove(item);
             }
         }
     }
