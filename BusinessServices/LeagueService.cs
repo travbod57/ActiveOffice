@@ -127,7 +127,7 @@ namespace BusinessServices
         #region Cluster Management
         public void CreateLeagueCluster(string clusterName, int numberOfDivisions)
         {
-            // TODO:  do you have permissions to create clusters?
+            // TODO: do you have permissions to create clusters? - are you Admin, what is your package?
 
             Cluster cluster = new Cluster();
             cluster.Name = clusterName;
@@ -140,11 +140,13 @@ namespace BusinessServices
         public void ReorderClusterDivisions(int clusterId)
         {
             // TODO: if active cannot reorder
-
+            // TODO: do you have permissions to reorder clusters? - are you Admin, what is your package?
         }
 
         public void AddLeaguesToCluster(int clusterId, int[] leagueIds)
         {
+            // TODO: do you have permissions to add leagues clusters?
+
             Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
 
             IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
@@ -165,6 +167,8 @@ namespace BusinessServices
 
         public void RemoveLeaguesFromCluster(int clusterId, int[] leagueIds)
         {
+            // TODO: do you have permissions to remove leagues clusters? - are you Admin, what is your package?
+
             Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
 
             IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
