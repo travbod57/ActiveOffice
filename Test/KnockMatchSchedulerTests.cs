@@ -6,7 +6,6 @@ using BusinessServices.Dtos.League;
 using BusinessServices.Enums;
 using BusinessServices.Interfaces;
 using BusinessServices.Schedulers;
-using BusinessServices.Updaters;
 using DAL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;

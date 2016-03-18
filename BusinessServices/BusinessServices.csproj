@@ -64,6 +64,7 @@
     <Compile Include="Interfaces\IKnockoutSorter.cs" />
     <Compile Include="Interfaces\ISportManager.cs" />
     <Compile Include="KnockoutService.cs" />
+    <Compile Include="Managers\KnockoutCompetition\KnockoutManager.cs" />
     <Compile Include="PackageService.cs" />
     <Compile Include="AuditService.cs" />
     <Compile Include="AuditLogger.cs" />
@@ -86,10 +87,10 @@
     <Compile Include="Schedulers\NonMatchScheduler.cs" />
     <Compile Include="Schedulers\KnockoutMatchScheduler.cs" />
     <Compile Include="Schedulers\RandomLeagueMatchScheduler.cs" />
-    <Compile Include="Managers\ChallengeLeagueManager.cs" />
-    <Compile Include="Managers\LeagueManager.cs" />
-    <Compile Include="Managers\LeagueManagerBase.cs" />
-    <Compile Include="Managers\PointsLeagueManager.cs" />
+    <Compile Include="Managers\LeagueCompetition\ChallengeLeagueManager.cs" />
+    <Compile Include="Managers\LeagueCompetition\LeagueManager.cs" />
+    <Compile Include="Managers\LeagueCompetition\LeagueManagerBase.cs" />
+    <Compile Include="Managers\LeagueCompetition\PointsLeagueManager.cs" />
     <Compile Include="Sports\FootballManager.cs" />
   </ItemGroup>
   <ItemGroup>

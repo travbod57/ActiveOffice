@@ -24,64 +24,64 @@ namespace BusinessServices.Sports
             _points = points;
         }
 
-        public void AwardWin(int goalsFor, int goalsAgainst)
+        public void AwardWin(int winnerScore, int loserScore)
         {
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
                 CompetitorRecords["Points"].Value += _points.Win;
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Wins"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += winnerScore;
+                CompetitorRecords["GoalsAgainst"].Value += loserScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
 
-            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString())
+            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString() || _competitionType.Name == EnumCompetitionType.Knockout.ToString())
             {
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Wins"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += winnerScore;
+                CompetitorRecords["GoalsAgainst"].Value += loserScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
         }
 
-        public void AwardLoss(int goalsFor, int goalsAgainst)
+        public void AwardLoss(int winnerScore, int loserScore)
         {
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
                 CompetitorRecords["Points"].Value += _points.Loss;
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Losses"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += loserScore;
+                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
 
-            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString())
+            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString() || _competitionType.Name == EnumCompetitionType.Knockout.ToString())
             {
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Losses"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += loserScore;
+                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
         }
 
-        public void AwardDraw(int goalsFor, int goalsAgainst)
+        public void AwardDraw(int winnerScore, int loserScore)
         {
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
                 CompetitorRecords["Points"].Value += _points.Draw;
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Draws"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += loserScore;
+                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
 
@@ -90,9 +90,9 @@ namespace BusinessServices.Sports
                 CompetitorRecords["Points"].Value += _points.Draw;
                 CompetitorRecords["Played"].Value += 1;
                 CompetitorRecords["Draws"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += goalsFor;
-                CompetitorRecords["GoalsAgainst"].Value += goalsAgainst;
-                CompetitorRecords["GoalDifference"].Value = goalsFor - goalsAgainst;
+                CompetitorRecords["GoalsFor"].Value += loserScore;
+                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
+                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
                 return;
             }
         }

@@ -13,7 +13,7 @@ using System.Linq;
 using Model.Extensions;
 using BusinessServices.Interfaces;
 
-namespace BusinessServices.Updaters
+namespace BusinessServices.Managers.LeagueCompetition
 {
     public abstract class LeagueManagerBase
     {
@@ -47,7 +47,7 @@ namespace BusinessServices.Updaters
             SportManager.AwardWin(winningScore, losingScore);
 
             SportManager.CompetitorRecords = LoserRecords;
-            SportManager.AwardLoss(losingScore, winningScore);
+            SportManager.AwardLoss(winningScore, losingScore);
 
             // update match result
 

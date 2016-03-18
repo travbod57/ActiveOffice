@@ -2,7 +2,7 @@
 using Model.Competitors;
 using Model.Schedule;
 
-namespace BusinessServices.Updaters
+namespace BusinessServices.Managers.LeagueCompetition
 {
     public class LeagueManager
     {

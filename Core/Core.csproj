@@ -51,35 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Competition.cs" />
-    <Compile Include="CompetitionBuilder.cs" />
-    <Compile Include="CompetitionConstructor.cs" />
-    <Compile Include="Competitor.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
-    <Compile Include="Knockout\Knockout.cs" />
-    <Compile Include="LeagueBuilder.cs" />
-    <Compile Include="LeagueCompetitor.cs" />
-    <Compile Include="League\Challenge.cs" />
-    <Compile Include="League\LeagueRules\ChallengeLeagueRules.cs" />
-    <Compile Include="League\LeagueRules\ILeagueRules.cs" />
-    <Compile Include="League\LeagueRules\PointsLeagueRules.cs" />
-    <Compile Include="League\League.cs" />
-    <Compile Include="League\ChallengeLeague.cs" />
-    <Compile Include="League\PointsLeague.cs" />
-    <Compile Include="MatchBuilder.cs" />
     <Compile Include="Outcome.cs" />
-    <Compile Include="Scheduling\Helpers.cs" />
-    <Compile Include="Scheduling\Match.cs" />
-    <Compile Include="Users\Player.cs" />
-    <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scheduling\Result.cs" />
-    <Compile Include="Scheduling\MatchDay.cs" />
-    <Compile Include="Users\Side.cs" />
-    <Compile Include="Users\Team.cs" />
-    <Compile Include="Tournament\Tournament.cs" />
-    <Compile Include="TournamentBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

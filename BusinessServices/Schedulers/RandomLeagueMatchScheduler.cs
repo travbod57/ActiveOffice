@@ -40,6 +40,7 @@ namespace BusinessServices.Schedulers
         }
 
         // TODO : this is not correct. Could be used for prgoress bar for length of scheduling
+        // http://www.neelsagar.co.uk/how-many-games-in-a-tournament/
         public int TotalNumberOfMatches
         {
             get { return _validLeagueMatchCombinations.Count * _league.NumberOfMatchUps; }

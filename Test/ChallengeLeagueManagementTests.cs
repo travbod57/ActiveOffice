@@ -4,9 +4,9 @@ using BusinessServices.Dtos;
 using BusinessServices.Dtos.League;
 using BusinessServices.Enums;
 using BusinessServices.Interfaces;
+using BusinessServices.Managers.LeagueCompetition;
 using BusinessServices.Schedulers;
 using BusinessServices.Sports;
-using BusinessServices.Updaters;
 using DAL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
@@ -15,14 +15,11 @@ using Model.Competitors;
 using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
-using Model.Scheduling;
 using Model.Sports;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test
 {

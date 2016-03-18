@@ -2,8 +2,9 @@
 using BusinessServices.Dto;
 using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
+using BusinessServices.Managers.LeagueCompetition;
 using BusinessServices.Sports;
-using BusinessServices.Updaters;
+using Core.Extensions;
 using DAL;
 using Model.Actors;
 using Model.Competitors;
@@ -15,7 +16,6 @@ using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Extensions;
 
 namespace BusinessServices
 {

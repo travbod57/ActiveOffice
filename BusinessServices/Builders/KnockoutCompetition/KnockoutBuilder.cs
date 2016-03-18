@@ -43,8 +43,8 @@ namespace BusinessServices.Builders.KnockoutCompetition
 
         public void AddCompetitors(IList<Side> sides)
         {
-            if (_knockOut.KnockoutCompetitors.Count + sides.Count > _knockOut.NumberOfCompetitors)
-                throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
+            //if (_knockOut.KnockoutCompetitors.Count + sides.Count > _knockOut.NumberOfCompetitors)
+            //    throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
 
             int initialPosition = _knockOut.KnockoutCompetitors.Count + 1;
 
@@ -57,8 +57,8 @@ namespace BusinessServices.Builders.KnockoutCompetition
 
         public void AddCompetitor(Side side, int initialSeeding)
         {
-            if (_knockOut.KnockoutCompetitors.Count + 1 > _knockOut.NumberOfCompetitors)
-                throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
+            //if (_knockOut.KnockoutCompetitors.Count + 1 > _knockOut.NumberOfCompetitors)
+            //    throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
 
             KnockoutCompetitor competitor = new KnockoutCompetitor() { Side = side, InitialSeeding = initialSeeding };
 

@@ -1,6 +1,7 @@
 ﻿using Model.CompetitionOwnership;
 using Model.Competitors;
 using Model.Interfaces;
+using Model.ReferenceData;
 using Model.Schedule;
 using Model.Sports;
 using Model.Tournaments;
@@ -33,10 +34,14 @@ namespace Model.Knockouts
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public bool IsActive { get; set; }
+        public bool IsCreated { get; set; }
+
         public virtual ICollection<KnockoutAdmin> KnockoutAdmins { get; set; }
         public virtual ICollection<KnockoutCompetitor> KnockoutCompetitors { get; set; }
         public virtual ICollection<SportColumn> SportColumns { get; set; }
         public virtual ICollection<KnockoutMatch> KnockoutMatches { get; set; }
+        public virtual CompetitionType CompetitionType { get; set; }
 
         #region IAudit
         [NotMapped]

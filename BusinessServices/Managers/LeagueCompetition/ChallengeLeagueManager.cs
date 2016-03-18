@@ -9,7 +9,7 @@ using Model.Schedule;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BusinessServices.Updaters
+namespace BusinessServices.Managers.LeagueCompetition
 {
     public class ChallengeLeagueManager : LeagueManagerBase, ILeagueManager
     {

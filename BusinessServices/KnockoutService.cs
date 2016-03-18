@@ -1,12 +1,17 @@
 ﻿using BusinessServices.Builders;
 using BusinessServices.Builders.KnockoutCompetition;
+using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
+using BusinessServices.Managers.KnockoutCompetition;
+using BusinessServices.Sports;
 using DAL;
 using Model;
 using Model.Actors;
+using Model.Competitors;
 using Model.Knockouts;
 using Model.Packages;
 using Model.ReferenceData;
+using Model.Schedule;
 using Model.Sports;
 using Model.UserManagement;
 using System;
@@ -46,6 +51,31 @@ namespace BusinessServices
             director.Construct(builder);
 
             _unitOfWork.GetRepository<Knockout>().Add(newKnockout);
+
+            _unitOfWork.Save();
+        }
+
+        public void ActivateKnockout(int knockoutId)
+        {
+            Knockout knockout = _unitOfWork.GetRepository<Knockout>().GetById(knockoutId);
+            knockout.IsActive = true;
+
+            _unitOfWork.Save();
+        }
+
+        public void AwardKnockoutWin(int knockoutMatchId, int winnerCompetitorId, int loserCompetitorId, int winnerScore, int loserScore)
+        {
+
+            KnockoutMatch knockoutMatch = _unitOfWork.GetRepository<KnockoutMatch>().GetById(knockoutMatchId);
+            Knockout knockout = knockoutMatch.Knockout;
+
+            KnockoutCompetitor winnerKnockoutCompetitor = _unitOfWork.GetRepository<KnockoutCompetitor>().GetById(winnerCompetitorId);
+            KnockoutCompetitor loserKnockoutCompetitor = _unitOfWork.GetRepository<KnockoutCompetitor>().GetById(loserCompetitorId);
+
+            ISportManager footballManager = new FootballManager(knockout.CompetitionType);
+
+            KnockoutManager knockoutManager = new KnockoutManager(knockout, footballManager);
+            knockoutManager.AwardWin(knockoutMatch, winnerKnockoutCompetitor, loserKnockoutCompetitor, winnerScore, loserScore);
 
             _unitOfWork.Save();
         }
