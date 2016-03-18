@@ -7,17 +7,18 @@ using Model.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Extensions;
 
 namespace BusinessServices.Schedulers
 {
-    public class RandomMatchScheduler : IMatchScheduler
+    public class RandomLeagueMatchScheduler : IMatchScheduler
     {
         private List<LeagueMatch> _validLeagueMatchCombinations;
         private List<LeagueMatch> _tmpLeagueMatchUps;
         private League _league;
         private LeagueCreatorDto _leagueCreatorConfig;
 
-        public RandomMatchScheduler(League league, LeagueCreatorDto leagueCreatorConfig)
+        public RandomLeagueMatchScheduler(League league, LeagueCreatorDto leagueCreatorConfig)
         {
             _validLeagueMatchCombinations = new List<LeagueMatch>();
             _tmpLeagueMatchUps = new List<LeagueMatch>();
@@ -42,7 +43,7 @@ namespace BusinessServices.Schedulers
         public int TotalNumberOfMatches
         {
             get { return _validLeagueMatchCombinations.Count * _league.NumberOfMatchUps; }
-        } 
+        }
         #endregion
 
         public int NumberOfMatchesPerMatchDay { get; set; }
@@ -100,12 +101,6 @@ namespace BusinessServices.Schedulers
 
     public static class IListExtensions
     {
-        public static List<T> Shuffle<T>(this List<T> source)
-        {
-            Random random = new Random();
-            return source.OrderBy<T, int>((item) => random.Next()).ToList();
-        }
-
         public static List<LeagueMatch> SetRandomHomeTeam(this List<LeagueMatch> leagueMatches)
         {
             Random random = new Random();
@@ -134,13 +129,5 @@ namespace BusinessServices.Schedulers
 
             return leagueMatches;
         }
-
-        public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> items)
-        {
-            foreach (var item in items)
-            {
-                source.Add(item);
-            }
-        } 
     }
 }

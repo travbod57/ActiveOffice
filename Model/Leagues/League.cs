@@ -27,7 +27,7 @@ namespace Model.Leagues
         }
 
         #region Config
-        public int NumberOfPositions { get; set; }
+        public int NumberOfCompetitors { get; set; }
         public int NumberOfMatchUps { get; set; }
         public bool HasScheduledMatches { get; set; }
         public bool HasAdhocMatches { get; set; } 

@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Competitors\KnockoutCompetitor.cs" />
     <Compile Include="LeagueArrangements\Cluster.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Record\CompetitorHistoryRecord.cs" />

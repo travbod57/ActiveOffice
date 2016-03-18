@@ -31,4 +31,26 @@ namespace Model
         ChallengeLeague,
         Tournament
     }
+
+    public enum EnumRound
+    {
+        FirstRound,
+        SecondRound,
+        ThirdRound,
+        FourthRound,
+        FifthRound,
+        QuarterFinal,
+        SemiFinal,
+        ThirdPlacePlayOff,
+        Final,
+        RunnerUp,
+        Winner
+    }
+
+    public enum EnumKnockoutSide
+    {
+        Center,
+        Left,
+        Right
+    }
 }

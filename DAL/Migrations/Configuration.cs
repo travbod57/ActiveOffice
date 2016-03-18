@@ -93,7 +93,15 @@ namespace DAL.Migrations
               new CompetitionTypeSportColumn() { Id = 17, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Points, ColumnOrder = 1, IsOptional = false },
               new CompetitionTypeSportColumn() { Id = 18, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
               new CompetitionTypeSportColumn() { Id = 19, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Races, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 20, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Laps, ColumnOrder = 4, IsOptional = false }
+              new CompetitionTypeSportColumn() { Id = 20, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Laps, ColumnOrder = 4, IsOptional = false },
+              
+              new CompetitionTypeSportColumn() { Id = 21, CompetitionType = knockout, SportType = Football, SportColumn = Played, ColumnOrder = 1, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 22, CompetitionType = knockout, SportType = Football, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 23, CompetitionType = knockout, SportType = Football, SportColumn = Draws, ColumnOrder = 3, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 24, CompetitionType = knockout, SportType = Football, SportColumn = Losses, ColumnOrder = 4, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 25, CompetitionType = knockout, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 5, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 26, CompetitionType = knockout, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 6, IsOptional = false },
+              new CompetitionTypeSportColumn() { Id = 27, CompetitionType = knockout, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false }
             );
             
             context.Players.AddOrUpdate(

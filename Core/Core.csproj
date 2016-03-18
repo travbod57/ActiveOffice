@@ -56,6 +56,7 @@
     <Compile Include="CompetitionConstructor.cs" />
     <Compile Include="Competitor.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Knockout\Knockout.cs" />
     <Compile Include="LeagueBuilder.cs" />
     <Compile Include="LeagueCompetitor.cs" />

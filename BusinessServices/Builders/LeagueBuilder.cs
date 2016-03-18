@@ -18,8 +18,8 @@ namespace BusinessServices.Builders
     {
         private T _league;
 
-        public ILeagueSorter _leagueSorter { get; set; }
-        public IMatchScheduler _matchScheduler { get; set; }
+        private ILeagueSorter _leagueSorter { get; set; }
+        private IMatchScheduler _matchScheduler { get; set; }
 
         public LeagueBuilder(T league, ILeagueSorter leagueSorter, IMatchScheduler matchScheduler)
         {
@@ -33,7 +33,7 @@ namespace BusinessServices.Builders
             _league.Name = name;
             _league.StartDate = startDate;
             _league.EndDate = endDate;
-            _league.NumberOfPositions = numberOfPositions;
+            _league.NumberOfCompetitors = numberOfPositions;
             _league.NumberOfMatchUps = numberOfMatchUps;
 
             _league.SportColumns.AddRange(sportColumns);
@@ -41,7 +41,7 @@ namespace BusinessServices.Builders
 
         public void AddCompetitors(IList<Side> sides)
         {
-            if (_league.LeagueCompetitors.Count + sides.Count > _league.NumberOfPositions)
+            if (_league.LeagueCompetitors.Count + sides.Count > _league.NumberOfCompetitors)
                 throw new Exception("The number of competitors you are adding to this league will take it above the capacity");
 
             int initialPosition = _league.LeagueCompetitors.Count + 1;
@@ -55,7 +55,7 @@ namespace BusinessServices.Builders
 
         public void AddCompetitor(Side side, int initialPositionNumber)
         {
-            if (_league.LeagueCompetitors.Count + 1 > _league.NumberOfPositions)
+            if (_league.LeagueCompetitors.Count + 1 > _league.NumberOfCompetitors)
                 throw new Exception("The number of competitors you are adding to this league will take it above the capacity");
 
             LeagueCompetitor competitor = new LeagueCompetitor() { Side = side, InitialPositionNumber = initialPositionNumber, CurrentPositionNumber = initialPositionNumber };

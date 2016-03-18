@@ -86,7 +86,7 @@ namespace Test
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague();
             ChallengeLeagueSorter sorter = new ChallengeLeagueSorter(newChallengeLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newChallengeLeague, _leagueCreatorDto);
+            RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newChallengeLeague, _leagueCreatorDto);
 
             LeagueBuilder<ChallengeLeague> b1 = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, sorter, scheduler);
 
@@ -114,7 +114,7 @@ namespace Test
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague();
             ChallengeLeagueSorter sorter = new ChallengeLeagueSorter(newChallengeLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newChallengeLeague, _leagueCreatorDto);
+            RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newChallengeLeague, _leagueCreatorDto);
 
             LeagueBuilder<ChallengeLeague> b1 = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, sorter, scheduler);
 

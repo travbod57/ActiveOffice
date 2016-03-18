@@ -23,5 +23,11 @@ namespace Core.Extensions
                 source.Remove(item);
             }
         }
+
+        public static List<T> Shuffle<T>(this List<T> source)
+        {
+            Random random = new Random();
+            return source.OrderBy<T, int>((item) => random.Next()).ToList();
+        }
     }
 }

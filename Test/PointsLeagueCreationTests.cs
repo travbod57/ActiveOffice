@@ -86,7 +86,7 @@ namespace Test
 
             PointsLeague newPointsLeague = new PointsLeague();
             PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newPointsLeague, _leagueCreatorDto);
+            RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
             LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
 
@@ -114,7 +114,7 @@ namespace Test
 
             PointsLeague newPointsLeague = new PointsLeague();
             PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newPointsLeague, _leagueCreatorDto);
+            RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
             LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
 

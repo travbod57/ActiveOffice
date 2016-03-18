@@ -22,6 +22,6 @@ namespace BusinessServices.Schedulers
 
         }
 
-        public int TotalNumberOfMatches { get { return 0; } } 
+        public int TotalNumberOfMatches { get { return 0; } }
     }
 }

@@ -76,7 +76,7 @@ namespace Test
 
             PointsLeague newPointsLeague = new PointsLeague() { PointsForWin = 3, PointsForDraw = 1, PointsForLoss = 0, CompetitionType = new CompetitionType() { Id = 1, Name = "PointsLeague" }};
             PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
-            RandomMatchScheduler scheduler = new RandomMatchScheduler(newPointsLeague, _leagueCreatorDto);
+            RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
             LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
 
