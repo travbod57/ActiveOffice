@@ -108,7 +108,172 @@ namespace Test
             _t32 = new Team() { Name = "Portsmouth" };
         }
 
-        // TODO: test the exceptions
+        #region Exceptions
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Too_Few_Rounds__Schedule_Knockout_With_1_Rounds()
+        {
+            // Arrange
+
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 1, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Rounds_Too_Many_Rounds__Schedule_Knockout_With_8()
+        {
+            // Arrange
+
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 8, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Not_Enough_Competitors__Schedule_Knockout_With_4_Rounds()
+        {
+            // Arrange
+
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Not_Enough_Competitors_For_Seeding__Schedule_Knockout_With_3_Rounds()
+        {
+            // Arrange
+
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 3, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Not_Enough_Seeds_Provided__Schedule_Knockout_With_4_Rounds()
+        {
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockoutCompetitors[0].InitialSeeding = 4;
+            knockoutCompetitors[9].InitialSeeding = 3;
+            knockoutCompetitors[5].InitialSeeding = 2;
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Not_Enough_Seeds_Number_Too_High__Schedule_Knockout_With_4_Rounds()
+        {
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockoutCompetitors[0].InitialSeeding = 4;
+            knockoutCompetitors[9].InitialSeeding = 3;
+            knockoutCompetitors[5].InitialSeeding = 7;
+            knockoutCompetitors[6].InitialSeeding = 2;
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Exception_Not_Enough_Seeds_Not_Unique__Schedule_Knockout_With_4_Rounds()
+        {
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockoutCompetitors[0].InitialSeeding = 4;
+            knockoutCompetitors[9].InitialSeeding = 3;
+            knockoutCompetitors[5].InitialSeeding = 3;
+            knockoutCompetitors[6].InitialSeeding = 2;
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+        } 
+        #endregion
+
+
+
 
         [TestMethod]
         public void Schedule_Knockout_With_2_Rounds_No_Playoff()
@@ -323,6 +488,8 @@ namespace Test
             Assert.IsTrue(knockoutMatches[29].Round == EnumRound.FirstRound && knockoutMatches[29].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[29].NextRoundMatch == knockoutMatches[28] && knockoutMatches[29].MatchNumberForRound == 15);
             Assert.IsTrue(knockoutMatches[30].Round == EnumRound.FirstRound && knockoutMatches[30].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[30].NextRoundMatch == knockoutMatches[28] && knockoutMatches[30].MatchNumberForRound == 16);
         }
+
+
 
 
         [TestMethod]
