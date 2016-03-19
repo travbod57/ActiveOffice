@@ -37,7 +37,7 @@ namespace BusinessServices
                           join t in _unitOfWork.GetRepository<Team>().All() on a.SubjectId equals t.Id
                           where a.SubjectId == teamId && a.SubjectType == EnumSubjectType.Team
                           orderby a.DateTimeStamp descending
-                          select string.Format("{0} {1} {2} on {2} at {3}", a.User.UserName, a.ActionType, t.Name, a.DateTimeStamp.Date, a.DateTimeStamp.TimeOfDay);
+                          select string.Format("{0} {1} {2} on {3} at {4}", a.User.UserName, a.ActionType, t.Name, a.DateTimeStamp.Date, a.DateTimeStamp.TimeOfDay);
 
             return teamLog;
 

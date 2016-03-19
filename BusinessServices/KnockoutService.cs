@@ -79,5 +79,17 @@ namespace BusinessServices
 
             _unitOfWork.Save();
         }
+
+        #region Season Management
+        public void CreateSeason()
+        {
+
+        }
+
+        public void ActivateSeason(int seasonId)
+        {
+
+        }
+        #endregion
     }
 }

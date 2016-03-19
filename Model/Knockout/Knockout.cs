@@ -1,6 +1,7 @@
 ﻿using Model.CompetitionOwnership;
 using Model.Competitors;
 using Model.Interfaces;
+using Model.LeagueArrangements;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Sports;
@@ -42,6 +43,7 @@ namespace Model.Knockouts
         public virtual ICollection<SportColumn> SportColumns { get; set; }
         public virtual ICollection<KnockoutMatch> KnockoutMatches { get; set; }
         public virtual CompetitionType CompetitionType { get; set; }
+        public virtual Season Season { get; set; }
 
         #region IAudit
         [NotMapped]

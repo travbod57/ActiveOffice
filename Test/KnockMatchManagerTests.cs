@@ -114,7 +114,7 @@ namespace Test
         {
             // Arrange
 
-            List<RoundInformation> roundInformation = _matchScheduler.RoundInformation;
+            List<RoundInformationDto> roundInformation = _matchScheduler.RoundInformation;
 
             // Act
             

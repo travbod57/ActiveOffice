@@ -127,7 +127,7 @@ namespace Test
             // Act
 
             KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
-            List<RoundInformation> roundInformation = scheduler.RoundInformation;
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
 
@@ -167,7 +167,7 @@ namespace Test
             // Act
 
             KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
-            List<RoundInformation> roundInformation = scheduler.RoundInformation;
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
 
@@ -210,7 +210,7 @@ namespace Test
             // Act
 
             KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
-            List<RoundInformation> roundInformation = scheduler.RoundInformation;
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
 
@@ -229,7 +229,7 @@ namespace Test
             // Left side matches
             Assert.IsTrue(knockoutMatches[1].Round == EnumRound.SemiFinal && knockoutMatches[1].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[1].NextRoundMatch == knockoutMatches[0] && knockoutMatches[1].MatchNumberForRound == 1);
             
-            Assert.IsTrue(knockoutMatches[2].Round == EnumRound.QuarterFinal && knockoutMatches[2].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[2].NextRoundMatch == knockoutMatches[1] && knockoutMatches[3].MatchNumberForRound == 1);
+            Assert.IsTrue(knockoutMatches[2].Round == EnumRound.QuarterFinal && knockoutMatches[2].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[2].NextRoundMatch == knockoutMatches[1] && knockoutMatches[2].MatchNumberForRound == 1);
             Assert.IsTrue(knockoutMatches[3].Round == EnumRound.FirstRound && knockoutMatches[3].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[3].NextRoundMatch == knockoutMatches[2] && knockoutMatches[3].MatchNumberForRound == 1);
             Assert.IsTrue(knockoutMatches[4].Round == EnumRound.FirstRound && knockoutMatches[4].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[4].NextRoundMatch == knockoutMatches[2] && knockoutMatches[4].MatchNumberForRound == 2);
 
@@ -264,7 +264,7 @@ namespace Test
             // Act
 
             KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
-            List<RoundInformation> roundInformation = scheduler.RoundInformation;
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
 
@@ -322,6 +322,66 @@ namespace Test
             Assert.IsTrue(knockoutMatches[28].Round == EnumRound.SecondRound && knockoutMatches[28].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[28].NextRoundMatch == knockoutMatches[24] && knockoutMatches[28].MatchNumberForRound == 8);
             Assert.IsTrue(knockoutMatches[29].Round == EnumRound.FirstRound && knockoutMatches[29].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[29].NextRoundMatch == knockoutMatches[28] && knockoutMatches[29].MatchNumberForRound == 15);
             Assert.IsTrue(knockoutMatches[30].Round == EnumRound.FirstRound && knockoutMatches[30].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[30].NextRoundMatch == knockoutMatches[28] && knockoutMatches[30].MatchNumberForRound == 16);
+        }
+
+
+        [TestMethod]
+        public void Schedule_Knockout_With_4_Rounds_No_Playoff_With_Seeding()
+        {
+            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
+
+            Knockout knockout = new Knockout();
+
+            List<KnockoutCompetitor> knockoutCompetitors = sides.Select(x => new KnockoutCompetitor() { Side = x }).ToList();
+
+            knockoutCompetitors[0].InitialSeeding = 4;
+            knockoutCompetitors[9].InitialSeeding = 3;
+            knockoutCompetitors[5].InitialSeeding = 2;
+            knockoutCompetitors[2].InitialSeeding = 1;
+
+            knockout.KnockoutCompetitors.AddRange(knockoutCompetitors);
+
+            // Act
+
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
+            scheduler.Schedule();
+            List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
+
+            // Assert
+
+            Assert.IsTrue(scheduler.TotalNumberOfMatches == 15);
+            Assert.IsTrue(scheduler.TotalNumberOfCompetitors == 16);
+
+            Assert.IsTrue(roundInformation[0].Round == EnumRound.FirstRound && roundInformation[0].MatchesForRound == 8);
+            Assert.IsTrue(roundInformation[1].Round == EnumRound.QuarterFinal && roundInformation[1].MatchesForRound == 4);
+            Assert.IsTrue(roundInformation[2].Round == EnumRound.SemiFinal && roundInformation[2].MatchesForRound == 2);
+            Assert.IsTrue(roundInformation[3].Round == EnumRound.Final && roundInformation[3].MatchesForRound == 1);
+
+            Assert.IsTrue(knockoutMatches[0].Round == EnumRound.Final && knockoutMatches[0].KnockoutSide == EnumKnockoutSide.Center && knockoutMatches[0].NextRoundMatch == null && knockoutMatches[0].MatchNumberForRound == 1);
+
+            // Left side matches
+            Assert.IsTrue(knockoutMatches[1].Round == EnumRound.SemiFinal && knockoutMatches[1].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[1].NextRoundMatch == knockoutMatches[0] && knockoutMatches[1].MatchNumberForRound == 1);
+
+            Assert.IsTrue(knockoutMatches[2].Round == EnumRound.QuarterFinal && knockoutMatches[2].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[2].NextRoundMatch == knockoutMatches[1] && knockoutMatches[2].MatchNumberForRound == 1);
+            Assert.IsTrue(knockoutMatches[3].Round == EnumRound.FirstRound && knockoutMatches[3].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[3].NextRoundMatch == knockoutMatches[2] && knockoutMatches[3].MatchNumberForRound == 1 && ((KnockoutCompetitor)knockoutMatches[3].CompetitorA).InitialSeeding == 1);
+            Assert.IsTrue(knockoutMatches[4].Round == EnumRound.FirstRound && knockoutMatches[4].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[4].NextRoundMatch == knockoutMatches[2] && knockoutMatches[4].MatchNumberForRound == 2);
+
+            Assert.IsTrue(knockoutMatches[5].Round == EnumRound.QuarterFinal && knockoutMatches[5].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[5].NextRoundMatch == knockoutMatches[1] && knockoutMatches[5].MatchNumberForRound == 2);
+            Assert.IsTrue(knockoutMatches[6].Round == EnumRound.FirstRound && knockoutMatches[6].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[6].NextRoundMatch == knockoutMatches[5] && knockoutMatches[6].MatchNumberForRound == 3 && ((KnockoutCompetitor)knockoutMatches[6].CompetitorA).InitialSeeding == 3);
+            Assert.IsTrue(knockoutMatches[7].Round == EnumRound.FirstRound && knockoutMatches[7].KnockoutSide == EnumKnockoutSide.Left && knockoutMatches[7].NextRoundMatch == knockoutMatches[5] && knockoutMatches[7].MatchNumberForRound == 4);
+
+            // Right side matches
+            Assert.IsTrue(knockoutMatches[8].Round == EnumRound.SemiFinal && knockoutMatches[8].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[8].NextRoundMatch == knockoutMatches[0] && knockoutMatches[8].MatchNumberForRound == 2);
+
+            Assert.IsTrue(knockoutMatches[9].Round == EnumRound.QuarterFinal && knockoutMatches[9].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[9].NextRoundMatch == knockoutMatches[8] && knockoutMatches[9].MatchNumberForRound == 3);
+            Assert.IsTrue(knockoutMatches[10].Round == EnumRound.FirstRound && knockoutMatches[10].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[10].NextRoundMatch == knockoutMatches[9] && knockoutMatches[10].MatchNumberForRound == 5 && ((KnockoutCompetitor)knockoutMatches[10].CompetitorA).InitialSeeding == 2);
+            Assert.IsTrue(knockoutMatches[11].Round == EnumRound.FirstRound && knockoutMatches[11].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[11].NextRoundMatch == knockoutMatches[9] && knockoutMatches[11].MatchNumberForRound == 6);
+
+            Assert.IsTrue(knockoutMatches[12].Round == EnumRound.QuarterFinal && knockoutMatches[10].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[12].NextRoundMatch == knockoutMatches[8] && knockoutMatches[12].MatchNumberForRound == 4);
+            Assert.IsTrue(knockoutMatches[13].Round == EnumRound.FirstRound && knockoutMatches[13].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[13].NextRoundMatch == knockoutMatches[12] && knockoutMatches[13].MatchNumberForRound == 7 && ((KnockoutCompetitor)knockoutMatches[13].CompetitorA).InitialSeeding == 4);
+            Assert.IsTrue(knockoutMatches[14].Round == EnumRound.FirstRound && knockoutMatches[14].KnockoutSide == EnumKnockoutSide.Right && knockoutMatches[14].NextRoundMatch == knockoutMatches[12] && knockoutMatches[14].MatchNumberForRound == 8);
         }
     }
 }

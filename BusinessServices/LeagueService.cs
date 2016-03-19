@@ -181,7 +181,17 @@ namespace BusinessServices
         }
         #endregion
 
+        #region Season Management
+        public void CreateSeason()
+        {
 
+        }
+
+        public void ActivateSeason(int seasonId)
+        {
+
+        }
+        #endregion
 
         public void CreatePointsLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler)
         {
