@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Test
+namespace Test.PointsLeagueCompetition
 {
     [TestClass]
     public class PointsLeagueManagementTests
@@ -72,10 +72,9 @@ namespace Test
             LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, _sides, _auditLogger, _footballSportColumns);
 
             PointsLeague newPointsLeague = new PointsLeague() { PointsForWin = 3, PointsForDraw = 1, PointsForLoss = 0, CompetitionType = new CompetitionType() { Id = 1, Name = "PointsLeague" }};
-            PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
             RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
-            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
+            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, scheduler);
 
             _pointsLeague = director.Construct(b1);
         }

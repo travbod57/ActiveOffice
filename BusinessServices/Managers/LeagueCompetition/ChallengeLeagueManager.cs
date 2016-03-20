@@ -6,6 +6,7 @@ using Model.Extensions;
 using Model.Leagues;
 using Model.Record;
 using Model.Schedule;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,12 +60,19 @@ namespace BusinessServices.Managers.LeagueCompetition
 
         public override List<LeagueTableRowDto> GetLeagueStandings()
         {
-
-
-
             List<LeagueTableRowDto> standings = base.GetLeagueStandings();
 
             return standings.OrderBy(s => s.ColumnValues.Single(x => x.Item1 == "Position").Item2).ToList();
+        }
+
+        public void CreateChallenge(LeagueCompetitor challenger, LeagueCompetitor defender, DateTime dateTimeOfPlay)
+        {
+            LeagueMatch leagueMatch = new LeagueMatch();
+            leagueMatch.CompetitorA = challenger;
+            leagueMatch.CompetitorB = defender;
+            leagueMatch.DateTimeOfPlay = dateTimeOfPlay;
+
+            _challengeLeague.LeagueMatches.Add(leagueMatch);
         }
     }
 }

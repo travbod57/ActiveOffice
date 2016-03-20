@@ -19,7 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test
+namespace Test.ChallengeLeagueCompetition
 {
     [TestClass]
     public class ChallengeLeagueCreationTests
@@ -71,6 +71,8 @@ namespace Test
                 new SportColumn() { Id = 4, Name = "Laps" }
             };
         }
+
+        // TODO: tests for schedule exceptions
 
         [TestMethod]
         public void Create_Football_Challenge_League()

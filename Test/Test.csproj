@@ -66,13 +66,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="KnockMatchManagerTests.cs" />
-    <Compile Include="KnockMatchSchedulerTests.cs" />
+    <Compile Include="KnockoutCompetition\KnockMatchManagerTests.cs" />
+    <Compile Include="KnockoutCompetition\KnockMatchSchedulerTests.cs" />
     <Compile Include="PackageTests.cs" />
-    <Compile Include="PointsLeagueManagementTests.cs" />
-    <Compile Include="PointsLeagueCreationTests.cs" />
-    <Compile Include="ChallengeLeagueCreationTests.cs" />
-    <Compile Include="ChallengeLeagueManagementTests.cs" />
+    <Compile Include="PointsLeagueCompetition\PointsLeagueManagementTests.cs" />
+    <Compile Include="PointsLeagueCompetition\PointsLeagueCreationTests.cs" />
+    <Compile Include="ChallengeLeagueCompetition\ChallengeLeagueCreationTests.cs" />
+    <Compile Include="ChallengeLeagueCompetition\ChallengeLeagueManagementTests.cs" />
     <Compile Include="SchedulerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

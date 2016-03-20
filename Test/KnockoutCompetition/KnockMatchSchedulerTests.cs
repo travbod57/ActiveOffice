@@ -25,7 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Extensions;
 
-namespace Test
+namespace Test.KnockoutCompetition
 {
     [TestClass]
     public class KnockMatchSchedulerTests

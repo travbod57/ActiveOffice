@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Test
+namespace Test.ChallengeLeagueCompetition
 {
     [TestClass]
     public class ChallengeLeagueManagementTests
@@ -69,10 +69,9 @@ namespace Test
             LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, sides, _auditLogger, sportColumns);
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague() { CompetitionType = new CompetitionType() { Id = 1, Name = "ChallengeLeague" } };
-            ChallengeLeagueSorter sorter = new ChallengeLeagueSorter(newChallengeLeague);
             NonMatchScheduler scheduler = new NonMatchScheduler();
 
-            LeagueBuilder<ChallengeLeague> b1 = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, sorter, scheduler);
+            LeagueBuilder<ChallengeLeague> b1 = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, scheduler);
 
             _challengeLeague = director.Construct(b1);
         }
@@ -206,6 +205,35 @@ namespace Test
             Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
             Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
         }
+
+        [TestMethod]
+        public void Create_Challenge()
+        {
+            // Arrange
+
+            ISportManager footballManager = new FootballManager(_challengeLeague.CompetitionType);
+
+            ChallengeLeagueManager manager = new ChallengeLeagueManager(_challengeLeague, footballManager);
+
+            List<LeagueCompetitor> leagueCompetitors = _challengeLeague.LeagueCompetitors.ToList();
+
+            LeagueCompetitor challenger = leagueCompetitors[0];
+            LeagueCompetitor defender = leagueCompetitors[1];
+            DateTime dateTimeOfPlay = DateTime.Now;
+
+            // Act
+
+            manager.CreateChallenge(challenger, defender, dateTimeOfPlay);
+
+            // Assert
+            List<LeagueMatch> leagueMatches = _challengeLeague.LeagueMatches.ToList();
+
+            Assert.IsTrue(leagueMatches.Count == 1);
+            Assert.IsTrue(leagueMatches[0].CompetitorA == challenger);
+            Assert.IsTrue(leagueMatches[0].CompetitorB == defender);
+            Assert.IsTrue(leagueMatches[0].DateTimeOfPlay == dateTimeOfPlay);
+        }
+
 
         // TODO: Do a test for all positions inbetween after a challenge inbetween
     }

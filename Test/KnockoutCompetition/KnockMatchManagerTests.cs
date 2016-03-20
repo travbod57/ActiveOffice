@@ -27,7 +27,7 @@ using Core.Extensions;
 using BusinessServices.Managers.KnockoutCompetition;
 using BusinessServices.Sports;
 
-namespace Test
+namespace Test.KnockoutCompetition
 {
     [TestClass]
     public class KnockMatchManagerTests
