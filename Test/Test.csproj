@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="KnockMatchManagerTests.cs" />
     <Compile Include="KnockMatchSchedulerTests.cs" />
+    <Compile Include="PackageTests.cs" />
     <Compile Include="PointsLeagueManagementTests.cs" />
     <Compile Include="PointsLeagueCreationTests.cs" />
     <Compile Include="ChallengeLeagueCreationTests.cs" />

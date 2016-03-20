@@ -11,7 +11,12 @@ using System.Threading.Tasks;
 
 namespace BusinessServices
 {
-    public class PackageService
+    public interface IPackageService
+    {
+        IEnumerable<Package> GetPackages();
+    }
+
+    public class PackageService : IPackageService
     {
         private IUnitOfWork _unitOfWork;
 
