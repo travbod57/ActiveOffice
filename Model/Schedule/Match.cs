@@ -24,8 +24,6 @@ namespace Model.Scheduling
         public Competitor Winner { get; set; }
         public Competitor Loser { get; set; }
 
-        public int ScoreToWin { get; set; }
-        public int BestOf { get; set; }
         public bool IsDraw { get; set; }
 
         public DateTime? DateTimeOfPlay { get; set; }

@@ -52,7 +52,7 @@ namespace Test
 
             List<Side> sides = new List<Side>() { t1, t2, t3, t4, t5 };
 
-            _leagueCreatorDto = new LeagueCreatorDto() { CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
+            _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
             IList<SportColumn> sportColumns = new List<SportColumn>()
             {

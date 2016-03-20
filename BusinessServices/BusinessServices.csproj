@@ -53,8 +53,6 @@
   <ItemGroup>
     <Compile Include="Builders\KnockoutCompetition\KnockoutBuilder.cs" />
     <Compile Include="Builders\KnockoutCompetition\KnockoutSorter.cs" />
-    <Compile Include="Builders\LeagueSorterBase.cs" />
-    <Compile Include="Builders\PointsLeagueSorter.cs" />
     <Compile Include="Dtos\Knockout\KnockoutCreatorDto.cs" />
     <Compile Include="Dtos\Knockout\RoundInformationDto.cs" />
     <Compile Include="Dtos\LeagueTableRowDto.cs" />
@@ -80,7 +78,6 @@
     <Compile Include="ProfileService.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="ActorsService.cs" />
-    <Compile Include="Builders\ChallengeLeagueSorter.cs" />
     <Compile Include="Builders\LeagueBuilder.cs" />
     <Compile Include="Dtos\LeagueDto.cs" />
     <Compile Include="Interfaces\ILeagueManager.cs" />

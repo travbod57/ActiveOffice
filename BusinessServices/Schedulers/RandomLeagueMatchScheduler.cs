@@ -39,11 +39,10 @@ namespace BusinessServices.Schedulers
             // delete all matches and replace. Only when league is not underway
         }
 
-        // TODO : this is not correct. Could be used for prgoress bar for length of scheduling
         // http://www.neelsagar.co.uk/how-many-games-in-a-tournament/
         public int TotalNumberOfMatches
         {
-            get { return _validLeagueMatchCombinations.Count * _league.NumberOfMatchUps; }
+            get { return (int)(((0.5 * _leagueCreatorConfig.NumberOfCompetitors) * (_leagueCreatorConfig.NumberOfCompetitors - 1)) * _league.NumberOfMatchUps); }
         }
         #endregion
 
@@ -54,6 +53,9 @@ namespace BusinessServices.Schedulers
         {
             //if (_leagueCreatorConfig.CanSidePlayMoreThanOncePerMatchDay && true)
             //    throw new Exception("Matches will schedule with a team playing more than once a week");
+
+            if (_leagueCreatorConfig.NumberOfCompetitors != _league.LeagueCompetitors.Count)
+                throw new Exception("This league does not have enough competitors to fill all the positions");
 
             if (_leagueCreatorConfig.ScheduleType == ScheduleType.Adhoc)
                 throw new Exception("Matches are attempting to be scheduled but the league schedule type is Adhoc");

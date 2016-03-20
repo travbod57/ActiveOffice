@@ -18,13 +18,11 @@ namespace BusinessServices.Builders
     {
         private T _league;
 
-        private ILeagueSorter _leagueSorter { get; set; }
         private IMatchScheduler _matchScheduler { get; set; }
 
-        public LeagueBuilder(T league, ILeagueSorter leagueSorter, IMatchScheduler matchScheduler)
+        public LeagueBuilder(T league, IMatchScheduler matchScheduler)
         {
             _league = league;
-            _leagueSorter = leagueSorter;
             _matchScheduler = matchScheduler;
         }
 
@@ -75,7 +73,7 @@ namespace BusinessServices.Builders
 
         public void ResetLeague()
         {
-            _leagueSorter.Reset(_league);
+            // TODO: what does this need to do if anything?
         }
 
         public T GetLeague()
@@ -95,7 +93,7 @@ namespace BusinessServices.Builders
         private IAuditLogger _auditLogger { get; set; }
         private IList<SportColumn> _sportColumns { get; set; }
 
-        public LeagueBuilderDirector(string name, DateTime startDate, DateTime endDate, int numberOfPositions, int numberOfMatchUps, IList<Side> sides, IAuditLogger auditLogger, IList<SportColumn> sportColumns)
+        public  LeagueBuilderDirector(string name, DateTime startDate, DateTime endDate, int numberOfPositions, int numberOfMatchUps, IList<Side> sides, IAuditLogger auditLogger, IList<SportColumn> sportColumns)
         {
             _name = name;
             _startDate = startDate;

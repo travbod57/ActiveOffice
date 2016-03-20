@@ -77,17 +77,16 @@ namespace Test
         {
             // Arrange
 
-            _leagueCreatorDto = new LeagueCreatorDto() { CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
+            _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
             // Act
 
             LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, _sides, _auditLogger, _footballSportColumns);
 
             PointsLeague newPointsLeague = new PointsLeague();
-            PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
             RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
-            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
+            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, scheduler);
 
             _pointsLeague = director.Construct(b1);
 
@@ -98,6 +97,9 @@ namespace Test
 
             // correct number of competitor records for the number of sides
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.SelectMany(x => x.CompetitorRecords).Count() == _footballSportColumns.Count * _sides.Count);
+
+            // correct number of matches got created
+            Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);
         }
 
         [TestMethod]
@@ -105,17 +107,16 @@ namespace Test
         {
             // Arrange
 
-            _leagueCreatorDto = new LeagueCreatorDto() { CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
+            _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
             // Act
 
             LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, _sides, _auditLogger, _goKartingSportColumns);
 
             PointsLeague newPointsLeague = new PointsLeague();
-            PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
             RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
 
-            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, scheduler);
+            LeagueBuilder<PointsLeague> b1 = new LeagueBuilder<PointsLeague>(newPointsLeague, scheduler);
 
             _pointsLeague = director.Construct(b1);
 
@@ -126,6 +127,9 @@ namespace Test
 
             // correct number of competitor records for the number of sides
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.SelectMany(x => x.CompetitorRecords).Count() == _goKartingSportColumns.Count * _sides.Count);
+
+            // correct number of matches got created
+            Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);
         }
     }
 }

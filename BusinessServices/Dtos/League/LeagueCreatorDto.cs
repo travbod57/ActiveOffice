@@ -9,6 +9,7 @@ namespace BusinessServices.Dtos.League
 {
     public class LeagueCreatorDto
     {
+        public int NumberOfCompetitors { get; set; }
         public bool CanSidePlayMoreThanOncePerMatchDay { get; set; }
         public ScheduleType ScheduleType { get; set; }
         public Occurrance Occurrance { get; set; }

@@ -207,9 +207,7 @@ namespace BusinessServices
             LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueName, DateTime.Now, DateTime.Now.AddDays(durationInDays), 5, 4, sides, auditLogger, sportColumns);
 
             PointsLeague newPointsLeague = new PointsLeague();
-            PointsLeagueSorter sorter = new PointsLeagueSorter(newPointsLeague);
-
-            LeagueBuilder<PointsLeague> builder = new LeagueBuilder<PointsLeague>(newPointsLeague, sorter, matchScheduler);
+            LeagueBuilder<PointsLeague> builder = new LeagueBuilder<PointsLeague>(newPointsLeague, matchScheduler);
 
             director.Construct(builder);
 
@@ -284,9 +282,8 @@ namespace BusinessServices
             LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>(leagueName, DateTime.Now, DateTime.Now.AddDays(durationInDays), 5, 4, sides, auditLogger, sportColumns);
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague();
-            ChallengeLeagueSorter sorter = new ChallengeLeagueSorter(newChallengeLeague);
 
-            LeagueBuilder<ChallengeLeague> builder = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, sorter, matchScheduler);
+            LeagueBuilder<ChallengeLeague> builder = new LeagueBuilder<ChallengeLeague>(newChallengeLeague, matchScheduler);
 
             director.Construct(builder);
 
