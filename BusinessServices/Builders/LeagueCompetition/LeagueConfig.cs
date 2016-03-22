@@ -18,6 +18,7 @@ namespace BusinessServices.Builders.LeagueCompetition
         public int NumberOfMatchUps { get; set; }  
         public IList<Side> Sides { get; set; }  
         public IAuditLogger AuditLogger { get; set; }  
-        public IList<SportColumn> SportColumns { get; set; } 
+        public IList<SportColumn> SportColumns { get; set; }
+        public bool IsPartOfTournament { get; set; }
     }
 }

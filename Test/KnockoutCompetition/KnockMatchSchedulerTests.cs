@@ -108,6 +108,8 @@ namespace Test.KnockoutCompetition
             _t32 = new Team() { Name = "Portsmouth" };
         }
 
+        // TODO: assert number of matches
+
         #region Exceptions
         [TestMethod]
         [ExpectedException(typeof(Exception))]

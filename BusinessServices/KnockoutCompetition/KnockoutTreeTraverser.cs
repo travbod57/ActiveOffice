@@ -9,17 +9,19 @@ namespace BusinessServices.KnockoutCompetition
 {
     public class KnockoutTreeTraverser
     {
-        private List<KnockoutCompetitor> _shuffledKnockoutcompetitors;
+        private List<KnockoutCompetitor> _shuffledKnockoutCompetitors;
         private List<RoundInformationDto> _roundInformation;
         private Knockout _knockout;
         private int _competitorIndex;
+        private bool _addCompetitorsToKnockout;
 
-        public KnockoutTreeTraverser(List<KnockoutCompetitor> shuffledKnockoutcompetitors, List<RoundInformationDto> roundInformation, Knockout knockout)
+        public KnockoutTreeTraverser(List<KnockoutCompetitor> shuffledKnockoutCompetitors, List<RoundInformationDto> roundInformation, Knockout knockout, bool addCompetitorsToKnockout)
         {
-            _shuffledKnockoutcompetitors = shuffledKnockoutcompetitors;
+            _shuffledKnockoutCompetitors = shuffledKnockoutCompetitors;
             _roundInformation = roundInformation;
             _knockout = knockout;
             _competitorIndex = 0;
+            _addCompetitorsToKnockout = addCompetitorsToKnockout;
         }
 
         /// <summary>
@@ -36,8 +38,8 @@ namespace BusinessServices.KnockoutCompetition
             {
                 KnockoutMatch knockoutMatch = new KnockoutMatch()
                 {
-                    CompetitorA = round == 0 ? _shuffledKnockoutcompetitors[_competitorIndex++] : null,
-                    CompetitorB = round == 0 ? _shuffledKnockoutcompetitors[_competitorIndex++] : null,
+                    CompetitorA = round == 0 && _addCompetitorsToKnockout ? _shuffledKnockoutCompetitors[_competitorIndex++] : null,
+                    CompetitorB = round == 0 && _addCompetitorsToKnockout ? _shuffledKnockoutCompetitors[_competitorIndex++] : null,
                     Round = roundInformation.Round,
                     KnockoutSide = knockoutSide,
                     NextRoundMatch = parentMatch,

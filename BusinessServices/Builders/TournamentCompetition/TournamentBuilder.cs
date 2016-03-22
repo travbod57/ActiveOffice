@@ -27,8 +27,6 @@ namespace BusinessServices.Builders.TournamentCompetition
     public class TournamentBuilder
     {
         private Tournament _tournament;
-
-        private IMatchScheduler _matchScheduler { get; set; }
         private ITournamentSorter _tournamentSorter { get; set; }
 
         public TournamentBuilder(Tournament tournament, ITournamentSorter tournamentSorter)
@@ -37,16 +35,14 @@ namespace BusinessServices.Builders.TournamentCompetition
             _tournamentSorter = tournamentSorter;
         }
 
-        public void InitialSetup(TournamentConfig _config)
+        public void InitialSetup(TournamentConfig config)
         {
-            _tournament.Name = _config.Name;
-            _tournament.StartDate = _config.StartDate;
-            _tournament.EndDate = _config.EndDate;
-            _tournament.NumberOfRounds = _config.NumberOfRounds;
-            //_knockOut.IsSeeded = isSeeded;
-            //_knockOut.IncludeThirdPlacePlayoff = includeThirdPlacePlayoff;
+            _tournament.Name = config.Name;
+            _tournament.StartDate = config.StartDate;
+            _tournament.EndDate = config.EndDate;
+            _tournament.NumberOfRounds = config.NumberOfRounds;
 
-            _tournament.SportColumns.AddRange(_config.SportColumns);
+            _tournament.SportColumns.AddRange(config.SportColumns);
         }
 
         public void AddCompetitors(IList<Side> sides)
@@ -78,7 +74,7 @@ namespace BusinessServices.Builders.TournamentCompetition
             _tournament.TournamentCompetitors.Add(competitor);
         }
 
-        public void CreatePools(TournamentConfig _config)
+        public void CreatePools(TournamentConfig config)
         {
             LeagueConfig leagueConfig = new LeagueConfig()
             {
@@ -86,14 +82,14 @@ namespace BusinessServices.Builders.TournamentCompetition
                 EndDate = DateTime.Now.AddDays(10),
                 NumberOfPositions = 5,
                 NumberOfMatchUps = 2,
-                Sides = _config.Sides,
-                SportColumns = _config.SportColumns,
-                AuditLogger = _config.AuditLogger
+                Sides = config.Sides,
+                SportColumns = config.SportColumns,
+                AuditLogger = config.AuditLogger,
+                IsPartOfTournament = true
             };
 
-            for (int i = 0; i < _config.NumberOfPools; i++)
+            for (int i = 0; i < config.NumberOfPools; i++)
             {
-                // create league
                 leagueConfig.Name = string.Format("Pool {0}", i);
 
                 LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueConfig);
@@ -102,7 +98,7 @@ namespace BusinessServices.Builders.TournamentCompetition
                 LeagueCreatorDto leagueCreatorDto = new LeagueCreatorDto() {
                     CanSidePlayMoreThanOncePerMatchDay = false,
                     DayOfWeek = DayOfWeek.Friday,
-                    NumberOfCompetitors = _config.NumberOfPositionsPerPool,
+                    NumberOfCompetitors = config.NumberOfPositionsPerPool,
                     Occurrance = Occurrance.Daily,
                     ScheduleType = ScheduleType.Scheduled
                 };
@@ -116,37 +112,43 @@ namespace BusinessServices.Builders.TournamentCompetition
             }
         }
 
-        public void CreateKnockout(TournamentConfig _config)
+        public void CreateKnockout(TournamentConfig config)
         {
-            KnockoutConfig config = new KnockoutConfig()
+            KnockoutConfig knockoutConfig = new KnockoutConfig()
             {
-                Name = string.Format("{0} knockout", _config.Name),
+                Name = string.Format("{0} knockout", config.Name),
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(10),
                 IncludeThirdPlacePlayoff = false,
                 IsSeeded = false,
-                Sides = null,
-                AuditLogger = _config.AuditLogger,
-                SportColumns = _config.SportColumns,
-                NumberOfRounds = 2
+                Sides = new List<Side>(),
+                AuditLogger = config.AuditLogger,
+                SportColumns = config.SportColumns,
+                NumberOfRounds = config.NumberOfRounds,
+                IsPartOfTournament = true
             };
 
-            KnockoutBuilderDirector director = new KnockoutBuilderDirector(config);
+            KnockoutBuilderDirector director = new KnockoutBuilderDirector(knockoutConfig);
 
             Knockout knockout = new Knockout() { CompetitionType = new CompetitionType() { Id = 1, Name = "Knockout" } };
             KnockoutSorter sorter = new KnockoutSorter(knockout);
 
-            _matchScheduler = new KnockoutMatchScheduler(knockout, config);
+            KnockoutMatchScheduler matchScheduler = new KnockoutMatchScheduler(knockout, knockoutConfig);
 
-            KnockoutBuilder builder = new KnockoutBuilder(knockout, sorter, _matchScheduler);
+            KnockoutBuilder builder = new KnockoutBuilder(knockout, sorter, matchScheduler);
             director.Construct(builder);
 
             _tournament.Knockout = knockout;
         }
 
+        public void Validate(TournamentConfig config)
+        {
+
+        }
+
         public void ScheduleMatches()
         {
-            _matchScheduler.Schedule();
+
         }
 
         public void ResetTournament()
@@ -168,6 +170,7 @@ namespace BusinessServices.Builders.TournamentCompetition
 
         public TournamentBuilderDirector(TournamentConfig config)
         {
+            config.IsSeeded = false;
             _config = config;
         }
 
@@ -178,10 +181,10 @@ namespace BusinessServices.Builders.TournamentCompetition
             stopwatch.Start();
 
             tournamentBuilder.InitialSetup(_config);
+            tournamentBuilder.Validate(_config);
             tournamentBuilder.AddCompetitors(_config.Sides);
             tournamentBuilder.CreatePools(_config);
             tournamentBuilder.CreateKnockout(_config);
-            tournamentBuilder.ScheduleMatches();
 
             Tournament tournament = tournamentBuilder.GetTournament();
 
