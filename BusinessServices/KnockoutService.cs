@@ -41,7 +41,20 @@ namespace BusinessServices
 
             IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
 
-            KnockoutBuilderDirector director = new KnockoutBuilderDirector(knockoutName, DateTime.Now, DateTime.Now.AddDays(10), 6, isSeeded, includeThirdPlacePlayoff, sides, auditLogger, sportColumns);
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                Name = knockoutName,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(10),
+                IncludeThirdPlacePlayoff = includeThirdPlacePlayoff,
+                IsSeeded = isSeeded,
+                Sides = sides,
+                AuditLogger = auditLogger,
+                SportColumns = sportColumns,
+                NumberOfRounds = 6
+            };
+
+            KnockoutBuilderDirector director = new KnockoutBuilderDirector(config);
 
             Knockout newKnockout = new Knockout();
             KnockoutSorter sorter = new KnockoutSorter(newKnockout);

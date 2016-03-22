@@ -96,13 +96,25 @@ namespace Test.KnockoutCompetition
 
             _sides = new List<Side>() { _t1, _t2, _t3, _t4 };
 
-            KnockoutBuilderDirector director = new KnockoutBuilderDirector("My Knockout", DateTime.Now, DateTime.Now.AddDays(10), 2, false, false, _sides, _auditLogger, _sportColumns);
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                Name = "My Knockout",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(10),
+                IncludeThirdPlacePlayoff = false,
+                IsSeeded = false,
+                Sides = _sides,
+                AuditLogger = _auditLogger,
+                SportColumns = _sportColumns,
+                NumberOfRounds = 2
+            };
+
+            KnockoutBuilderDirector director = new KnockoutBuilderDirector(config);
 
             _knockout = new Knockout() { CompetitionType = new CompetitionType() { Id = 1, Name = "Knockout" } };
             KnockoutSorter sorter = new KnockoutSorter(_knockout);
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 2, IsSeeded = false, IncludeThirdPlacePlayoff = false };
-            _matchScheduler = new KnockoutMatchScheduler(_knockout, knockoutCreatorDto);
+            _matchScheduler = new KnockoutMatchScheduler(_knockout, config);
 
             KnockoutBuilder builder = new KnockoutBuilder(_knockout, sorter, _matchScheduler);
 

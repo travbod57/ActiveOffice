@@ -1,4 +1,5 @@
-﻿using Model.Leagues;
+﻿using Model.Knockouts;
+using Model.Leagues;
 using Model.Scheduling;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace Model.Competitors
         public int InitialPositionNumber { get; set; }
         public int CurrentPositionNumber { get; set; }
         public virtual League League { get; set; }
+        public virtual Knockout Knockout { get; set; }
 
         public int Points { get; set; }
     }

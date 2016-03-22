@@ -41,6 +41,7 @@ namespace BusinessServices.KnockoutCompetition
                     Round = roundInformation.Round,
                     KnockoutSide = knockoutSide,
                     NextRoundMatch = parentMatch,
+                    MatchState = EnumMatchState.Unscheduled,
                     MatchNumberForRound = ++roundInformation.MatchesForRoundCount
                 };
 

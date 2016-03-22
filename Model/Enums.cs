@@ -53,4 +53,13 @@ namespace Model
         Left,
         Right
     }
+
+    public enum EnumMatchState
+    {
+        Forfeited,
+        Played,
+        Postponed,
+        Scheduled,
+        Unscheduled
+    }
 }

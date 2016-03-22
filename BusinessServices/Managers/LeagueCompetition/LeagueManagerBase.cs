@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Model.Extensions;
 using BusinessServices.Interfaces;
+using Model;
 
 namespace BusinessServices.Managers.LeagueCompetition
 {
@@ -30,7 +31,7 @@ namespace BusinessServices.Managers.LeagueCompetition
 
         public void AddMatch(LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
-            _league.LeagueMatches.Add(new LeagueMatch() { CompetitorA = competitorA, CompetitorB = competitorB });
+            _league.LeagueMatches.Add(new LeagueMatch() { CompetitorA = competitorA, CompetitorB = competitorB, MatchState = EnumMatchState.Unscheduled });
         }
 
         public virtual void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
@@ -53,6 +54,7 @@ namespace BusinessServices.Managers.LeagueCompetition
 
             leagueMatch.Winner = winner;
             leagueMatch.Loser = loser;
+            leagueMatch.MatchState = EnumMatchState.Played;
 
             // insert history record
 
@@ -78,6 +80,7 @@ namespace BusinessServices.Managers.LeagueCompetition
             // update match result
 
             leagueMatch.IsDraw = true;
+            leagueMatch.MatchState = EnumMatchState.Played;
 
             // insert history record
 

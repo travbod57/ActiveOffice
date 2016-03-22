@@ -13,13 +13,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
 namespace ActiveOffice
 {
     class Program
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
+            logger.Log(LogLevel.Error, "OI OI ");
+
+
             var kernel = new StandardKernel();
             kernel.Bind(scanner => scanner.From("BusinessServices").SelectAllClasses().BindAllInterfaces());
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();

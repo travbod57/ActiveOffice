@@ -83,7 +83,6 @@
     <Compile Include="Packages\PackageType.cs" />
     <Compile Include="Record\SportSideRecord.cs" />
     <Compile Include="ReferenceData\CompetitionType.cs" />
-    <Compile Include="ReferenceData\MatchState.cs" />
     <Compile Include="Schedule\KnockoutMatch.cs" />
     <Compile Include="Schedule\LeagueMatch.cs" />
     <Compile Include="LeagueArrangements\Season.cs" />

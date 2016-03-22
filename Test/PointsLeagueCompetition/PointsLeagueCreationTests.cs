@@ -1,5 +1,6 @@
 ﻿using BusinessServices;
 using BusinessServices.Builders;
+using BusinessServices.Builders.LeagueCompetition;
 using BusinessServices.Dtos.League;
 using BusinessServices.Enums;
 using BusinessServices.Interfaces;
@@ -79,9 +80,21 @@ namespace Test.PointsLeagueCompetition
 
             _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
+            LeagueConfig leagueConfig = new LeagueConfig()
+            {
+                Name = "League 1",
+                NumberOfMatchUps = 4,
+                NumberOfPositions = 5,
+                Sides = _sides,
+                SportColumns = _footballSportColumns,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(30),
+                AuditLogger = _auditLogger
+            };
+
             // Act
 
-            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, _sides, _auditLogger, _footballSportColumns);
+            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueConfig);
 
             PointsLeague newPointsLeague = new PointsLeague();
             RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);
@@ -109,9 +122,21 @@ namespace Test.PointsLeagueCompetition
 
             _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
+            LeagueConfig leagueConfig = new LeagueConfig()
+            {
+                Name = "League 1",
+                NumberOfMatchUps = 4,
+                NumberOfPositions = 5,
+                Sides = _sides,
+                SportColumns = _goKartingSportColumns,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(30),
+                AuditLogger = _auditLogger
+            };
+
             // Act
 
-            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, _sides, _auditLogger, _goKartingSportColumns);
+            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueConfig);
 
             PointsLeague newPointsLeague = new PointsLeague();
             RandomLeagueMatchScheduler scheduler = new RandomLeagueMatchScheduler(newPointsLeague, _leagueCreatorDto);

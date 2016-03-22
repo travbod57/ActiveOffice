@@ -1,5 +1,6 @@
 ﻿using BusinessServices.Helpers;
 using BusinessServices.Interfaces;
+using Model;
 using Model.Competitors;
 using Model.Knockouts;
 using Model.Record;
@@ -31,7 +32,7 @@ namespace BusinessServices.Managers.KnockoutCompetition
             _loserRecords = CompetitorRecordHelpers.GetCompetitorRecords(loser);
 
             knockoutMatch.Winner = winner;
-            // knockoutMatch.MatchState = 
+            knockoutMatch.MatchState = EnumMatchState.Played;
             knockoutMatch.Loser = loser;
 
             if (knockoutMatch.CompetitorA == winner)

@@ -1,4 +1,5 @@
 ﻿using BusinessServices.Builders;
+using BusinessServices.Builders.LeagueCompetition;
 using BusinessServices.Dto;
 using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
@@ -167,7 +168,7 @@ namespace BusinessServices
 
         public void RemoveLeaguesFromCluster(int clusterId, int[] leagueIds)
         {
-            // TODO: do you have permissions to remove leagues clusters? - are you Admin, what is your package?
+            // TODO: do you have permissions to remove leagues clusters? - are you Admin, what is your package, is league/season active?
 
             Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
 
@@ -182,14 +183,37 @@ namespace BusinessServices
         #endregion
 
         #region Season Management
-        public void CreateSeason()
+        public void CreateSeason(string name)
         {
+            // TODO: do you have permissions?
 
+            Season season = new Season() { Name = name };
+            _unitOfWork.GetRepository<Season>().Add(season);
+
+            _unitOfWork.Save();
         }
 
         public void ActivateSeason(int seasonId)
         {
+            // TODO: do you have permissions?
 
+            Season season = _unitOfWork.GetRepository<Season>().GetById(seasonId);
+            season.IsActive = true;
+
+            _unitOfWork.Save();
+        }
+
+        public void AddLeagueToSeason(int leagueId, int seasonId)
+        {
+            Season season = _unitOfWork.GetRepository<Season>().GetById(seasonId);
+            League league = _unitOfWork.GetRepository<League>().GetById(leagueId);
+
+            if (season.League != null)
+                throw new Exception("This season already contains a league. To add multiple leagues to a season you must create divisions");
+
+            season.League = league;
+
+            _unitOfWork.Save();
         }
         #endregion
 
@@ -204,7 +228,19 @@ namespace BusinessServices
 
             IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select( x => x.SportColumn).ToList();
 
-            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueName, DateTime.Now, DateTime.Now.AddDays(durationInDays), 5, 4, sides, auditLogger, sportColumns);
+            LeagueConfig leagueConfig = new LeagueConfig()
+            {
+                Name = leagueName,
+                NumberOfMatchUps = 4,
+                NumberOfPositions = 5,
+                Sides = sides,
+                SportColumns = sportColumns,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(durationInDays),
+                AuditLogger = auditLogger
+            };
+
+            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueConfig);
 
             PointsLeague newPointsLeague = new PointsLeague();
             LeagueBuilder<PointsLeague> builder = new LeagueBuilder<PointsLeague>(newPointsLeague, matchScheduler);
@@ -279,7 +315,19 @@ namespace BusinessServices
 
             IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
 
-            LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>(leagueName, DateTime.Now, DateTime.Now.AddDays(durationInDays), 5, 4, sides, auditLogger, sportColumns);
+            LeagueConfig leagueConfig = new LeagueConfig()
+            {
+                Name = leagueName,
+                NumberOfMatchUps = 4,
+                NumberOfPositions = 5,
+                Sides = sides,
+                SportColumns = sportColumns,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(durationInDays),
+                AuditLogger = auditLogger
+            };
+
+            LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>(leagueConfig);
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague();
 

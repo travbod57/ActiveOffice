@@ -1,5 +1,6 @@
 ﻿using BusinessServices;
 using BusinessServices.Builders;
+using BusinessServices.Builders.LeagueCompetition;
 using BusinessServices.Dtos;
 using BusinessServices.Dtos.League;
 using BusinessServices.Enums;
@@ -66,7 +67,19 @@ namespace Test.ChallengeLeagueCompetition
                 new SportColumn() { Id = 8, Name = "GoalDifference" }
             };
 
-            LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>("League 1", DateTime.Now, DateTime.Now.AddDays(30), 5, 4, sides, _auditLogger, sportColumns);
+            LeagueConfig leagueConfig = new LeagueConfig()
+            {
+                Name = "League 1",
+                NumberOfMatchUps = 4,
+                NumberOfPositions = 5,
+                Sides = sides,
+                SportColumns = sportColumns,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(30),
+                AuditLogger = _auditLogger
+            };
+
+            LeagueBuilderDirector<ChallengeLeague> director = new LeagueBuilderDirector<ChallengeLeague>(leagueConfig);
 
             ChallengeLeague newChallengeLeague = new ChallengeLeague() { CompetitionType = new CompetitionType() { Id = 1, Name = "ChallengeLeague" } };
             NonMatchScheduler scheduler = new NonMatchScheduler();

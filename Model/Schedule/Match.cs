@@ -28,6 +28,6 @@ namespace Model.Scheduling
 
         public DateTime? DateTimeOfPlay { get; set; }
 
-        public virtual MatchState MatchState { get; set; }
+        public EnumMatchState MatchState { get; set; }
     }
 }

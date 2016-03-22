@@ -24,6 +24,7 @@ namespace Model.Knockouts
             KnockoutCompetitors = new List<KnockoutCompetitor>();
             SportColumns = new List<SportColumn>();
             KnockoutMatches = new List<KnockoutMatch>();
+            TournamentCompetitors = new List<TournamentCompetitor>();
         }
 
         public int NumberOfCompetitors { get; set; }
@@ -42,8 +43,11 @@ namespace Model.Knockouts
         public virtual ICollection<KnockoutCompetitor> KnockoutCompetitors { get; set; }
         public virtual ICollection<SportColumn> SportColumns { get; set; }
         public virtual ICollection<KnockoutMatch> KnockoutMatches { get; set; }
+        public virtual ICollection<TournamentCompetitor> TournamentCompetitors { get; set; }
+
         public virtual CompetitionType CompetitionType { get; set; }
         public virtual Season Season { get; set; }
+        public virtual Tournament Tournament { get; set; }
 
         #region IAudit
         [NotMapped]

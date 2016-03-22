@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
+using Model;
 
 namespace BusinessServices.Schedulers
 {
@@ -94,7 +95,7 @@ namespace BusinessServices.Schedulers
                     // if the fixture exists in any form already don't re-add it
                     if (_validLeagueMatchCombinations.Count(x => (x.CompetitorA == competitorA && x.CompetitorB == competitorB) || (x.CompetitorA == competitorB && x.CompetitorB == competitorA)) == 0)
                     {
-                        _validLeagueMatchCombinations.Add(new LeagueMatch() { CompetitorA = competitorA, CompetitorB = competitorB });
+                        _validLeagueMatchCombinations.Add(new LeagueMatch() { CompetitorA = competitorA, CompetitorB = competitorB, MatchState = EnumMatchState.Unscheduled });
                     }
                 }
             }

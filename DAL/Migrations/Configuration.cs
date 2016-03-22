@@ -138,13 +138,6 @@ namespace DAL.Migrations
               }
             );
 
-            context.MatchStates.AddOrUpdate(
-              s => s.Name,
-              new MatchState() { Name = "Played" },
-              new MatchState() { Name = "Postponed" },
-              new MatchState() { Name = "Forfeited" }
-            );
-
             context.Packages.AddOrUpdate(
               p => p.Name,
               new Package() 

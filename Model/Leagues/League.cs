@@ -24,6 +24,7 @@ namespace Model.Leagues
             LeagueMatches = new List<LeagueMatch>();
             LeagueAdmins = new List<LeagueAdmin>();
             SportColumns = new List<SportColumn>();
+            TournamentCompetitors = new List<TournamentCompetitor>();
         }
 
         #region Config
@@ -39,6 +40,7 @@ namespace Model.Leagues
         public DateTime EndDate { get; set; } 
         #endregion
 
+        public bool IsRenewed { get; set; }
         public bool IsActive { get; set; }
         public bool IsCreated { get; set; }
 
@@ -47,6 +49,7 @@ namespace Model.Leagues
             get { return LeagueMatches.Count; }
         }
 
+        public virtual League RenewedFrom { get; set; }
         public virtual Tournament Tournament { get; set; }
         public virtual SportType SportType { get; set; }
         public virtual Season Season { get; set; }
@@ -57,5 +60,7 @@ namespace Model.Leagues
         public virtual ICollection<LeagueCompetitor> LeagueCompetitors { get; set; }
         public virtual ICollection<LeagueAdmin> LeagueAdmins { get; set; }
         public virtual ICollection<SportColumn> SportColumns { get; set; }
+        public virtual ICollection<TournamentCompetitor> TournamentCompetitors { get; set; }
+        
     }
 }

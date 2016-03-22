@@ -11,6 +11,7 @@ using Core.Extensions;
 using Model.Record;
 using System.Diagnostics;
 using Model.Knockouts;
+using NLog;
 
 namespace BusinessServices.Builders.KnockoutCompetition
 {
@@ -29,16 +30,16 @@ namespace BusinessServices.Builders.KnockoutCompetition
             _knockoutSorter = knockoutSorter;
         }
 
-        public void InitialSetup(string knockoutName, DateTime startDate, DateTime endDate, int numberOfRounds, bool isSeeded, bool includeThirdPlacePlayoff, IList<SportColumn> sportColumns)
+        public void InitialSetup(KnockoutConfig knockoutConfig)
         {
-            _knockOut.Name = knockoutName;
-            _knockOut.StartDate = startDate;
-            _knockOut.EndDate = endDate;
-            _knockOut.NumberOfRounds = numberOfRounds;
-            _knockOut.IsSeeded = isSeeded;
-            _knockOut.IncludeThirdPlacePlayoff = includeThirdPlacePlayoff;
+            _knockOut.Name = knockoutConfig.Name;
+            _knockOut.StartDate = knockoutConfig.StartDate;
+            _knockOut.EndDate = knockoutConfig.EndDate;
+            _knockOut.NumberOfRounds = knockoutConfig.NumberOfRounds;
+            _knockOut.IsSeeded = knockoutConfig.IsSeeded;
+            _knockOut.IncludeThirdPlacePlayoff = knockoutConfig.IncludeThirdPlacePlayoff;
 
-            _knockOut.SportColumns.AddRange(sportColumns);
+            _knockOut.SportColumns.AddRange(knockoutConfig.SportColumns);
         }
 
         public void AddCompetitors(IList<Side> sides)
@@ -75,7 +76,7 @@ namespace BusinessServices.Builders.KnockoutCompetition
             _matchScheduler.Schedule();
         }
 
-        public void ResetLeague()
+        public void ResetKnockout()
         {
             _knockoutSorter.Reset(_knockOut);
         }
@@ -88,27 +89,13 @@ namespace BusinessServices.Builders.KnockoutCompetition
 
     public class KnockoutBuilderDirector
     {
-        private string _name { get; set; }
-        private DateTime _startDate { get; set; }
-        private DateTime _endDate { get; set; }
-        private IList<Side> _sides { get; set; }
-        private int _numberOfRounds { get; set; }
-        private bool _isSeeded { get; set; }
-        private bool _includeThirdPlacePlayoff { get; set; }
-        private IAuditLogger _auditLogger { get; set; }
-        private IList<SportColumn> _sportColumns { get; set; }
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public KnockoutBuilderDirector(string name, DateTime startDate, DateTime endDate, int numberOfRounds, bool isSeeded, bool includeThirdPlacePlayoff, IList<Side> sides, IAuditLogger auditLogger, IList<SportColumn> sportColumns)
+        private KnockoutConfig _knockoutConfig { get; set; }
+
+        public KnockoutBuilderDirector(KnockoutConfig knockoutConfig)
         {
-            _name = name;
-            _startDate = startDate;
-            _endDate = endDate;
-            _sides = sides;
-            _numberOfRounds = numberOfRounds;
-            _isSeeded = isSeeded;
-            _includeThirdPlacePlayoff = includeThirdPlacePlayoff;
-            _auditLogger = auditLogger;
-            _sportColumns = sportColumns;
+            _knockoutConfig = knockoutConfig;
         }
 
         public Knockout Construct(KnockoutBuilder knockoutBuilder)
@@ -117,18 +104,17 @@ namespace BusinessServices.Builders.KnockoutCompetition
 
             stopwatch.Start();
 
-            knockoutBuilder.InitialSetup(_name, _startDate, _endDate, _numberOfRounds, _isSeeded, _includeThirdPlacePlayoff, _sportColumns);
-            knockoutBuilder.AddCompetitors(_sides);
+            knockoutBuilder.InitialSetup(_knockoutConfig);
+            knockoutBuilder.AddCompetitors(_knockoutConfig.Sides);
             knockoutBuilder.ScheduleMatches();
 
             Knockout knockout = knockoutBuilder.GetKnockout();
 
-            _auditLogger.Log(knockout, 1, EnumActionType.Created);
+            _knockoutConfig.AuditLogger.Log(knockout, 1, EnumActionType.Created);
 
             stopwatch.Stop();
 
-            // TODO: NLog Info
-            // string.Format("It took {0} to create League {1} of type {2} with {3} positions and {4} match ups", stopwatch.Elapsed, _name, typeof(T).Name, _numberOfPositions, _numberOfMatchUps);
+            logger.Log(LogLevel.Info, string.Format("It took {0} to create knockout {1} with {2} rounds", stopwatch.Elapsed, _knockoutConfig.Name, _knockoutConfig.NumberOfRounds));
 
             return knockout;
         }

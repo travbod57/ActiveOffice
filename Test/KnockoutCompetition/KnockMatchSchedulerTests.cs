@@ -115,7 +115,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 1, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 1,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
 
             Knockout knockout = new Knockout();
@@ -126,7 +132,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -137,7 +143,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 8, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 8,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
 
             Knockout knockout = new Knockout();
@@ -148,7 +160,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -159,7 +171,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
 
             Knockout knockout = new Knockout();
@@ -170,7 +188,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -181,7 +199,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 3, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 3,
+                IsSeeded = true,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8 };
 
             Knockout knockout = new Knockout();
@@ -192,7 +216,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -201,7 +225,13 @@ namespace Test.KnockoutCompetition
         [ExpectedException(typeof(Exception))]
         public void Exception_Not_Enough_Seeds_Provided__Schedule_Knockout_With_4_Rounds()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = true,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
 
             Knockout knockout = new Knockout();
@@ -216,7 +246,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -225,7 +255,13 @@ namespace Test.KnockoutCompetition
         [ExpectedException(typeof(Exception))]
         public void Exception_Not_Enough_Seeds_Number_Too_High__Schedule_Knockout_With_4_Rounds()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = true,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
 
             Knockout knockout = new Knockout();
@@ -241,7 +277,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         }
@@ -250,7 +286,13 @@ namespace Test.KnockoutCompetition
         [ExpectedException(typeof(Exception))]
         public void Exception_Not_Enough_Seeds_Not_Unique__Schedule_Knockout_With_4_Rounds()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = true,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
 
             Knockout knockout = new Knockout();
@@ -266,7 +308,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
         } 
@@ -280,7 +322,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 2, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 2,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4 };
 
             Knockout knockout = new Knockout();
@@ -291,7 +339,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
@@ -320,7 +368,13 @@ namespace Test.KnockoutCompetition
         {
             // Arrange
 
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 3, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 3,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8 };
 
             Knockout knockout = new Knockout();
@@ -331,7 +385,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
@@ -363,7 +417,13 @@ namespace Test.KnockoutCompetition
         [TestMethod]
         public void Schedule_Knockout_With_4_Rounds_No_Playoff()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
 
             Knockout knockout = new Knockout();
@@ -374,7 +434,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
@@ -417,7 +477,13 @@ namespace Test.KnockoutCompetition
         [TestMethod]
         public void Schedule_Knockout_With_5_Rounds_No_Playoff()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 5, IsSeeded = false, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 5,
+                IsSeeded = false,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16, _t17, _t18, _t19, _t20, _t21, _t22, _t23, _t24, _t25, _t26, _t27, _t28, _t29, _t30, _t31, _t32 };
 
             Knockout knockout = new Knockout();
@@ -428,7 +494,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();
@@ -495,7 +561,13 @@ namespace Test.KnockoutCompetition
         [TestMethod]
         public void Schedule_Knockout_With_4_Rounds_No_Playoff_With_Seeding()
         {
-            KnockoutCreatorDto knockoutCreatorDto = new KnockoutCreatorDto() { NumberOfRounds = 4, IsSeeded = true, IncludeThirdPlacePlayoff = false };
+            KnockoutConfig config = new KnockoutConfig()
+            {
+                NumberOfRounds = 4,
+                IsSeeded = true,
+                IncludeThirdPlacePlayoff = false
+            };
+
             List<Side> sides = new List<Side>() { _t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8, _t9, _t10, _t11, _t12, _t13, _t14, _t15, _t16 };
 
             Knockout knockout = new Knockout();
@@ -511,7 +583,7 @@ namespace Test.KnockoutCompetition
 
             // Act
 
-            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, knockoutCreatorDto);
+            KnockoutMatchScheduler scheduler = new KnockoutMatchScheduler(knockout, config);
             List<RoundInformationDto> roundInformation = scheduler.RoundInformation;
             scheduler.Schedule();
             List<KnockoutMatch> knockoutMatches = knockout.KnockoutMatches.ToList();

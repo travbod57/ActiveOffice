@@ -76,7 +76,6 @@ namespace DAL
         #region ReferenceData
         public DbSet<CompetitionType> CompetitionTypes { get; set; }
         public DbSet<CompetitionTypeSportColumn> CompetitionTypeSportColumns { get; set; }
-        public DbSet<MatchState> MatchStates { get; set; }
         public DbSet<SportType> SportTypes { get; set; } 
         #endregion
 

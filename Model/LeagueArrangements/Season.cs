@@ -10,15 +10,12 @@ namespace Model.LeagueArrangements
 {
     public class Season : DBEntity
     {
-        public Season()
-        {
-            Leagues = new List<League>();
-            Knockouts = new List<Knockout>();
-        }
-
         public string Name { get; set; }
+        public bool IsActive { get; set; }
 
-        public ICollection<League> Leagues { get; set; }
-        public ICollection<Knockout> Knockouts { get; set; }
+        public virtual Cluster Cluster { get; set; }
+
+        public virtual League League { get; set; }
+        public virtual Knockout Knockout { get; set; }
     }
 }

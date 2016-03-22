@@ -42,6 +42,10 @@
       <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,9 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\KnockoutCompetition\KnockoutBuilder.cs" />
+    <Compile Include="Builders\KnockoutCompetition\KnockoutConfig.cs" />
     <Compile Include="Builders\KnockoutCompetition\KnockoutSorter.cs" />
-    <Compile Include="Dtos\Knockout\KnockoutCreatorDto.cs" />
+    <Compile Include="Builders\LeagueCompetition\LeagueConfig.cs" />
+    <Compile Include="Builders\TournamentCompetition\TournamentConfig.cs" />
+    <Compile Include="Builders\TournamentCompetition\TournamentSorter.cs" />
+    <Compile Include="Builders\TournamentCompetition\TournamentBuilder.cs" />
+    <Compile Include="Builders\KnockoutCompetition\KnockoutBuilder.cs" />
     <Compile Include="Dtos\Knockout\RoundInformationDto.cs" />
     <Compile Include="Dtos\LeagueTableRowDto.cs" />
     <Compile Include="Dtos\PointsDto.cs" />
@@ -61,6 +69,7 @@
     <Compile Include="EqualityComparers\KnockoutCompetitorSeededComparer.cs" />
     <Compile Include="Helpers\CompetitorRecordHelpers.cs" />
     <Compile Include="Interfaces\IAuditLogger.cs" />
+    <Compile Include="Interfaces\ITournamentSorter.cs" />
     <Compile Include="Interfaces\IKnockoutSorter.cs" />
     <Compile Include="Interfaces\ISportManager.cs" />
     <Compile Include="KnockoutCompetition\KnockoutTreeTraverser.cs" />
@@ -78,7 +87,7 @@
     <Compile Include="ProfileService.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="ActorsService.cs" />
-    <Compile Include="Builders\LeagueBuilder.cs" />
+    <Compile Include="Builders\LeagueCompetition\LeagueBuilder.cs" />
     <Compile Include="Dtos\LeagueDto.cs" />
     <Compile Include="Interfaces\ILeagueManager.cs" />
     <Compile Include="Interfaces\IMatchScheduler.cs" />
@@ -93,6 +102,7 @@
     <Compile Include="Managers\LeagueCompetition\LeagueManagerBase.cs" />
     <Compile Include="Managers\LeagueCompetition\PointsLeagueManager.cs" />
     <Compile Include="Sports\FootballManager.cs" />
+    <Compile Include="TournamentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
