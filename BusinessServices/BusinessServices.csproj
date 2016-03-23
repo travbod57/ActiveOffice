@@ -67,6 +67,7 @@
     <Compile Include="Dtos\PointsDto.cs" />
     <Compile Include="Dtos\ScoreDto.cs" />
     <Compile Include="EqualityComparers\KnockoutCompetitorSeededComparer.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Helpers\CompetitorRecordHelpers.cs" />
     <Compile Include="Interfaces\IAuditLogger.cs" />
     <Compile Include="Interfaces\ITournamentSorter.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="KnockoutCompetition\KnockoutTreeTraverser.cs" />
     <Compile Include="KnockoutService.cs" />
     <Compile Include="KnockoutCompetition\KnockoutSection.cs" />
+    <Compile Include="Managers\ClusterManager.cs" />
     <Compile Include="Managers\KnockoutCompetition\KnockoutManager.cs" />
     <Compile Include="PackageService.cs" />
     <Compile Include="AuditService.cs" />
@@ -98,7 +100,6 @@
     <Compile Include="Schedulers\KnockoutMatchScheduler.cs" />
     <Compile Include="Schedulers\RandomLeagueMatchScheduler.cs" />
     <Compile Include="Managers\LeagueCompetition\ChallengeLeagueManager.cs" />
-    <Compile Include="Managers\LeagueCompetition\LeagueManager.cs" />
     <Compile Include="Managers\LeagueCompetition\LeagueManagerBase.cs" />
     <Compile Include="Managers\LeagueCompetition\PointsLeagueManager.cs" />
     <Compile Include="Sports\FootballManager.cs" />

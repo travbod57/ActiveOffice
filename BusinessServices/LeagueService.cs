@@ -3,6 +3,7 @@ using BusinessServices.Builders.LeagueCompetition;
 using BusinessServices.Dto;
 using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
+using BusinessServices.Managers;
 using BusinessServices.Managers.LeagueCompetition;
 using BusinessServices.Sports;
 using Core.Extensions;
@@ -24,14 +25,12 @@ namespace BusinessServices
     {
         IList<LeagueDto> GetLeagueStandings(int leagueId);
         IList<LeagueCompetitor> GetLeagueCompetitors(int leagueId);
-        League GetLeague(int leagueId);
         void CreatePointsLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler);
         void CreateChallengeLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler);
         void AwardPointsLeagueWin(int matchId, int winnerId, int loserId);
         void AwardPointsLeagueDraw(int matchId);
         void ActivateLeague(int leagueId);
         void AddCompetitorToLeague(int leagueId, int competitorId);
-        void RenewLeague(int leagueId);
     }
 
     public class LeagueService : ILeagueService
@@ -43,24 +42,7 @@ namespace BusinessServices
             _unitOfWork = unitOfWork;
         }
 
-        public void ActivateLeague(int leagueId)
-        {
-            League league = _unitOfWork.GetRepository<League>().GetById(leagueId);
-
-            if (!league.IsCreated)
-                throw new ApplicationException("League cannot be activated until it is completely created");
-
-            league.IsActive = true;
-
-            _unitOfWork.Save();
-        }
-
-
-        public League GetLeague(int leagueId)
-        {
-            return _unitOfWork.GetRepository<League>().GetById(leagueId);
-        }
-
+        #region General
         public IList<LeagueDto> GetLeagueStandings(int leagueId)
         {
             var league = (from l in _unitOfWork.GetRepository<League>().All()
@@ -82,48 +64,8 @@ namespace BusinessServices
             var competitors = league.LeagueCompetitors.ToList();
 
             return competitors;
-        }
-
-        public void AddCompetitorToLeague(int leagueId, int sideId)
-        {
-            League league = GetLeague(leagueId);
-            Side side = _unitOfWork.GetRepository<Side>().GetById(sideId);
-
-            AddCompetitorToLeague(league, side);
-
-            _unitOfWork.Save();
-        }
-
-        public void AddCompetitorsToLeague(int leagueId, int[] sideIds)
-        {
-            League league = GetLeague(leagueId);
-            IEnumerable<Side> sides = _unitOfWork.GetRepository<Side>().All().Where(s => sideIds.Contains(s.Id));
-
-            foreach (var side in sides)
-            {
-                AddCompetitorToLeague(league, side);
-            }
-            _unitOfWork.Save();
-        }
-
-        private void AddCompetitorToLeague(League league, Side side)
-        {
-            league.LeagueCompetitors.Add(new LeagueCompetitor() { Side = side, InitialPositionNumber = league.LeagueCompetitors.Count + 1 });
-        }
-
-        public void AddChallengeMatch(int leagueId, int competitorAId, int competitorBId)
-        {
-            ChallengeLeague challengeLeague = _unitOfWork.GetRepository<ChallengeLeague>().GetById(leagueId);
-
-            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorAId);
-            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorBId);
-
-            ISportManager footballManager = new FootballManager(challengeLeague.CompetitionType);
-
-            LeagueManager manager = new LeagueManager(new ChallengeLeagueManager(challengeLeague, footballManager));
-            manager.AddMatch(competitorA, competitorB);
-
-        }
+        } 
+        #endregion
 
         #region Cluster Management
         public void CreateLeagueCluster(string clusterName, int numberOfDivisions)
@@ -133,15 +75,41 @@ namespace BusinessServices
             Cluster cluster = new Cluster();
             cluster.Name = clusterName;
             cluster.NumberOfDivisions = numberOfDivisions;
-
             _unitOfWork.GetRepository<Cluster>().Add(cluster);
+            _unitOfWork.Save();
+        }
+
+        public void RenameCluster(int clusterId, string name)
+        {
+            Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
+
+            ClusterManager manager = new ClusterManager(cluster);
+            manager.ChangeName(name);
+
+            _unitOfWork.Save();
+        }
+
+        public void ActivateCluster(int clusterId)
+        {
+            Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
+
+            ClusterManager manager = new ClusterManager(cluster);
+            manager.Activate();
+
             _unitOfWork.Save();
         }
 
         public void ReorderClusterDivisions(int clusterId)
         {
-            // TODO: if active cannot reorder
             // TODO: do you have permissions to reorder clusters? - are you Admin, what is your package?
+
+            Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
+
+            if (cluster.IsActive)
+                throw new Exception("You cannot reorder divisions once the cluster is active");
+
+                
+            
         }
 
         public void AddLeaguesToCluster(int clusterId, int[] leagueIds)
@@ -149,20 +117,11 @@ namespace BusinessServices
             // TODO: do you have permissions to add leagues clusters?
 
             Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
-
             IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
 
-            if (leagues.Intersect(cluster.Leagues).Count() > 0)
-                throw new Exception("You are attempting to add leagues to a cluster that are already in the cluster");
+            ClusterManager manager = new ClusterManager(cluster);
+            manager.AddLeagues(leagues);
 
-            IEnumerable<League> allLeagues = leagues.Union(cluster.Leagues);
-            bool sameCompetitionType = allLeagues.Select(x => x.CompetitionType).Distinct().Count() == 1;
-
-            if (!sameCompetitionType)
-                throw new Exception("Clusters are not allowed to have leagues of different types");
-
-            // add the new leagues to the cluster
-            cluster.Leagues.AddRange<League>(leagues);
             _unitOfWork.Save();
         }
 
@@ -171,13 +130,11 @@ namespace BusinessServices
             // TODO: do you have permissions to remove leagues clusters? - are you Admin, what is your package, is league/season active?
 
             Cluster cluster = _unitOfWork.GetRepository<Cluster>().GetById(clusterId);
-
             IEnumerable<League> leagues = _unitOfWork.GetRepository<League>().Find(l => leagueIds.Contains(l.Id));
 
-            if (leagues.Count(l => l.IsActive) > 0)
-                throw new Exception("One of the leagues you are trying to remove is active");
+            ClusterManager manager = new ClusterManager(cluster);
+            manager.RemoveLeagues(leagues);
 
-            cluster.Leagues.RemoveRange(leagues);
             _unitOfWork.Save();
         }
         #endregion
@@ -215,18 +172,24 @@ namespace BusinessServices
 
             _unitOfWork.Save();
         }
+
+        public void EndOfSeason()
+        {
+            // TODO: Implement
+        }
         #endregion
 
+        #region League Creation
         public void CreatePointsLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler)
         {
             List<Side> sides = _unitOfWork.GetRepository<Side>().All().ToList();
 
             IAuditLogger auditLogger = new AuditLogger(_unitOfWork);
 
-            CompetitionType competitionType = _unitOfWork.GetRepository<CompetitionType>().Find( ct => ct.Name == "Points").SingleOrDefault();
-            SportType sportType = _unitOfWork.GetRepository<SportType>().Find( st => st.Name == "Football").SingleOrDefault();
+            CompetitionType competitionType = _unitOfWork.GetRepository<CompetitionType>().Find(ct => ct.Name == "Points").SingleOrDefault();
+            SportType sportType = _unitOfWork.GetRepository<SportType>().Find(st => st.Name == "Football").SingleOrDefault();
 
-            IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select( x => x.SportColumn).ToList();
+            IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
 
             LeagueConfig leagueConfig = new LeagueConfig()
             {
@@ -251,59 +214,6 @@ namespace BusinessServices
 
             _unitOfWork.Save();
         }
-
-        public void AwardPointsLeagueWin(int matchId, int winnerId, int loserId)
-        {
-            LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
-            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
-
-            LeagueCompetitor winner = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(winnerId);
-            LeagueCompetitor loser = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(loserId);
-
-            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
-
-            PointsLeagueManager manager = new PointsLeagueManager(pointsLeague, footballManager);
-            manager.AwardWin(leagueMatch, winner, loser);
-
-            _unitOfWork.Save();
-        }
-
-        public void AwardPointsLeagueDraw(int matchId)
-        {
-            LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
-            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
-
-            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorA.Id);
-            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorB.Id);
-
-            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
-
-            PointsLeagueManager updater = new PointsLeagueManager(pointsLeague, footballManager);
-            updater.AwardDraw(leagueMatch, competitorA, competitorB);
-
-            _unitOfWork.Save();
-        }
-
-        /// <summary>
-        /// WAHT DOES THIS DO?
-        /// </summary>
-        /// <param name="leagueId"></param>
-        /// <param name="competitorAId"></param>
-        /// <param name="competitorBId"></param>
-        public void AddPointsLeagueMatch(int leagueId, int competitorAId, int competitorBId)
-        {
-            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueId);
-
-            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorAId);
-            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorBId);
-
-            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
-
-            LeagueManager manager = new LeagueManager(new PointsLeagueManager(pointsLeague, footballManager));
-            manager.AddMatch(competitorA, competitorB);
-
-        }
-
 
         public void CreateChallengeLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler)
         {
@@ -340,6 +250,80 @@ namespace BusinessServices
             _unitOfWork.Save();
         }
 
+        public void AddCompetitorToLeague(int leagueId, int sideId)
+        {
+            League league = _unitOfWork.GetRepository<League>().GetById(leagueId);
+            Side side = _unitOfWork.GetRepository<Side>().GetById(sideId);
+
+            // TODO:
+
+            _unitOfWork.Save();
+        }
+
+        public void AddCompetitorsToLeague(int leagueId, int[] sideIds)
+        {
+            League league = _unitOfWork.GetRepository<League>().GetById(leagueId);
+            IEnumerable<Side> sides = _unitOfWork.GetRepository<Side>().All().Where(s => sideIds.Contains(s.Id));
+
+            // TODO:
+
+            //foreach (var side in sides)
+            //{
+            //    AddCompetitorToLeague(league, side);
+            //}
+            _unitOfWork.Save();
+        }
+
+        public void ActivateLeague(int leagueId)
+        {
+            League league = _unitOfWork.GetRepository<League>().GetById(leagueId);
+
+            if (!league.IsCreated)
+                throw new ApplicationException("League cannot be activated until it is completely created");
+
+            if (league.IsActive)
+                throw new ApplicationException("League cannot be activated because it is already active");
+
+            league.IsActive = true;
+
+            _unitOfWork.Save();
+        }
+
+        #endregion
+
+        #region Results
+        public void AwardPointsLeagueWin(int matchId, int winnerId, int loserId)
+        {
+            LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
+            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
+
+            LeagueCompetitor winner = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(winnerId);
+            LeagueCompetitor loser = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(loserId);
+
+            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
+
+            PointsLeagueManager manager = new PointsLeagueManager(pointsLeague, footballManager);
+            manager.AwardWin(leagueMatch, winner, loser);
+
+            _unitOfWork.Save();
+        }
+
+        public void AwardPointsLeagueDraw(int matchId)
+        {
+            LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
+            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
+
+            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorA.Id);
+            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorB.Id);
+
+            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
+
+            PointsLeagueManager updater = new PointsLeagueManager(pointsLeague, footballManager);
+            updater.AwardDraw(leagueMatch, competitorA, competitorB);
+
+            _unitOfWork.Save();
+        }
+
         public void AwardChallengeLeagueWin(int matchId, int winnerId, int loserId)
         {
             LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
@@ -358,11 +342,92 @@ namespace BusinessServices
             manager.AwardWin(leagueMatch, winner, loser);
 
             _unitOfWork.Save();
+        } 
+        #endregion
+
+        #region Matches
+        /// <summary>
+        /// WAHT DOES THIS DO?
+        /// </summary>
+        /// <param name="leagueId"></param>
+        /// <param name="competitorAId"></param>
+        /// <param name="competitorBId"></param>
+        public void AddPointsLeagueMatch(int leagueId, int competitorAId, int competitorBId)
+        {
+            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueId);
+
+            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorAId);
+            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorBId);
+
+            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
+
+            PointsLeagueManager manager = new PointsLeagueManager(pointsLeague, footballManager);
+            manager.AddMatch(competitorA, competitorB);
+
         }
 
-        public void RenewLeague(int leagueId)
+        public void AddChallengeMatch(int leagueId, int competitorAId, int competitorBId)
         {
-            throw new NotImplementedException("Renew League not implemented");
+            ChallengeLeague challengeLeague = _unitOfWork.GetRepository<ChallengeLeague>().GetById(leagueId);
+
+            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorAId);
+            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(competitorBId);
+
+            ISportManager footballManager = new FootballManager(challengeLeague.CompetitionType);
+
+            ChallengeLeagueManager manager = new ChallengeLeagueManager(challengeLeague, footballManager);
+            manager.AddMatch(competitorA, competitorB);
+        } 
+        #endregion
+
+        #region End of League
+        public void RenewPointsLeague(int leagueId)
+        {
+            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueId);
+
+            if (pointsLeague.Cluster != null)
+                throw new Exception("You cannot renew this Points League because it exists as part of a cluster");
+
+            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
+            PointsLeagueManager manager = new PointsLeagueManager(pointsLeague, footballManager);
+
+            manager.RenewLeague();
         }
+
+        public void FinalisePointsLeague(int leagueId)
+        {
+            PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueId);
+
+            ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
+            PointsLeagueManager manager = new PointsLeagueManager(pointsLeague, footballManager);
+            manager.Finalise();
+
+            _unitOfWork.Save();
+        }
+
+        public void RenewChallengeLeague(int leagueId)
+        {
+            ChallengeLeague challengeLeague = _unitOfWork.GetRepository<ChallengeLeague>().GetById(leagueId);
+
+            if (challengeLeague.Cluster != null)
+                throw new Exception("You cannot renew this Challenge League because it exists as part of a cluster");
+
+            ISportManager footballManager = new FootballManager(challengeLeague.CompetitionType);
+            ChallengeLeagueManager manager = new ChallengeLeagueManager(challengeLeague, footballManager);
+
+            manager.RenewLeague();
+        }
+
+        public void FinaliseChallengeLeague(int leagueId)
+        {
+            ChallengeLeague challengeLeague = _unitOfWork.GetRepository<ChallengeLeague>().GetById(leagueId);
+
+            ISportManager footballManager = new FootballManager(challengeLeague.CompetitionType);
+            ChallengeLeagueManager manager = new ChallengeLeagueManager(challengeLeague, footballManager);
+            manager.Finalise();
+
+            _unitOfWork.Save();
+        } 
+        #endregion
     }
 }

@@ -17,6 +17,8 @@ namespace Model.Competitors
 
         }
 
+        public bool IsPromoted { get; set; }
+        public bool IsRelegated { get; set; }
         public int InitialPositionNumber { get; set; }
         public int CurrentPositionNumber { get; set; }
         public virtual League League { get; set; }

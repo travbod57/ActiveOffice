@@ -1,6 +1,10 @@
-﻿using BusinessServices.Dtos;
+﻿using BusinessServices.Builders.LeagueCompetition;
+using BusinessServices.Dtos;
+using BusinessServices.Dtos.League;
 using BusinessServices.Helpers;
 using BusinessServices.Interfaces;
+using BusinessServices.Schedulers;
+using Model.Actors;
 using Model.Competitors;
 using Model.Extensions;
 using Model.Leagues;
@@ -9,6 +13,7 @@ using Model.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BusinessServices.Extensions;
 
 namespace BusinessServices.Managers.LeagueCompetition
 {
@@ -73,6 +78,22 @@ namespace BusinessServices.Managers.LeagueCompetition
             leagueMatch.DateTimeOfPlay = dateTimeOfPlay;
 
             _challengeLeague.LeagueMatches.Add(leagueMatch);
+        }
+
+        public override void RenewLeague()
+        {
+            LeagueConfig leagueConfig = _challengeLeague.ExtractLeagueConfig();
+            leagueConfig.IsRenewedLeague = true;
+
+            LeagueCreatorDto leagueCreatorDto = new LeagueCreatorDto();
+
+            LeagueBuilderDirector<PointsLeague> director = new LeagueBuilderDirector<PointsLeague>(leagueConfig);
+
+            PointsLeague pointsLeague = new PointsLeague();
+            IMatchScheduler matchScheduler = new NonMatchScheduler();
+            LeagueBuilder<PointsLeague> builder = new LeagueBuilder<PointsLeague>(pointsLeague, matchScheduler);
+
+            director.Construct(builder);
         }
     }
 }

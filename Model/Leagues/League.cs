@@ -36,25 +36,32 @@ namespace Model.Leagues
 
         #region Properties
         public string Name { get; set; }
+        public string Sponsor { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; } 
-        #endregion
-
+        public DateTime EndDate { get; set; }
+        public int DivisionNumber { get; set; }
+        public virtual League DivisionAbove { get; set; }
+        public virtual League DivisionBelow { get; set; }
+        public virtual Tournament Tournament { get; set; }
+        public virtual Cluster Cluster { get; set; }
+        public virtual SportType SportType { get; set; }
+        public virtual Season Season { get; set; }
+        public virtual CompetitionType CompetitionType { get; set; }
+        public bool IsFinalised { get; set; }
         public bool IsRenewed { get; set; }
         public bool IsActive { get; set; }
         public bool IsCreated { get; set; }
-
         public int NumberOfMatches
         {
             get { return LeagueMatches.Count; }
         }
-
-        public virtual League RenewedFrom { get; set; }
-        public virtual Tournament Tournament { get; set; }
-        public virtual SportType SportType { get; set; }
-        public virtual Season Season { get; set; }
-        public int DivisionNumber { get; set; }
-        public virtual CompetitionType CompetitionType { get; set; }
+        public int NumberOfPositions
+        {
+            get { return LeagueCompetitors.Count; }
+        }
+        public int NumberOfRelegationPositions { get; set; }
+        public int NumberOfPromotionPositions { get; set; }
+        #endregion
 
         public virtual ICollection<LeagueMatch> LeagueMatches { get; set; }
         public virtual ICollection<LeagueCompetitor> LeagueCompetitors { get; set; }

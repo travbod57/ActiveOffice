@@ -102,7 +102,7 @@ namespace BusinessServices.Builders.LeagueCompetition
             leagueBuilder.InitialSetup(_leagueConfig);
             leagueBuilder.AddCompetitors(_leagueConfig.Sides);
             leagueBuilder.ScheduleMatches();
-
+            
             T league = leagueBuilder.GetLeague();
 
             _leagueConfig.AuditLogger.Log(league, 1, EnumActionType.Created);

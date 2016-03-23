@@ -15,7 +15,9 @@ namespace Model.LeagueArrangements
         }
 
         public string Name { get; set; }
+        public string Sponsor { get; set; }
         public int NumberOfDivisions { get; set; }
+        public bool IsActive { get; set; }
         public virtual Season Season { get; set; }
 
         public ICollection<League> Leagues { get; set; }

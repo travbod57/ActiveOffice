@@ -13,6 +13,9 @@ using System.Linq;
 using Model.Extensions;
 using BusinessServices.Interfaces;
 using Model;
+using Model.Actors;
+using BusinessServices.Builders.LeagueCompetition;
+using BusinessServices.Dtos.League;
 
 namespace BusinessServices.Managers.LeagueCompetition
 {
@@ -106,6 +109,32 @@ namespace BusinessServices.Managers.LeagueCompetition
             }
 
             return rows;
+        }
+
+        public abstract void RenewLeague();
+
+        public void Finalise()
+        {
+            if (_league.Cluster != null)
+            {
+                int numberOfRelegationPositions = _league.NumberOfRelegationPositions;
+                int numberOfPromotionPositions = _league.NumberOfRelegationPositions;
+
+                foreach (var competitor in _league.LeagueCompetitors)
+	            {
+                    if (numberOfPromotionPositions > 0)
+                    {
+                        competitor.IsRelegated = true;
+                        numberOfPromotionPositions--;
+                    }
+
+                    if (numberOfRelegationPositions > 0)
+                    {
+                        competitor.IsPromoted = true;
+                        numberOfRelegationPositions--;
+                    }
+	            }
+            }
         }
     }
 }

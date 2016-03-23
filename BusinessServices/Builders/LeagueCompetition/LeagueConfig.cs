@@ -20,5 +20,6 @@ namespace BusinessServices.Builders.LeagueCompetition
         public IAuditLogger AuditLogger { get; set; }  
         public IList<SportColumn> SportColumns { get; set; }
         public bool IsPartOfTournament { get; set; }
+        public bool IsRenewedLeague { get; set; }
     }
 }
