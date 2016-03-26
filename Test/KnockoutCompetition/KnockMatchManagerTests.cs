@@ -32,6 +32,8 @@ namespace Test.KnockoutCompetition
     [TestClass]
     public class KnockMatchManagerTests
     {
+        // TODO: test third placeplayoff
+
         private Mock<IUnitOfWork> _unitOfWork;
         private IAuditLogger _auditLogger;
         private List<Side> _sides;

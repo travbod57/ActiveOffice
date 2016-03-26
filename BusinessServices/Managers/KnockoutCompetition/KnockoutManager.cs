@@ -59,6 +59,15 @@ namespace BusinessServices.Managers.KnockoutCompetition
             else
                 knockoutMatch.NextRoundMatch.CompetitorB = winner;
 
+            // move loser to third place playoff
+            if (knockoutMatch.AlternativeNextRoundMatch != null)
+            {
+                if (knockoutMatch.AlternativeNextRoundMatch.CompetitorA == null)
+                    knockoutMatch.AlternativeNextRoundMatch.CompetitorA = loser;
+                else
+                    knockoutMatch.AlternativeNextRoundMatch.CompetitorB = loser;
+            }
+
             // insert history record
 
             CompetitorRecordHelpers.WriteCompetitorHistoryRecords(winner, _winnerRecords);

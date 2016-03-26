@@ -14,6 +14,7 @@ namespace Model.Schedule
     {
         public Knockout Knockout { get; set; }
         public KnockoutMatch NextRoundMatch { get; set; }
+        public KnockoutMatch AlternativeNextRoundMatch { get; set; }
         public int MatchNumberForRound { get; set; }
         public EnumRound Round { get; set; }
         public EnumKnockoutSide KnockoutSide { get; set; }

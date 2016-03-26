@@ -14,6 +14,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using System.Net.Mail;
+using System.Net;
 
 namespace ActiveOffice
 {
@@ -23,6 +25,33 @@ namespace ActiveOffice
 
         static void Main(string[] args)
         {
+            // Credentials:
+            var credentialUserName = "alexjwilliams57@gmail.com";
+            var sentFrom = "alexjwilliams57@gmail.com";
+            var pwd = "eae.b-hJ";
+
+            // Configure the client:
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
+
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+
+            // Create the credentials:
+            NetworkCredential credentials = new NetworkCredential(credentialUserName, pwd);
+
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+
+            // Create the message:
+            var mail = new MailMessage(sentFrom, "alexwilliams57@hotmail.com");
+
+            mail.Subject = "message.Subject";
+            mail.Body = "message.Body";
+
+            // Send:
+            client.Send(mail);
+
             logger.Log(LogLevel.Error, "OI OI ");
 
 
