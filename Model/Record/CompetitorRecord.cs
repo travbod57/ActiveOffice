@@ -9,6 +9,7 @@ namespace Model.Record
         public virtual Competitor Competitor { get; set; }
         public SportType SportType { get; set; }
 
+        public int Position { get; set; }
         public int Played { get; set; }
         public int Points { get; set; }
         public int BonusPoints { get; set; }

@@ -160,49 +160,49 @@ namespace Test.ChallengeLeagueCompetition
             // Assert
 
             Assert.IsTrue(standings[0].SideName == "Arsenal");
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 1);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 2);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 1);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 1);
-            Assert.IsTrue(standings[0].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 1);
+            Assert.IsTrue(standings[0].CompetitorRecord.Wins == 1);
+            Assert.IsTrue(standings[0].CompetitorRecord.Draws == 0);
+            Assert.IsTrue(standings[0].CompetitorRecord.Losses == 0);
+            Assert.IsTrue(standings[0].CompetitorRecord.For == 2);
+            Assert.IsTrue(standings[0].CompetitorRecord.Against == 1);
+            Assert.IsTrue(standings[0].CompetitorRecord.Difference == 1);
+            Assert.IsTrue(standings[0].CompetitorRecord.Played == 1);
 
             Assert.IsTrue(standings[1].SideName == "West Ham");
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 1);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 1);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 2);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == -1);
-            Assert.IsTrue(standings[1].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 1);
+            Assert.IsTrue(standings[1].CompetitorRecord.Wins == 0);
+            Assert.IsTrue(standings[1].CompetitorRecord.Draws == 0);
+            Assert.IsTrue(standings[1].CompetitorRecord.Losses == 1);
+            Assert.IsTrue(standings[1].CompetitorRecord.For == 1);
+            Assert.IsTrue(standings[1].CompetitorRecord.Against == 2);
+            Assert.IsTrue(standings[1].CompetitorRecord.Difference == -1);
+            Assert.IsTrue(standings[1].CompetitorRecord.Played == 1);
 
             Assert.IsTrue(standings[2].SideName == "Spurs");
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
-            Assert.IsTrue(standings[2].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Wins == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Draws == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Losses == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.For == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Against == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Difference == 0);
+            Assert.IsTrue(standings[2].CompetitorRecord.Played == 0);
 
             Assert.IsTrue(standings[3].SideName == "Leicester");
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
-            Assert.IsTrue(standings[3].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Wins == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Draws == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Losses == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.For == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Against == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Difference == 0);
+            Assert.IsTrue(standings[3].CompetitorRecord.Played == 0);
 
             Assert.IsTrue(standings[4].SideName == "Norwich");
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Wins").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Draws").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Losses").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalsAgainst").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2 == 0);
-            Assert.IsTrue(standings[4].ColumnValues.Single(x => x.Item1 == "Played").Item2 == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Wins == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Draws == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Losses == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.For == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Against == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Difference == 0);
+            Assert.IsTrue(standings[4].CompetitorRecord.Played == 0);
         }
 
         [TestMethod]

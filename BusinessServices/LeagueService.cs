@@ -44,19 +44,17 @@ namespace BusinessServices
         #region General
         public IList<LeagueDto> GetLeagueStandings(int leagueId)
         {
-            //var league = (from l in _unitOfWork.GetRepository<League>().All()
-            //              join lc in _unitOfWork.GetRepository<LeagueCompetitor>().All() on l.Id equals lc.League.Id
-            //              where l.Id == leagueId
-            //              orderby lc.CurrentPositionNumber
-            //              select new LeagueDto()
-            //              {
-            //                  SideName = lc.Side.Name,
-            //                  CompetitorStandings = lc.CompetitorRecords.ToList()
-            //              }).ToList();
+            var league = (from l in _unitOfWork.GetRepository<League>().All()
+                          join lc in _unitOfWork.GetRepository<LeagueCompetitor>().All() on l.Id equals lc.League.Id
+                          where l.Id == leagueId
+                          orderby lc.CurrentPositionNumber
+                          select new LeagueDto()
+                          {
+                              SideName = lc.Side.Name,
+                              CompetitorStanding = lc.CompetitorRecord
+                          }).ToList();
 
-            //return league;
-
-            return null; 
+            return league;
         }
 
         public IList<LeagueCompetitor> GetLeagueCompetitors(int leagueId)

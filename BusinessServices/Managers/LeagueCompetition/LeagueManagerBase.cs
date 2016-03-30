@@ -75,25 +75,7 @@ namespace BusinessServices.Managers.LeagueCompetition
             leagueMatch.MatchState = EnumMatchState.Played;
         }
 
-        public virtual List<LeagueTableRowDto> GetLeagueStandings()
-        {
-            List<LeagueTableRowDto> rows = new List<LeagueTableRowDto>();
-
-            foreach (var competitor in _league.LeagueCompetitors)
-            {
-                LeagueTableRowDto row = new LeagueTableRowDto();
-                row.SideName = competitor.Side.Name;
-                throw new NotImplementedException();
-                //foreach (var competitorRecord in CompetitorRecordHelpers.GetCompetitorRecords(competitor))
-                //{
-                //    row.ColumnValues.Add(Tuple.Create(competitorRecord.Key, competitorRecord.Value.Value));
-                //}
-
-                rows.Add(row);
-            }
-
-            return rows;
-        }
+        public abstract List<LeagueTableRowDto> GetLeagueStandings();
 
         public abstract void RenewLeague();
 

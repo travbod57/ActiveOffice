@@ -25,14 +25,35 @@ namespace BusinessServices.Managers.LeagueCompetition
             _pointsLeague = pointsLeague;
         }
 
+        public override void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
+        {
+            base.AwardWin(leagueMatch, winner, loser);
+            UpdateStandings();
+        }
+
+        public override void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB)
+        {
+            base.AwardDraw(leagueMatch, competitorA, competitorB);
+            UpdateStandings();
+        }
+
+        private void UpdateStandings()
+        {
+            // could reorder by same way as standings and then assign new position. Only send update sql for those that have changed.
+        }
+
         public override List<LeagueTableRowDto> GetLeagueStandings()
         {
-            List<LeagueTableRowDto> standings = base.GetLeagueStandings();
-
-            return standings.OrderByDescending(s => s.ColumnValues.Single(x => x.Item1 == "Points").Item2)
-                .ThenByDescending(s => s.ColumnValues.Single(x => x.Item1 == "GoalDifference").Item2)
-                .ThenBy(s => s.ColumnValues.Single(x => x.Item1 == "GoalsFor").Item2)
+            List<LeagueTableRowDto> standings = _pointsLeague.LeagueCompetitors.Select(lc => new LeagueTableRowDto()
+            {
+                SideName = lc.Side.Name,
+                CompetitorRecord = lc.CompetitorRecord
+            }).OrderByDescending(s => s.CompetitorRecord.Points)
+                .ThenByDescending(s => s.CompetitorRecord.Difference)
+                .ThenBy(s => s.CompetitorRecord.For)
                 .ToList();
+
+            return standings;
         }
 
         public override void RenewLeague()

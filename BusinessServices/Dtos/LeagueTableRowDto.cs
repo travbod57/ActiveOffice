@@ -1,4 +1,5 @@
 ﻿using Model.Competitors;
+using Model.Record;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,7 @@ namespace BusinessServices.Dtos
 {
     public class LeagueTableRowDto
     {
-        public LeagueTableRowDto()
-        {
-            ColumnValues = new List<Tuple<string, int>>();
-        }
-
         public string SideName { get; set; }
-        public List<Tuple<string, int>> ColumnValues { get; set; }
+        public CompetitorRecord CompetitorRecord { get; set; }
     }
 }
