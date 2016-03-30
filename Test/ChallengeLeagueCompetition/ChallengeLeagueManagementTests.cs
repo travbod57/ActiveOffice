@@ -16,7 +16,6 @@ using Model.Competitors;
 using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
-using Model.Sports;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -55,25 +54,12 @@ namespace Test.ChallengeLeagueCompetition
 
             _leagueCreatorDto = new LeagueCreatorDto() { NumberOfCompetitors = 5, CanSidePlayMoreThanOncePerMatchDay = true, Occurrance = Occurrance.Daily, ScheduleType = ScheduleType.Scheduled, DayOfWeek = DayOfWeek.Saturday };
 
-            IList<SportColumn> sportColumns = new List<SportColumn>()
-            {
-                new SportColumn() { Id = 1, Name = "Played" },
-                new SportColumn() { Id = 2, Name = "Points" },
-                new SportColumn() { Id = 3, Name = "Wins" },
-                new SportColumn() { Id = 4, Name = "Draws" },
-                new SportColumn() { Id = 5, Name = "Losses" },
-                new SportColumn() { Id = 6, Name = "GoalsFor" },
-                new SportColumn() { Id = 7, Name = "GoalsAgainst" },
-                new SportColumn() { Id = 8, Name = "GoalDifference" }
-            };
-
             LeagueConfig leagueConfig = new LeagueConfig()
             {
                 Name = "League 1",
                 NumberOfMatchUps = 4,
                 NumberOfPositions = 5,
                 Sides = sides,
-                SportColumns = sportColumns,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(30),
                 AuditLogger = _auditLogger
@@ -120,23 +106,23 @@ namespace Test.ChallengeLeagueCompetition
 
             Assert.IsTrue(winner.CurrentPositionNumber == intialChallengeePosition);
             Assert.IsTrue(winner.Side.Name == "Arsenal");
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 1);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 0);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 2);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 1);
-            Assert.IsTrue(winner.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == 1);
+            Assert.IsTrue(winner.CompetitorRecord.Played == 1);
+            Assert.IsTrue(winner.CompetitorRecord.Wins == 1);
+            Assert.IsTrue(winner.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(winner.CompetitorRecord.Losses == 0);
+            Assert.IsTrue(winner.CompetitorRecord.For == 2);
+            Assert.IsTrue(winner.CompetitorRecord.Against == 1);
+            Assert.IsTrue(winner.CompetitorRecord.Difference == 1);
 
             Assert.IsTrue(loser.CurrentPositionNumber == intialChallengeePosition + 1);
             Assert.IsTrue(loser.Side.Name == "West Ham");
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 0);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 1);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 1);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 2);
-            Assert.IsTrue(loser.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1);
+            Assert.IsTrue(loser.CompetitorRecord.Played == 1);
+            Assert.IsTrue(loser.CompetitorRecord.Wins == 0);
+            Assert.IsTrue(loser.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(loser.CompetitorRecord.Losses == 1);
+            Assert.IsTrue(loser.CompetitorRecord.For == 1);
+            Assert.IsTrue(loser.CompetitorRecord.Against == 2);
+            Assert.IsTrue(loser.CompetitorRecord.Difference == -1);
 
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single( lc => lc.CurrentPositionNumber == 3).Side.Name == "Spurs");
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single(lc => lc.CurrentPositionNumber == 4).Side.Name == "Leicester");

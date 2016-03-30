@@ -4,7 +4,6 @@ using Model.Actors;
 using Model.Competitors;
 using Model.Interfaces;
 using Model.Leagues;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using Core.Extensions;
@@ -33,8 +32,6 @@ namespace BusinessServices.Builders.LeagueCompetition
             _league.EndDate = leagueConfig.EndDate;
             _league.NumberOfCompetitors = leagueConfig.NumberOfMatchUps;
             _league.NumberOfMatchUps = leagueConfig.NumberOfMatchUps;
-
-            _league.SportColumns.AddRange(leagueConfig.SportColumns);
         }
 
         public void AddCompetitors(IList<Side> sides)
@@ -57,11 +54,7 @@ namespace BusinessServices.Builders.LeagueCompetition
             //    throw new Exception("The number of competitors you are adding to this league will take it above the capacity");
 
             LeagueCompetitor competitor = new LeagueCompetitor() { Side = side, InitialPositionNumber = initialPositionNumber, CurrentPositionNumber = initialPositionNumber };
-
-            foreach (var column in _league.SportColumns)
-            {
-                competitor.CompetitorRecords.Add(new CompetitorRecord() { SportColumn = column, Value = 0 });
-            }            
+            competitor.CompetitorRecord = new CompetitorRecord();
 
             _league.LeagueCompetitors.Add(competitor);
         }

@@ -12,7 +12,6 @@ namespace DAL.Migrations
     using Model.Packages;
     using System.Collections.Generic;
     using Model.UserManagement;
-    using Model.Sports;
     using Model.Record;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DAL.ActiveOfficeContext>
@@ -53,55 +52,6 @@ namespace DAL.Migrations
             context.CompetitionTypes.AddOrUpdate(
               l => l.Name,
               knockout, pointsLeague, challengeLeague, tournament
-            );
-
-            SportColumn Played = new SportColumn() { Id = 1, Name = "Played" };
-            SportColumn Points = new SportColumn() { Id = 2, Name = "Points" };
-            SportColumn Wins = new SportColumn() { Id = 3, Name = "Wins" };
-            SportColumn Draws = new SportColumn() { Id = 4, Name = "Draws" };
-            SportColumn Losses = new SportColumn() { Id = 5, Name = "Losses" };
-            SportColumn GoalsFor = new SportColumn() { Id = 6, Name = "GoalsFor" };
-            SportColumn GoalsAgainst = new SportColumn() { Id = 7, Name = "GoalsAgainst" };
-            SportColumn GoalDifference = new SportColumn() { Id = 8, Name = "GoalDifference" };
-            SportColumn Laps = new SportColumn() { Id = 9, Name = "Laps" };
-            SportColumn Races = new SportColumn() { Id = 10, Name = "Races" };
-
-            context.SportColumns.AddOrUpdate(
-              sc => sc.Name,
-              Played, Points, Wins, Draws, Losses, GoalsFor, GoalsAgainst, Laps 
-            );
-
-            context.CompetitionTypeSportColumns.AddOrUpdate(
-              x => x.Id,
-              new CompetitionTypeSportColumn() { Id = 1, CompetitionType = pointsLeague, SportType = Football, SportColumn = Played, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 2, CompetitionType = pointsLeague, SportType = Football, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 3, CompetitionType = pointsLeague, SportType = Football, SportColumn = Draws, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 4, CompetitionType = pointsLeague, SportType = Football, SportColumn = Losses, ColumnOrder = 4, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 5, CompetitionType = pointsLeague, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 5, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 6, CompetitionType = pointsLeague, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 6, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 7, CompetitionType = pointsLeague, SportType = Football, SportColumn = Points, ColumnOrder = 7, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 9, CompetitionType = pointsLeague, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false },
-
-              new CompetitionTypeSportColumn() { Id = 10, CompetitionType = challengeLeague, SportType = Football, SportColumn = Played, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 11, CompetitionType = challengeLeague, SportType = Football, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 12, CompetitionType = challengeLeague, SportType = Football, SportColumn = Draws, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 13, CompetitionType = challengeLeague, SportType = Football, SportColumn = Losses, ColumnOrder = 4, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 14, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 5, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 15, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 6, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 16, CompetitionType = challengeLeague, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false },
-              
-              new CompetitionTypeSportColumn() { Id = 17, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Points, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 18, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 19, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Races, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 20, CompetitionType = pointsLeague, SportType = GoKarting, SportColumn = Laps, ColumnOrder = 4, IsOptional = false },
-              
-              new CompetitionTypeSportColumn() { Id = 21, CompetitionType = knockout, SportType = Football, SportColumn = Played, ColumnOrder = 1, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 22, CompetitionType = knockout, SportType = Football, SportColumn = Wins, ColumnOrder = 2, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 23, CompetitionType = knockout, SportType = Football, SportColumn = Draws, ColumnOrder = 3, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 24, CompetitionType = knockout, SportType = Football, SportColumn = Losses, ColumnOrder = 4, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 25, CompetitionType = knockout, SportType = Football, SportColumn = GoalsFor, ColumnOrder = 5, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 26, CompetitionType = knockout, SportType = Football, SportColumn = GoalsAgainst, ColumnOrder = 6, IsOptional = false },
-              new CompetitionTypeSportColumn() { Id = 27, CompetitionType = knockout, SportType = Football, SportColumn = GoalDifference, ColumnOrder = 7, IsOptional = false }
             );
             
             context.Players.AddOrUpdate(

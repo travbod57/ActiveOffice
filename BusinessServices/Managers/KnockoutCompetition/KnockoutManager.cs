@@ -1,5 +1,4 @@
-﻿using BusinessServices.Helpers;
-using BusinessServices.Interfaces;
+﻿using BusinessServices.Interfaces;
 using Model;
 using Model.Competitors;
 using Model.Knockouts;
@@ -16,8 +15,6 @@ namespace BusinessServices.Managers.KnockoutCompetition
     public class KnockoutManager
     {
         private Knockout _knockout;
-        private Dictionary<string, CompetitorRecord> _winnerRecords;
-        private Dictionary<string, CompetitorRecord> _loserRecords;
         private ISportManager _sportManager;
 
         public KnockoutManager(Knockout knockout, ISportManager sportManager)
@@ -28,9 +25,6 @@ namespace BusinessServices.Managers.KnockoutCompetition
 
         public void AwardWin(KnockoutMatch knockoutMatch, KnockoutCompetitor winner, KnockoutCompetitor loser, int winnerScore, int loserScore)
         {
-            _winnerRecords = CompetitorRecordHelpers.GetCompetitorRecords(winner);
-            _loserRecords = CompetitorRecordHelpers.GetCompetitorRecords(loser);
-
             knockoutMatch.Winner = winner;
             knockoutMatch.MatchState = EnumMatchState.Played;
             knockoutMatch.Loser = loser;
@@ -46,11 +40,13 @@ namespace BusinessServices.Managers.KnockoutCompetition
                 knockoutMatch.CompetitorBScore = winnerScore;
             }
 
-            _sportManager.CompetitorRecords = _winnerRecords;
+            _sportManager.CompetitorRecord = winner.CompetitorRecord;
             _sportManager.AwardWin(winnerScore, loserScore);
+            _sportManager.WriteCompetitorHistoryRecord();
 
-            _sportManager.CompetitorRecords = _loserRecords;
+            _sportManager.CompetitorRecord = loser.CompetitorRecord;
             _sportManager.AwardLoss(winnerScore, loserScore);
+            _sportManager.WriteCompetitorHistoryRecord();
 
             // move onto next stage of knockout
 
@@ -67,11 +63,6 @@ namespace BusinessServices.Managers.KnockoutCompetition
                 else
                     knockoutMatch.AlternativeNextRoundMatch.CompetitorB = loser;
             }
-
-            // insert history record
-
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(winner, _winnerRecords);
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, _loserRecords);
         }
     }
 }

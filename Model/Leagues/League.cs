@@ -4,7 +4,6 @@ using Model.LeagueArrangements;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
-using Model.Sports;
 using Model.Tournaments;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,6 @@ namespace Model.Leagues
             LeagueCompetitors = new List<LeagueCompetitor>();
             LeagueMatches = new List<LeagueMatch>();
             LeagueAdmins = new List<LeagueAdmin>();
-            SportColumns = new List<SportColumn>();
             TournamentCompetitors = new List<TournamentCompetitor>();
         }
 
@@ -66,7 +64,6 @@ namespace Model.Leagues
         public virtual ICollection<LeagueMatch> LeagueMatches { get; set; }
         public virtual ICollection<LeagueCompetitor> LeagueCompetitors { get; set; }
         public virtual ICollection<LeagueAdmin> LeagueAdmins { get; set; }
-        public virtual ICollection<SportColumn> SportColumns { get; set; }
         public virtual ICollection<TournamentCompetitor> TournamentCompetitors { get; set; }
         
     }

@@ -12,7 +12,6 @@ using Model.Knockouts;
 using Model.Packages;
 using Model.ReferenceData;
 using Model.Schedule;
-using Model.Sports;
 using Model.UserManagement;
 using System;
 using System.Collections.Generic;
@@ -39,8 +38,6 @@ namespace BusinessServices
             CompetitionType competitionType = _unitOfWork.GetRepository<CompetitionType>().Find(ct => ct.Name == "Knockout").SingleOrDefault();
             SportType sportType = _unitOfWork.GetRepository<SportType>().Find(st => st.Name == "Football").SingleOrDefault();
 
-            IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
-
             KnockoutConfig config = new KnockoutConfig()
             {
                 Name = knockoutName,
@@ -50,7 +47,6 @@ namespace BusinessServices
                 IsSeeded = isSeeded,
                 Sides = sides,
                 AuditLogger = auditLogger,
-                SportColumns = sportColumns,
                 NumberOfRounds = 6
             };
 

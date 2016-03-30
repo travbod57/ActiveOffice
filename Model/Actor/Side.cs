@@ -11,12 +11,6 @@ namespace Model.Actors
     [Table("Side")]
     public abstract class Side : DBEntity
     {
-        public Side()
-        {
-            SportSideRecords = new List<SportSideRecord>();
-        }
-
         public string Name { get; set; }
-        public ICollection<SportSideRecord> SportSideRecords { get; set; }
     }
 }

@@ -14,7 +14,6 @@ using Model.LeagueArrangements;
 using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,17 +44,19 @@ namespace BusinessServices
         #region General
         public IList<LeagueDto> GetLeagueStandings(int leagueId)
         {
-            var league = (from l in _unitOfWork.GetRepository<League>().All()
-                          join lc in _unitOfWork.GetRepository<LeagueCompetitor>().All() on l.Id equals lc.League.Id
-                          where l.Id == leagueId
-                          orderby lc.CurrentPositionNumber
-                          select new LeagueDto()
-                          {
-                              SideName = lc.Side.Name,
-                              CompetitorStandings = lc.CompetitorRecords.ToList()
-                          }).ToList();
+            //var league = (from l in _unitOfWork.GetRepository<League>().All()
+            //              join lc in _unitOfWork.GetRepository<LeagueCompetitor>().All() on l.Id equals lc.League.Id
+            //              where l.Id == leagueId
+            //              orderby lc.CurrentPositionNumber
+            //              select new LeagueDto()
+            //              {
+            //                  SideName = lc.Side.Name,
+            //                  CompetitorStandings = lc.CompetitorRecords.ToList()
+            //              }).ToList();
 
-            return league;
+            //return league;
+
+            return null; 
         }
 
         public IList<LeagueCompetitor> GetLeagueCompetitors(int leagueId)
@@ -189,15 +190,12 @@ namespace BusinessServices
             CompetitionType competitionType = _unitOfWork.GetRepository<CompetitionType>().Find(ct => ct.Name == "Points").SingleOrDefault();
             SportType sportType = _unitOfWork.GetRepository<SportType>().Find(st => st.Name == "Football").SingleOrDefault();
 
-            IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
-
             LeagueConfig leagueConfig = new LeagueConfig()
             {
                 Name = leagueName,
                 NumberOfMatchUps = 4,
                 NumberOfPositions = 5,
                 Sides = sides,
-                SportColumns = sportColumns,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(durationInDays),
                 AuditLogger = auditLogger
@@ -223,15 +221,12 @@ namespace BusinessServices
             CompetitionType competitionType = _unitOfWork.GetRepository<CompetitionType>().Find(ct => ct.Name == "Challenge").SingleOrDefault();
             SportType sportType = _unitOfWork.GetRepository<SportType>().Find(st => st.Name == "Football").SingleOrDefault();
 
-            IList<SportColumn> sportColumns = _unitOfWork.GetRepository<CompetitionTypeSportColumn>().All().Where(ctpc => ctpc.CompetitionType == competitionType && ctpc.SportType == sportType).Select(x => x.SportColumn).ToList();
-
             LeagueConfig leagueConfig = new LeagueConfig()
             {
                 Name = leagueName,
                 NumberOfMatchUps = 4,
                 NumberOfPositions = 5,
                 Sides = sides,
-                SportColumns = sportColumns,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(durationInDays),
                 AuditLogger = auditLogger

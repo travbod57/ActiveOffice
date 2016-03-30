@@ -4,7 +4,6 @@ using Model.Actors;
 using Model.Competitors;
 using Model.Interfaces;
 using Model.Leagues;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using Core.Extensions;
@@ -41,8 +40,6 @@ namespace BusinessServices.Builders.TournamentCompetition
             _tournament.StartDate = config.StartDate;
             _tournament.EndDate = config.EndDate;
             _tournament.NumberOfRounds = config.NumberOfRounds;
-
-            _tournament.SportColumns.AddRange(config.SportColumns);
         }
 
         public void AddCompetitors(IList<Side> sides)
@@ -65,11 +62,7 @@ namespace BusinessServices.Builders.TournamentCompetition
             //    throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
 
             TournamentCompetitor competitor = new TournamentCompetitor() { Side = side };
-
-            foreach (var column in _tournament.SportColumns)
-            {
-                competitor.CompetitorRecords.Add(new CompetitorRecord() { SportColumn = column, Value = 0 });
-            }
+            competitor.CompetitorRecord = new CompetitorRecord();
 
             _tournament.TournamentCompetitors.Add(competitor);
         }
@@ -83,7 +76,6 @@ namespace BusinessServices.Builders.TournamentCompetition
                 NumberOfPositions = 5,
                 NumberOfMatchUps = 2,
                 Sides = config.Sides,
-                SportColumns = config.SportColumns,
                 AuditLogger = config.AuditLogger,
                 IsPartOfTournament = true
             };
@@ -123,7 +115,6 @@ namespace BusinessServices.Builders.TournamentCompetition
                 IsSeeded = false,
                 Sides = new List<Side>(),
                 AuditLogger = config.AuditLogger,
-                SportColumns = config.SportColumns,
                 NumberOfRounds = config.NumberOfRounds,
                 IsPartOfTournament = true
             };

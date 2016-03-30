@@ -16,7 +16,6 @@ using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
-using Model.Sports;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -38,7 +37,6 @@ namespace Test.KnockoutCompetition
         private IAuditLogger _auditLogger;
         private List<Side> _sides;
         private CompetitionType _competitionType;
-        private IList<SportColumn> _sportColumns;
         private Knockout _knockout;
         private KnockoutMatchScheduler _matchScheduler;
 
@@ -83,17 +81,6 @@ namespace Test.KnockoutCompetition
             _t15 = new Team() { Name = "Liverpool" };
             _t16 = new Team() { Name = "Bournemouth" };
 
-            _sportColumns = new List<SportColumn>()
-            {
-                new SportColumn() { Id = 1, Name = "Played" },
-                new SportColumn() { Id = 2, Name = "Wins" },
-                new SportColumn() { Id = 3, Name = "Draws" },
-                new SportColumn() { Id = 4, Name = "Losses" },
-                new SportColumn() { Id = 5, Name = "GoalsFor" },
-                new SportColumn() { Id = 6, Name = "GoalsAgainst" },
-                new SportColumn() { Id = 7, Name = "GoalDifference" }
-            };
-
             _auditLogger = new AuditLogger(_unitOfWork.Object);
 
             _sides = new List<Side>() { _t1, _t2, _t3, _t4 };
@@ -107,7 +94,6 @@ namespace Test.KnockoutCompetition
                 IsSeeded = false,
                 Sides = _sides,
                 AuditLogger = _auditLogger,
-                SportColumns = _sportColumns,
                 NumberOfRounds = 2
             };
 
@@ -153,39 +139,39 @@ namespace Test.KnockoutCompetition
 
             // semi final A
 
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 2);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == 1);
-
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 2);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Played == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Wins == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Losses == 0);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.For == 2);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Against == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Difference == 1);
+                                                           
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Played == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Wins == 0);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Losses == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.For == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Against == 2);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Difference == -1);
 
             // semi final B
 
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 2);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == 1);
-
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Played").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Wins").Value == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Draws").Value == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "Losses").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsFor").Value == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalsAgainst").Value == 2);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecords.Single(cr => cr.SportColumn.Name == "GoalDifference").Value == -1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Played == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Wins == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Losses == 0);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.For == 2);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Against == 1);
+            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Difference == 1);
+                                                           
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Played == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Wins == 0);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Draws == 0);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Losses == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.For == 1);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Against == 2);
+            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Difference == -1);
 
             Assert.AreEqual(semiFinalA.NextRoundMatch, semiFinalB.NextRoundMatch);
             Assert.AreEqual(semiFinalA.NextRoundMatch.CompetitorA, winnerSemiFinalA);

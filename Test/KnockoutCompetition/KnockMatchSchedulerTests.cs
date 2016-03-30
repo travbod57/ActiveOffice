@@ -16,7 +16,6 @@ using Model.Leagues;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
-using Model.Sports;
 using Moq;
 using System;
 using System.Collections.Generic;

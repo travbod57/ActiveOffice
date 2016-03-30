@@ -10,12 +10,11 @@ namespace Model.Competitors
     {
         public Competitor()
         {
-            CompetitorRecords = new List<CompetitorRecord>();
             CompetitorHistoryRecords = new List<CompetitorHistoryRecord>();
         }
 
         public virtual Side Side { get; set; }
-        public virtual ICollection<CompetitorRecord> CompetitorRecords { get; set; }
+        public virtual CompetitorRecord CompetitorRecord { get; set; }
         public virtual ICollection<CompetitorHistoryRecord> CompetitorHistoryRecords { get; set; }
     }
 }

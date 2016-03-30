@@ -12,7 +12,6 @@ using Model.Actors;
 using Model.Leagues;
 using Model.Schedule;
 using Model.Scheduling;
-using Model.Sports;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -35,8 +34,6 @@ namespace Test.PointsLeagueCompetition
         private Mock<IUnitOfWork> _unitOfWork;
         private IAuditLogger _auditLogger;
         private List<Side> _sides;
-        private List<SportColumn> _footballSportColumns;
-        private List<SportColumn> _goKartingSportColumns;
 
         [TestInitialize]
         public void Setup()
@@ -52,25 +49,6 @@ namespace Test.PointsLeagueCompetition
             Team t5 = new Team() { Name = "Arsenal" };
 
             _sides = new List<Side>() { t1, t2, t3, t4, t5 };
-
-            _footballSportColumns = new List<SportColumn>()
-            {
-                new SportColumn() { Id = 1, Name = "Played" },
-                new SportColumn() { Id = 2, Name = "Points" },
-                new SportColumn() { Id = 3, Name = "Wins" },
-                new SportColumn() { Id = 4, Name = "Draws" },
-                new SportColumn() { Id = 5, Name = "Losses" },
-                new SportColumn() { Id = 6, Name = "GoalsFor" },
-                new SportColumn() { Id = 7, Name = "GoalsAgainst" }
-            };
-
-            _goKartingSportColumns = new List<SportColumn>()
-            {
-                new SportColumn() { Id = 1, Name = "Points" },
-                new SportColumn() { Id = 2, Name = "Wins" },
-                new SportColumn() { Id = 3, Name = "Races" },
-                new SportColumn() { Id = 4, Name = "Laps" }
-            };
         }
 
         [TestMethod]
@@ -86,7 +64,6 @@ namespace Test.PointsLeagueCompetition
                 NumberOfMatchUps = 4,
                 NumberOfPositions = 5,
                 Sides = _sides,
-                SportColumns = _footballSportColumns,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(30),
                 AuditLogger = _auditLogger
@@ -109,7 +86,7 @@ namespace Test.PointsLeagueCompetition
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count == _sides.Count);
 
             // correct number of competitor records for the number of sides
-            Assert.IsTrue(_pointsLeague.LeagueCompetitors.SelectMany(x => x.CompetitorRecords).Count() == _footballSportColumns.Count * _sides.Count);
+            Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count(x => x.CompetitorRecord != null) == _sides.Count);
 
             // correct number of matches got created
             Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);
@@ -128,7 +105,6 @@ namespace Test.PointsLeagueCompetition
                 NumberOfMatchUps = 4,
                 NumberOfPositions = 5,
                 Sides = _sides,
-                SportColumns = _goKartingSportColumns,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(30),
                 AuditLogger = _auditLogger
@@ -151,7 +127,7 @@ namespace Test.PointsLeagueCompetition
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count == _sides.Count);
 
             // correct number of competitor records for the number of sides
-            Assert.IsTrue(_pointsLeague.LeagueCompetitors.SelectMany(x => x.CompetitorRecords).Count() == _goKartingSportColumns.Count * _sides.Count);
+            Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count( x => x.CompetitorRecord != null) == _sides.Count);
 
             // correct number of matches got created
             Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);

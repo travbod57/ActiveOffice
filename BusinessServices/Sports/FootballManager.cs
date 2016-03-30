@@ -1,15 +1,17 @@
 ﻿using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
 using Model;
+using Model.Interfaces;
 using Model.Record;
 using Model.ReferenceData;
+using System;
 using System.Collections.Generic;
 
 namespace BusinessServices.Sports
 {
     public class FootballManager : ISportManager
     {
-        public Dictionary<string, CompetitorRecord> CompetitorRecords { get; set; }
+        public CompetitorRecord CompetitorRecord { get; set; }
         private CompetitionType _competitionType { get; set; }
         private PointsDto _points { get; set; }
 
@@ -26,75 +28,100 @@ namespace BusinessServices.Sports
 
         public void AwardWin(int winnerScore, int loserScore)
         {
+            IFootballRecord footballRecord = CompetitorRecord;
+
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
-                CompetitorRecords["Points"].Value += _points.Win;
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Wins"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += winnerScore;
-                CompetitorRecords["GoalsAgainst"].Value += loserScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Points += _points.Win;
+                footballRecord.Played += 1;
+                footballRecord.Wins += 1;
+                footballRecord.For += winnerScore;
+                footballRecord.Against += loserScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
 
             if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString() || _competitionType.Name == EnumCompetitionType.Knockout.ToString())
             {
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Wins"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += winnerScore;
-                CompetitorRecords["GoalsAgainst"].Value += loserScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Played += 1;
+                footballRecord.Wins += 1;
+                footballRecord.For += winnerScore;
+                footballRecord.Against += loserScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
         }
 
         public void AwardLoss(int winnerScore, int loserScore)
         {
+            IFootballRecord footballRecord = CompetitorRecord;
+
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
-                CompetitorRecords["Points"].Value += _points.Loss;
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Losses"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += loserScore;
-                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Points += _points.Loss;
+                footballRecord.Played += 1;
+                footballRecord.Losses += 1;
+                footballRecord.For += loserScore;
+                footballRecord.Against += winnerScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
 
             if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString() || _competitionType.Name == EnumCompetitionType.Knockout.ToString())
             {
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Losses"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += loserScore;
-                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Played += 1;
+                footballRecord.Losses += 1;
+                footballRecord.For += loserScore;
+                footballRecord.Against += winnerScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
         }
 
         public void AwardDraw(int winnerScore, int loserScore)
         {
+            IFootballRecord footballRecord = CompetitorRecord;
+
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
-                CompetitorRecords["Points"].Value += _points.Draw;
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Draws"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += loserScore;
-                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Points += _points.Draw;
+                footballRecord.Played += 1;
+                footballRecord.Draws += 1;
+                footballRecord.For += loserScore;
+                footballRecord.Against += winnerScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
 
             if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString())
             {
-                CompetitorRecords["Points"].Value += _points.Draw;
-                CompetitorRecords["Played"].Value += 1;
-                CompetitorRecords["Draws"].Value += 1;
-                CompetitorRecords["GoalsFor"].Value += loserScore;
-                CompetitorRecords["GoalsAgainst"].Value += winnerScore;
-                CompetitorRecords["GoalDifference"].Value = CompetitorRecords["GoalsFor"].Value - CompetitorRecords["GoalsAgainst"].Value;
+                footballRecord.Played += 1;
+                footballRecord.Draws += 1;
+                footballRecord.For += loserScore;
+                footballRecord.Against += winnerScore;
+                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+
                 return;
             }
+        }
+
+        public void WriteCompetitorHistoryRecord()
+        {
+            IFootballRecord footballHistory = new CompetitorHistoryRecord();
+            footballHistory.Competitor = CompetitorRecord.Competitor;
+            footballHistory.Points = CompetitorRecord.Points;
+            footballHistory.Played = CompetitorRecord.Played;
+            footballHistory.Wins = CompetitorRecord.Wins;
+            footballHistory.Draws = CompetitorRecord.Draws;
+            footballHistory.Losses = CompetitorRecord.Losses;
+            footballHistory.For = CompetitorRecord.For;
+            footballHistory.Against = CompetitorRecord.Against;
+            footballHistory.Difference = CompetitorRecord.Difference;
         }
     }
 }

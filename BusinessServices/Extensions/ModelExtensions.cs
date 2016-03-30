@@ -17,7 +17,6 @@ namespace BusinessServices.Extensions
                 Name = pointsLeague.Name,
                 NumberOfMatchUps = pointsLeague.NumberOfMatchUps,
                 NumberOfPositions = pointsLeague.NumberOfPositions,
-                SportColumns = pointsLeague.SportColumns.ToList(),
                 IsPartOfTournament = pointsLeague.Tournament != null
             };
 

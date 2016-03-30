@@ -10,7 +10,6 @@ using Model.Record;
 using Model.ReferenceData;
 using Model.Schedule;
 using Model.Scheduling;
-using Model.Sports;
 using Model.Tournaments;
 using Model.UserManagement;
 using System.Data.Entity;
@@ -67,7 +66,6 @@ namespace DAL
 
         #region Record
         public DbSet<CompetitorRecord> CompetitorRecords { get; set; } 
-        public DbSet<SportSideRecord> SportSideRecords { get; set; }
         public DbSet<CompetitorHistoryRecord> CompetitorHistoryRecords { get; set; }
         public DbSet<TeamRecord> TeamRecords { get; set; }
         public DbSet<PlayerRecord> PlayerRecords { get; set; }
@@ -75,7 +73,6 @@ namespace DAL
 
         #region ReferenceData
         public DbSet<CompetitionType> CompetitionTypes { get; set; }
-        public DbSet<CompetitionTypeSportColumn> CompetitionTypeSportColumns { get; set; }
         public DbSet<SportType> SportTypes { get; set; } 
         #endregion
 
@@ -86,7 +83,7 @@ namespace DAL
         #endregion
 
         #region Sports
-        public DbSet<SportColumn> SportColumns { get; set; }
+
         #endregion
 
         #region Tournament

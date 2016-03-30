@@ -1,6 +1,5 @@
 ﻿using BusinessServices.Interfaces;
 using Model.Actors;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,6 @@ namespace BusinessServices.Builders.LeagueCompetition
         public int NumberOfMatchUps { get; set; }  
         public IList<Side> Sides { get; set; }  
         public IAuditLogger AuditLogger { get; set; }  
-        public IList<SportColumn> SportColumns { get; set; }
         public bool IsPartOfTournament { get; set; }
         public bool IsRenewedLeague { get; set; }
     }

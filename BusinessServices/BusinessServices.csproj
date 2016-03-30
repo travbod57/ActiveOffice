@@ -68,7 +68,6 @@
     <Compile Include="Dtos\ScoreDto.cs" />
     <Compile Include="EqualityComparers\KnockoutCompetitorSeededComparer.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
-    <Compile Include="Helpers\CompetitorRecordHelpers.cs" />
     <Compile Include="Interfaces\IAuditLogger.cs" />
     <Compile Include="Interfaces\ITournamentSorter.cs" />
     <Compile Include="Interfaces\IKnockoutSorter.cs" />
@@ -123,6 +122,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="SportConfig\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

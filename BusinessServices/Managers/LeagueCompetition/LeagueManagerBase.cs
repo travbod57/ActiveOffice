@@ -1,12 +1,10 @@
 ﻿using BusinessServices.Dtos;
-using BusinessServices.Helpers;
 using DAL;
 using Model.Competitors;
 using Model.Leagues;
 using Model.Record;
 using Model.ReferenceData;
 using Model.Schedule;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +21,6 @@ namespace BusinessServices.Managers.LeagueCompetition
     {
         private League _league { get; set; }
         protected ISportManager SportManager;
-        protected Dictionary<string, CompetitorRecord> WinnerRecords;
-        protected Dictionary<string, CompetitorRecord> LoserRecords;
 
         public LeagueManagerBase(League league, ISportManager sportManager)
         {
@@ -39,56 +35,44 @@ namespace BusinessServices.Managers.LeagueCompetition
 
         public virtual void AwardWin(LeagueMatch leagueMatch, LeagueCompetitor winner, LeagueCompetitor loser)
         {
-            WinnerRecords = CompetitorRecordHelpers.GetCompetitorRecords(winner);
-            LoserRecords = CompetitorRecordHelpers.GetCompetitorRecords(loser);
-
             // update competitor record
 
             int winningScore = leagueMatch.GetWinningScore();
             int losingScore = leagueMatch.GetLosingScore();
 
-            SportManager.CompetitorRecords = WinnerRecords;
+            SportManager.CompetitorRecord = winner.CompetitorRecord;
             SportManager.AwardWin(winningScore, losingScore);
+            SportManager.WriteCompetitorHistoryRecord();
 
-            SportManager.CompetitorRecords = LoserRecords;
+            SportManager.CompetitorRecord = loser.CompetitorRecord;
             SportManager.AwardLoss(winningScore, losingScore);
+            SportManager.WriteCompetitorHistoryRecord();
 
             // update match result
 
             leagueMatch.Winner = winner;
             leagueMatch.Loser = loser;
             leagueMatch.MatchState = EnumMatchState.Played;
-
-            // insert history record
-
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(winner, WinnerRecords);
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(loser, LoserRecords);
         }
 
         public virtual void AwardDraw(LeagueMatch leagueMatch, LeagueCompetitor competitorA, LeagueCompetitor competitorB)
         {
-            Dictionary<string, CompetitorRecord> competitorARecords = CompetitorRecordHelpers.GetCompetitorRecords(competitorA);
-            Dictionary<string, CompetitorRecord> competitorBRecords = CompetitorRecordHelpers.GetCompetitorRecords(competitorB);
-
             // update competitor record
 
             int drawScore = leagueMatch.GetDrawScore();
 
-            SportManager.CompetitorRecords = competitorARecords;
+            SportManager.CompetitorRecord = competitorA.CompetitorRecord;
             SportManager.AwardDraw(drawScore, drawScore);
+            SportManager.WriteCompetitorHistoryRecord();
 
-            SportManager.CompetitorRecords = competitorBRecords;
+            SportManager.CompetitorRecord = competitorB.CompetitorRecord;
             SportManager.AwardDraw(drawScore, drawScore);
+            SportManager.WriteCompetitorHistoryRecord();
 
             // update match result
 
             leagueMatch.IsDraw = true;
             leagueMatch.MatchState = EnumMatchState.Played;
-
-            // insert history record
-
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(competitorA, competitorARecords);
-            CompetitorRecordHelpers.WriteCompetitorHistoryRecords(competitorB, competitorBRecords);
         }
 
         public virtual List<LeagueTableRowDto> GetLeagueStandings()
@@ -99,11 +83,11 @@ namespace BusinessServices.Managers.LeagueCompetition
             {
                 LeagueTableRowDto row = new LeagueTableRowDto();
                 row.SideName = competitor.Side.Name;
-
-                foreach (var competitorRecord in CompetitorRecordHelpers.GetCompetitorRecords(competitor))
-                {
-                    row.ColumnValues.Add(Tuple.Create(competitorRecord.Key, competitorRecord.Value.Value));
-                }
+                throw new NotImplementedException();
+                //foreach (var competitorRecord in CompetitorRecordHelpers.GetCompetitorRecords(competitor))
+                //{
+                //    row.ColumnValues.Add(Tuple.Create(competitorRecord.Key, competitorRecord.Value.Value));
+                //}
 
                 rows.Add(row);
             }

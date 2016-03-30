@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Competitors\KnockoutCompetitor.cs" />
+    <Compile Include="Interfaces\IFootballRecord.cs" />
     <Compile Include="LeagueArrangements\Cluster.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Record\CompetitorHistoryRecord.cs" />
@@ -77,11 +78,9 @@
     <Compile Include="Interfaces\IAudit.cs" />
     <Compile Include="Interfaces\ICompetition.cs" />
     <Compile Include="Knockout\Knockout.cs" />
-    <Compile Include="ReferenceData\CompetitionTypeSportColumn.cs" />
     <Compile Include="Packages\Package.cs" />
     <Compile Include="Packages\PackageDiscount.cs" />
     <Compile Include="Packages\PackageType.cs" />
-    <Compile Include="Record\SportSideRecord.cs" />
     <Compile Include="ReferenceData\CompetitionType.cs" />
     <Compile Include="Schedule\KnockoutMatch.cs" />
     <Compile Include="Schedule\LeagueMatch.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="Sports\Netball.cs" />
     <Compile Include="Sports\Rugby.cs" />
     <Compile Include="ReferenceData\SportType.cs" />
-    <Compile Include="Sports\SportColumn.cs" />
     <Compile Include="Sports\TableTennis.cs" />
     <Compile Include="Sports\Tennis.cs" />
     <Compile Include="Competitors\TournamentCompetitor.cs" />

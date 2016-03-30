@@ -1,6 +1,5 @@
 ﻿using BusinessServices.Interfaces;
 using Model.Actors;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,6 @@ namespace BusinessServices.Builders.TournamentCompetition
         public bool IncludeThirdPlacePlayoff { get; set; } 
         public int NumberOfPools { get; set; } 
         public int NumberOfPositionsPerPool { get; set; }
-        public IList<SportColumn> SportColumns { get; set; }
         public IAuditLogger AuditLogger { get; set; }
         public List<Side> Sides { get; set; }
     }

@@ -4,7 +4,6 @@ using Model.Actors;
 using Model.Competitors;
 using Model.Interfaces;
 using Model.Leagues;
-using Model.Sports;
 using System;
 using System.Collections.Generic;
 using Core.Extensions;
@@ -38,8 +37,6 @@ namespace BusinessServices.Builders.KnockoutCompetition
             _knockOut.NumberOfRounds = knockoutConfig.NumberOfRounds;
             _knockOut.IsSeeded = knockoutConfig.IsSeeded;
             _knockOut.IncludeThirdPlacePlayoff = knockoutConfig.IncludeThirdPlacePlayoff;
-
-            _knockOut.SportColumns.AddRange(knockoutConfig.SportColumns);
         }
 
         public void AddCompetitors(IList<Side> sides)
@@ -62,11 +59,7 @@ namespace BusinessServices.Builders.KnockoutCompetition
             //    throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
 
             KnockoutCompetitor competitor = new KnockoutCompetitor() { Side = side, InitialSeeding = initialSeeding };
-
-            foreach (var column in _knockOut.SportColumns)
-            {
-                competitor.CompetitorRecords.Add(new CompetitorRecord() { SportColumn = column, Value = 0 });
-            }
+            competitor.CompetitorRecord = new CompetitorRecord();
 
             _knockOut.KnockoutCompetitors.Add(competitor);
         }
