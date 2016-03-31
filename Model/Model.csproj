@@ -72,7 +72,6 @@
     <Compile Include="CompetitionOwnership\LeagueAdmin.cs" />
     <Compile Include="CompetitionOwnership\TournamentAdmin.cs" />
     <Compile Include="Competitors\Competitor.cs" />
-    <Compile Include="Record\CompetitorRecord.cs" />
     <Compile Include="DBEntity.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\IAudit.cs" />

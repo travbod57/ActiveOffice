@@ -62,7 +62,6 @@ namespace BusinessServices.Builders.TournamentCompetition
             //    throw new Exception("The number of competitors you are adding to this knockout will take it above the capacity");
 
             TournamentCompetitor competitor = new TournamentCompetitor() { Side = side };
-            competitor.CompetitorRecord = new CompetitorRecord();
 
             _tournament.TournamentCompetitors.Add(competitor);
         }

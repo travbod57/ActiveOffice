@@ -139,39 +139,39 @@ namespace Test.KnockoutCompetition
 
             // semi final A
 
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Played == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Wins == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Losses == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.For == 2);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Against == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Difference == 1);
+            Assert.IsTrue(winnerSemiFinalA.Played == 1);
+            Assert.IsTrue(winnerSemiFinalA.Wins == 1);
+            Assert.IsTrue(winnerSemiFinalA.Draws == 0);
+            Assert.IsTrue(winnerSemiFinalA.Losses == 0);
+            Assert.IsTrue(winnerSemiFinalA.For == 2);
+            Assert.IsTrue(winnerSemiFinalA.Against == 1);
+            Assert.IsTrue(winnerSemiFinalA.Difference == 1);
                                                            
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Played == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Wins == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Losses == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.For == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Against == 2);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Difference == -1);
+            Assert.IsTrue(loserSemiFinalA.Played == 1);
+            Assert.IsTrue(loserSemiFinalA.Wins == 0);
+            Assert.IsTrue(loserSemiFinalA.Draws == 0);
+            Assert.IsTrue(loserSemiFinalA.Losses == 1);
+            Assert.IsTrue(loserSemiFinalA.For == 1);
+            Assert.IsTrue(loserSemiFinalA.Against == 2);
+            Assert.IsTrue(loserSemiFinalA.Difference == -1);
 
             // semi final B
 
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Played == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Wins == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Losses == 0);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.For == 2);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Against == 1);
-            Assert.IsTrue(winnerSemiFinalA.CompetitorRecord.Difference == 1);
+            Assert.IsTrue(winnerSemiFinalA.Played == 1);
+            Assert.IsTrue(winnerSemiFinalA.Wins == 1);
+            Assert.IsTrue(winnerSemiFinalA.Draws == 0);
+            Assert.IsTrue(winnerSemiFinalA.Losses == 0);
+            Assert.IsTrue(winnerSemiFinalA.For == 2);
+            Assert.IsTrue(winnerSemiFinalA.Against == 1);
+            Assert.IsTrue(winnerSemiFinalA.Difference == 1);
                                                            
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Played == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Wins == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Losses == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.For == 1);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Against == 2);
-            Assert.IsTrue(loserSemiFinalA.CompetitorRecord.Difference == -1);
+            Assert.IsTrue(loserSemiFinalA.Played == 1);
+            Assert.IsTrue(loserSemiFinalA.Wins == 0);
+            Assert.IsTrue(loserSemiFinalA.Draws == 0);
+            Assert.IsTrue(loserSemiFinalA.Losses == 1);
+            Assert.IsTrue(loserSemiFinalA.For == 1);
+            Assert.IsTrue(loserSemiFinalA.Against == 2);
+            Assert.IsTrue(loserSemiFinalA.Difference == -1);
 
             Assert.AreEqual(semiFinalA.NextRoundMatch, semiFinalB.NextRoundMatch);
             Assert.AreEqual(semiFinalA.NextRoundMatch.CompetitorA, winnerSemiFinalA);

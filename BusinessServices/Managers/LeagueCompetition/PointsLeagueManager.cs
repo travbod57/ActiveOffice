@@ -39,21 +39,19 @@ namespace BusinessServices.Managers.LeagueCompetition
 
         private void UpdateStandings()
         {
-            // could reorder by same way as standings and then assign new position. Only send update sql for those that have changed.
-        }
+            // get them in order
+           var standings = _pointsLeague.LeagueCompetitors.OrderByDescending(s => s.Points)
+                            .ThenByDescending(s => s.Difference)
+                            .ThenBy(s => s.For)
+                            .ToList();
 
-        public override List<LeagueTableRowDto> GetLeagueStandings()
-        {
-            List<LeagueTableRowDto> standings = _pointsLeague.LeagueCompetitors.Select(lc => new LeagueTableRowDto()
-            {
-                SideName = lc.Side.Name,
-                CompetitorRecord = lc.CompetitorRecord
-            }).OrderByDescending(s => s.CompetitorRecord.Points)
-                .ThenByDescending(s => s.CompetitorRecord.Difference)
-                .ThenBy(s => s.CompetitorRecord.For)
-                .ToList();
-
-            return standings;
+            // update the record if their position has changed
+            for (int i = 0; i < standings.Count; i++)
+		    {
+                LeagueCompetitor competitor = standings[i];
+                if (competitor.CurrentPositionNumber != i + 1)
+                    competitor.CurrentPositionNumber = i + 1;
+		    }
         }
 
         public override void RenewLeague()

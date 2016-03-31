@@ -9,7 +9,6 @@ namespace Model.Interfaces
 {
     public interface IFootballRecord
     {
-        Competitor Competitor { get; set; }
         int Played { get; set; }
         int Points { get; set; }
         int Wins { get; set; }

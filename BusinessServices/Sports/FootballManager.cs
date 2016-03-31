@@ -1,6 +1,7 @@
 ﻿using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
 using Model;
+using Model.Competitors;
 using Model.Interfaces;
 using Model.Record;
 using Model.ReferenceData;
@@ -11,7 +12,7 @@ namespace BusinessServices.Sports
 {
     public class FootballManager : ISportManager
     {
-        public CompetitorRecord CompetitorRecord { get; set; }
+        public Competitor Competitor { get; set; }
         private CompetitionType _competitionType { get; set; }
         private PointsDto _points { get; set; }
 
@@ -28,7 +29,7 @@ namespace BusinessServices.Sports
 
         public void AwardWin(int winnerScore, int loserScore)
         {
-            IFootballRecord footballRecord = CompetitorRecord;
+            IFootballRecord footballRecord = Competitor;
 
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
@@ -37,7 +38,7 @@ namespace BusinessServices.Sports
                 footballRecord.Wins += 1;
                 footballRecord.For += winnerScore;
                 footballRecord.Against += loserScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -48,7 +49,7 @@ namespace BusinessServices.Sports
                 footballRecord.Wins += 1;
                 footballRecord.For += winnerScore;
                 footballRecord.Against += loserScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -56,7 +57,7 @@ namespace BusinessServices.Sports
 
         public void AwardLoss(int winnerScore, int loserScore)
         {
-            IFootballRecord footballRecord = CompetitorRecord;
+            IFootballRecord footballRecord = Competitor;
 
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
@@ -65,7 +66,7 @@ namespace BusinessServices.Sports
                 footballRecord.Losses += 1;
                 footballRecord.For += loserScore;
                 footballRecord.Against += winnerScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -76,7 +77,7 @@ namespace BusinessServices.Sports
                 footballRecord.Losses += 1;
                 footballRecord.For += loserScore;
                 footballRecord.Against += winnerScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -84,7 +85,7 @@ namespace BusinessServices.Sports
 
         public void AwardDraw(int winnerScore, int loserScore)
         {
-            IFootballRecord footballRecord = CompetitorRecord;
+            IFootballRecord footballRecord = Competitor;
 
             if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
             {
@@ -93,7 +94,7 @@ namespace BusinessServices.Sports
                 footballRecord.Draws += 1;
                 footballRecord.For += loserScore;
                 footballRecord.Against += winnerScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -104,7 +105,7 @@ namespace BusinessServices.Sports
                 footballRecord.Draws += 1;
                 footballRecord.For += loserScore;
                 footballRecord.Against += winnerScore;
-                footballRecord.Difference = CompetitorRecord.For - CompetitorRecord.Against;
+                footballRecord.Difference = footballRecord.For - footballRecord.Against;
 
                 return;
             }
@@ -112,16 +113,80 @@ namespace BusinessServices.Sports
 
         public void WriteCompetitorHistoryRecord()
         {
-            IFootballRecord footballHistory = new CompetitorHistoryRecord();
-            footballHistory.Competitor = CompetitorRecord.Competitor;
-            footballHistory.Points = CompetitorRecord.Points;
-            footballHistory.Played = CompetitorRecord.Played;
-            footballHistory.Wins = CompetitorRecord.Wins;
-            footballHistory.Draws = CompetitorRecord.Draws;
-            footballHistory.Losses = CompetitorRecord.Losses;
-            footballHistory.For = CompetitorRecord.For;
-            footballHistory.Against = CompetitorRecord.Against;
-            footballHistory.Difference = CompetitorRecord.Difference;
+            CompetitorHistoryRecord history = new CompetitorHistoryRecord();
+            history.Competitor = Competitor;
+            history.Points = Competitor.Points;
+            history.Played = Competitor.Played;
+            history.Wins = Competitor.Wins;
+            history.Draws = Competitor.Draws;
+            history.Losses = Competitor.Losses;
+            history.For = Competitor.For;
+            history.Against = Competitor.Against;
+            history.Difference = Competitor.Difference;
+        }
+
+        public List<string> GetColumnHeadings()
+        {
+            if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
+            {
+                return new List<string>() {
+                    "P",
+                    "W",
+                    "D",
+                    "L",
+                    "F",
+                    "A",
+                    "GD",
+                    "Pts"
+                };
+            }
+
+            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString())
+            {
+                return new List<string>() {
+                    "P",
+                    "W",
+                    "D",
+                    "L",
+                    "F",
+                    "A",
+                    "GD"
+                };
+            }
+
+            throw new Exception("Not able to determine a Competition type in order to return League Standings");
+        }
+
+        public List<int> GetColumnData(IFootballRecord competitor)
+        {
+            if (_competitionType.Name == EnumCompetitionType.PointsLeague.ToString())
+            {
+                return new List<int>() {
+                    competitor.Played,
+                    competitor.Wins,
+                    competitor.Draws,
+                    competitor.Losses,
+                    competitor.For,
+                    competitor.Against,
+                    competitor.Difference,
+                    competitor.Points
+                };
+            }
+
+            if (_competitionType.Name == EnumCompetitionType.ChallengeLeague.ToString())
+            {
+                return new List<int>() {
+                    competitor.Played,
+                    competitor.Wins,
+                    competitor.Draws,
+                    competitor.Losses,
+                    competitor.For,
+                    competitor.Against,
+                    competitor.Difference
+                };
+            }
+
+            throw new Exception("Not able to determine a Competition type in order to return League Standings");
         }
     }
 }

@@ -87,9 +87,6 @@ namespace Test.ChallengeLeagueCompetition
             // correct number of sides in league
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Count == _sides.Count);
 
-            // correct number of competitor records for the number of sides
-            Assert.IsTrue(_challengeLeague.LeagueCompetitors.Count(x => x.CompetitorRecord != null) == _sides.Count);
-
             // correct number of matches got created
             Assert.IsTrue(_challengeLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);
         }
@@ -127,9 +124,6 @@ namespace Test.ChallengeLeagueCompetition
 
             // correct number of sides in league
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Count == _sides.Count);
-
-            // correct number of competitor records for the number of sides
-            Assert.IsTrue(_challengeLeague.LeagueCompetitors.Count( x => x.CompetitorRecord != null) == _sides.Count);
 
             // correct number of matches got created
             Assert.IsTrue(_challengeLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);

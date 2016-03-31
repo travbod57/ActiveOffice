@@ -85,9 +85,6 @@ namespace Test.PointsLeagueCompetition
             // correct number of sides in league
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count == _sides.Count);
 
-            // correct number of competitor records for the number of sides
-            Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count(x => x.CompetitorRecord != null) == _sides.Count);
-
             // correct number of matches got created
             Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);
         }
@@ -125,9 +122,6 @@ namespace Test.PointsLeagueCompetition
 
             // correct number of sides in league
             Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count == _sides.Count);
-
-            // correct number of competitor records for the number of sides
-            Assert.IsTrue(_pointsLeague.LeagueCompetitors.Count( x => x.CompetitorRecord != null) == _sides.Count);
 
             // correct number of matches got created
             Assert.IsTrue(_pointsLeague.LeagueMatches.Count == scheduler.TotalNumberOfMatches);

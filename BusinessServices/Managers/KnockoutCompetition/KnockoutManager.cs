@@ -40,11 +40,11 @@ namespace BusinessServices.Managers.KnockoutCompetition
                 knockoutMatch.CompetitorBScore = winnerScore;
             }
 
-            _sportManager.CompetitorRecord = winner.CompetitorRecord;
+            _sportManager.Competitor = winner;
             _sportManager.AwardWin(winnerScore, loserScore);
             _sportManager.WriteCompetitorHistoryRecord();
 
-            _sportManager.CompetitorRecord = loser.CompetitorRecord;
+            _sportManager.Competitor = loser;
             _sportManager.AwardLoss(winnerScore, loserScore);
             _sportManager.WriteCompetitorHistoryRecord();
 

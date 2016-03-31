@@ -63,6 +63,7 @@
     <Compile Include="Builders\TournamentCompetition\TournamentBuilder.cs" />
     <Compile Include="Builders\KnockoutCompetition\KnockoutBuilder.cs" />
     <Compile Include="Dtos\Knockout\RoundInformationDto.cs" />
+    <Compile Include="Dtos\LeagueTableDto.cs" />
     <Compile Include="Dtos\LeagueTableRowDto.cs" />
     <Compile Include="Dtos\PointsDto.cs" />
     <Compile Include="Dtos\ScoreDto.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="AccountService.cs" />
     <Compile Include="ActorsService.cs" />
     <Compile Include="Builders\LeagueCompetition\LeagueBuilder.cs" />
-    <Compile Include="Dtos\LeagueDto.cs" />
     <Compile Include="Interfaces\ILeagueManager.cs" />
     <Compile Include="Interfaces\IMatchScheduler.cs" />
     <Compile Include="Interfaces\ILeagueSorter.cs" />

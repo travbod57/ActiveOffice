@@ -65,7 +65,6 @@ namespace DAL
         #endregion
 
         #region Record
-        public DbSet<CompetitorRecord> CompetitorRecords { get; set; } 
         public DbSet<CompetitorHistoryRecord> CompetitorHistoryRecords { get; set; }
         public DbSet<TeamRecord> TeamRecords { get; set; }
         public DbSet<PlayerRecord> PlayerRecords { get; set; }

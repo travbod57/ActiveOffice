@@ -98,23 +98,23 @@ namespace Test.PointsLeagueCompetition
 
             // Assert
 
-            Assert.IsTrue(winner.CompetitorRecord.Points == 3);
-            Assert.IsTrue(winner.CompetitorRecord.Played == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Wins == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(winner.CompetitorRecord.Losses == 0);
-            Assert.IsTrue(winner.CompetitorRecord.For == 2);
-            Assert.IsTrue(winner.CompetitorRecord.Against == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Difference == 1);
+            Assert.IsTrue(winner.Points == 3);
+            Assert.IsTrue(winner.Played == 1);
+            Assert.IsTrue(winner.Wins == 1);
+            Assert.IsTrue(winner.Draws == 0);
+            Assert.IsTrue(winner.Losses == 0);
+            Assert.IsTrue(winner.For == 2);
+            Assert.IsTrue(winner.Against == 1);
+            Assert.IsTrue(winner.Difference == 1);
 
-            Assert.IsTrue(loser.CompetitorRecord.Points == 0);
-            Assert.IsTrue(loser.CompetitorRecord.Played == 1);
-            Assert.IsTrue(loser.CompetitorRecord.Wins == 0);
-            Assert.IsTrue(loser.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(loser.CompetitorRecord.Losses == 1);
-            Assert.IsTrue(loser.CompetitorRecord.For == 1);
-            Assert.IsTrue(loser.CompetitorRecord.Against == 2);
-            Assert.IsTrue(loser.CompetitorRecord.Difference == -1); 
+            Assert.IsTrue(loser.Points == 0);
+            Assert.IsTrue(loser.Played == 1);
+            Assert.IsTrue(loser.Wins == 0);
+            Assert.IsTrue(loser.Draws == 0);
+            Assert.IsTrue(loser.Losses == 1);
+            Assert.IsTrue(loser.For == 1);
+            Assert.IsTrue(loser.Against == 2);
+            Assert.IsTrue(loser.Difference == -1); 
         }
 
         [TestMethod]

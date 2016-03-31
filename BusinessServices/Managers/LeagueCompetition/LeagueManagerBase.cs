@@ -40,11 +40,11 @@ namespace BusinessServices.Managers.LeagueCompetition
             int winningScore = leagueMatch.GetWinningScore();
             int losingScore = leagueMatch.GetLosingScore();
 
-            SportManager.CompetitorRecord = winner.CompetitorRecord;
+            SportManager.Competitor = winner;
             SportManager.AwardWin(winningScore, losingScore);
             SportManager.WriteCompetitorHistoryRecord();
 
-            SportManager.CompetitorRecord = loser.CompetitorRecord;
+            SportManager.Competitor = loser;
             SportManager.AwardLoss(winningScore, losingScore);
             SportManager.WriteCompetitorHistoryRecord();
 
@@ -61,11 +61,11 @@ namespace BusinessServices.Managers.LeagueCompetition
 
             int drawScore = leagueMatch.GetDrawScore();
 
-            SportManager.CompetitorRecord = competitorA.CompetitorRecord;
+            SportManager.Competitor = competitorA;
             SportManager.AwardDraw(drawScore, drawScore);
             SportManager.WriteCompetitorHistoryRecord();
 
-            SportManager.CompetitorRecord = competitorB.CompetitorRecord;
+            SportManager.Competitor = competitorB;
             SportManager.AwardDraw(drawScore, drawScore);
             SportManager.WriteCompetitorHistoryRecord();
 
@@ -75,7 +75,21 @@ namespace BusinessServices.Managers.LeagueCompetition
             leagueMatch.MatchState = EnumMatchState.Played;
         }
 
-        public abstract List<LeagueTableRowDto> GetLeagueStandings();
+        public List<LeagueTableRowDto> GetLeagueStandings()
+        {
+            LeagueTableDto leagueTableDto = new LeagueTableDto();
+            leagueTableDto.ColumnHeadings = SportManager.GetColumnHeadings();
+
+            List<LeagueTableRowDto> standings = _league.LeagueCompetitors.Select(lc => new LeagueTableRowDto()
+            {
+                CurrentPosition = lc.CurrentPositionNumber,
+                SideName = lc.Side.Name,
+                ColumnData = SportManager.GetColumnData(lc)
+            }).OrderBy(s => s.CurrentPosition)
+            .ToList();
+
+            return standings;
+        }
 
         public abstract void RenewLeague();
 

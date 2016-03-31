@@ -106,23 +106,23 @@ namespace Test.ChallengeLeagueCompetition
 
             Assert.IsTrue(winner.CurrentPositionNumber == intialChallengeePosition);
             Assert.IsTrue(winner.Side.Name == "Arsenal");
-            Assert.IsTrue(winner.CompetitorRecord.Played == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Wins == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(winner.CompetitorRecord.Losses == 0);
-            Assert.IsTrue(winner.CompetitorRecord.For == 2);
-            Assert.IsTrue(winner.CompetitorRecord.Against == 1);
-            Assert.IsTrue(winner.CompetitorRecord.Difference == 1);
+            Assert.IsTrue(winner.Played == 1);
+            Assert.IsTrue(winner.Wins == 1);
+            Assert.IsTrue(winner.Draws == 0);
+            Assert.IsTrue(winner.Losses == 0);
+            Assert.IsTrue(winner.For == 2);
+            Assert.IsTrue(winner.Against == 1);
+            Assert.IsTrue(winner.Difference == 1);
 
             Assert.IsTrue(loser.CurrentPositionNumber == intialChallengeePosition + 1);
             Assert.IsTrue(loser.Side.Name == "West Ham");
-            Assert.IsTrue(loser.CompetitorRecord.Played == 1);
-            Assert.IsTrue(loser.CompetitorRecord.Wins == 0);
-            Assert.IsTrue(loser.CompetitorRecord.Draws == 0);
-            Assert.IsTrue(loser.CompetitorRecord.Losses == 1);
-            Assert.IsTrue(loser.CompetitorRecord.For == 1);
-            Assert.IsTrue(loser.CompetitorRecord.Against == 2);
-            Assert.IsTrue(loser.CompetitorRecord.Difference == -1);
+            Assert.IsTrue(loser.Played == 1);
+            Assert.IsTrue(loser.Wins == 0);
+            Assert.IsTrue(loser.Draws == 0);
+            Assert.IsTrue(loser.Losses == 1);
+            Assert.IsTrue(loser.For == 1);
+            Assert.IsTrue(loser.Against == 2);
+            Assert.IsTrue(loser.Difference == -1);
 
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single( lc => lc.CurrentPositionNumber == 3).Side.Name == "Spurs");
             Assert.IsTrue(_challengeLeague.LeagueCompetitors.Single(lc => lc.CurrentPositionNumber == 4).Side.Name == "Leicester");
@@ -159,50 +159,50 @@ namespace Test.ChallengeLeagueCompetition
 
             // Assert
 
-            Assert.IsTrue(standings[0].SideName == "Arsenal");
-            Assert.IsTrue(standings[0].CompetitorRecord.Wins == 1);
-            Assert.IsTrue(standings[0].CompetitorRecord.Draws == 0);
-            Assert.IsTrue(standings[0].CompetitorRecord.Losses == 0);
-            Assert.IsTrue(standings[0].CompetitorRecord.For == 2);
-            Assert.IsTrue(standings[0].CompetitorRecord.Against == 1);
-            Assert.IsTrue(standings[0].CompetitorRecord.Difference == 1);
-            Assert.IsTrue(standings[0].CompetitorRecord.Played == 1);
+            Assert.IsTrue(standings[0].SideName == "Arsenal");            
+            Assert.IsTrue(standings[0].ColumnData[0] == 1); // Played
+            Assert.IsTrue(standings[0].ColumnData[1] == 1); // Wins
+            Assert.IsTrue(standings[0].ColumnData[2] == 0); // Draws
+            Assert.IsTrue(standings[0].ColumnData[3] == 0); // Losses
+            Assert.IsTrue(standings[0].ColumnData[4] == 2); // For
+            Assert.IsTrue(standings[0].ColumnData[5] == 1); // Against
+            Assert.IsTrue(standings[0].ColumnData[6] == 1); // Difference
 
             Assert.IsTrue(standings[1].SideName == "West Ham");
-            Assert.IsTrue(standings[1].CompetitorRecord.Wins == 0);
-            Assert.IsTrue(standings[1].CompetitorRecord.Draws == 0);
-            Assert.IsTrue(standings[1].CompetitorRecord.Losses == 1);
-            Assert.IsTrue(standings[1].CompetitorRecord.For == 1);
-            Assert.IsTrue(standings[1].CompetitorRecord.Against == 2);
-            Assert.IsTrue(standings[1].CompetitorRecord.Difference == -1);
-            Assert.IsTrue(standings[1].CompetitorRecord.Played == 1);
+            Assert.IsTrue(standings[1].ColumnData[0] == 1); // Played
+            Assert.IsTrue(standings[1].ColumnData[1] == 0); // Wins
+            Assert.IsTrue(standings[1].ColumnData[2] == 0); // Draws
+            Assert.IsTrue(standings[1].ColumnData[3] == 1); // Losses
+            Assert.IsTrue(standings[1].ColumnData[4] == 1); // For
+            Assert.IsTrue(standings[1].ColumnData[5] == 2); // Against
+            Assert.IsTrue(standings[1].ColumnData[6] == -1); // Difference
 
             Assert.IsTrue(standings[2].SideName == "Spurs");
-            Assert.IsTrue(standings[2].CompetitorRecord.Wins == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.Draws == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.Losses == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.For == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.Against == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.Difference == 0);
-            Assert.IsTrue(standings[2].CompetitorRecord.Played == 0);
+            Assert.IsTrue(standings[2].ColumnData[0] == 0); // Played
+            Assert.IsTrue(standings[2].ColumnData[1] == 0); // Wins
+            Assert.IsTrue(standings[2].ColumnData[2] == 0); // Draws
+            Assert.IsTrue(standings[2].ColumnData[3] == 0); // Losses
+            Assert.IsTrue(standings[2].ColumnData[4] == 0); // For
+            Assert.IsTrue(standings[2].ColumnData[5] == 0); // Against
+            Assert.IsTrue(standings[2].ColumnData[6] == 0); // Difference
 
             Assert.IsTrue(standings[3].SideName == "Leicester");
-            Assert.IsTrue(standings[3].CompetitorRecord.Wins == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.Draws == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.Losses == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.For == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.Against == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.Difference == 0);
-            Assert.IsTrue(standings[3].CompetitorRecord.Played == 0);
-
+            Assert.IsTrue(standings[3].ColumnData[0] == 0); // Played
+            Assert.IsTrue(standings[3].ColumnData[1] == 0); // Wins
+            Assert.IsTrue(standings[3].ColumnData[2] == 0); // Draws
+            Assert.IsTrue(standings[3].ColumnData[3] == 0); // Losses
+            Assert.IsTrue(standings[3].ColumnData[4] == 0); // For
+            Assert.IsTrue(standings[3].ColumnData[5] == 0); // Against
+            Assert.IsTrue(standings[3].ColumnData[6] == 0); // Difference
+            
             Assert.IsTrue(standings[4].SideName == "Norwich");
-            Assert.IsTrue(standings[4].CompetitorRecord.Wins == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.Draws == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.Losses == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.For == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.Against == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.Difference == 0);
-            Assert.IsTrue(standings[4].CompetitorRecord.Played == 0);
+            Assert.IsTrue(standings[4].ColumnData[0] == 0); // Played
+            Assert.IsTrue(standings[4].ColumnData[1] == 0); // Wins
+            Assert.IsTrue(standings[4].ColumnData[2] == 0); // Draws
+            Assert.IsTrue(standings[4].ColumnData[3] == 0); // Losses
+            Assert.IsTrue(standings[4].ColumnData[4] == 0); // For
+            Assert.IsTrue(standings[4].ColumnData[5] == 0); // Against
+            Assert.IsTrue(standings[4].ColumnData[6] == 0); // Difference
         }
 
         [TestMethod]

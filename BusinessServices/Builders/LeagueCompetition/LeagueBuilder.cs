@@ -54,7 +54,6 @@ namespace BusinessServices.Builders.LeagueCompetition
             //    throw new Exception("The number of competitors you are adding to this league will take it above the capacity");
 
             LeagueCompetitor competitor = new LeagueCompetitor() { Side = side, InitialPositionNumber = initialPositionNumber, CurrentPositionNumber = initialPositionNumber };
-            competitor.CompetitorRecord = new CompetitorRecord();
 
             _league.LeagueCompetitors.Add(competitor);
         }

@@ -1,6 +1,5 @@
 ﻿using BusinessServices.Builders;
 using BusinessServices.Builders.LeagueCompetition;
-using BusinessServices.Dto;
 using BusinessServices.Dtos;
 using BusinessServices.Interfaces;
 using BusinessServices.Managers;
@@ -22,7 +21,7 @@ namespace BusinessServices
 {
     public interface ILeagueService
     {
-        IList<LeagueDto> GetLeagueStandings(int leagueId);
+        IList<LeagueTableDto> GetLeagueStandings(int leagueId);
         IList<LeagueCompetitor> GetLeagueCompetitors(int leagueId);
         void CreatePointsLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler);
         void CreateChallengeLeague(string leagueName, int durationInDays, IMatchScheduler matchScheduler);
@@ -42,19 +41,10 @@ namespace BusinessServices
         }
 
         #region General
-        public IList<LeagueDto> GetLeagueStandings(int leagueId)
+        public IList<LeagueTableDto> GetLeagueStandings(int leagueId)
         {
-            var league = (from l in _unitOfWork.GetRepository<League>().All()
-                          join lc in _unitOfWork.GetRepository<LeagueCompetitor>().All() on l.Id equals lc.League.Id
-                          where l.Id == leagueId
-                          orderby lc.CurrentPositionNumber
-                          select new LeagueDto()
-                          {
-                              SideName = lc.Side.Name,
-                              CompetitorStanding = lc.CompetitorRecord
-                          }).ToList();
-
-            return league;
+            // return from the manager based on the type of league it is
+            return null;
         }
 
         public IList<LeagueCompetitor> GetLeagueCompetitors(int leagueId)
@@ -290,8 +280,8 @@ namespace BusinessServices
             LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
             PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
 
-            LeagueCompetitor winner = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(winnerId);
-            LeagueCompetitor loser = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(loserId);
+            LeagueCompetitor winner = pointsLeague.LeagueCompetitors.Single(lc => lc.Id == winnerId);
+            LeagueCompetitor loser = pointsLeague.LeagueCompetitors.Single(lc => lc.Id == loserId);
 
             ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
 
@@ -306,8 +296,8 @@ namespace BusinessServices
             LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
             PointsLeague pointsLeague = _unitOfWork.GetRepository<PointsLeague>().GetById(leagueMatch.League.Id);
 
-            LeagueCompetitor competitorA = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorA.Id);
-            LeagueCompetitor competitorB = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(leagueMatch.CompetitorB.Id);
+            LeagueCompetitor competitorA = pointsLeague.LeagueCompetitors.Single(lc => lc.Id == leagueMatch.CompetitorA.Id);
+            LeagueCompetitor competitorB = pointsLeague.LeagueCompetitors.Single(lc => lc.Id == leagueMatch.CompetitorB.Id);
 
             ISportManager footballManager = new FootballManager(pointsLeague.CompetitionType, new PointsDto() { Win = pointsLeague.PointsForWin, Draw = pointsLeague.PointsForDraw, Loss = pointsLeague.PointsForDraw });
 
@@ -322,8 +312,8 @@ namespace BusinessServices
             LeagueMatch leagueMatch = _unitOfWork.GetRepository<LeagueMatch>().GetById(matchId);
             ChallengeLeague challengeLeague = _unitOfWork.GetRepository<ChallengeLeague>().GetById(leagueMatch.League.Id);
 
-            LeagueCompetitor winner = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(winnerId);
-            LeagueCompetitor loser = _unitOfWork.GetRepository<LeagueCompetitor>().GetById(loserId);
+            LeagueCompetitor winner = challengeLeague.LeagueCompetitors.Single(lc => lc.Id == winnerId);
+            LeagueCompetitor loser = challengeLeague.LeagueCompetitors.Single(lc => lc.Id == loserId);
 
             leagueMatch.Winner = winner;
             leagueMatch.Loser = loser;

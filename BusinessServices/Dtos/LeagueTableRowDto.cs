@@ -10,7 +10,8 @@ namespace BusinessServices.Dtos
 {
     public class LeagueTableRowDto
     {
+        public int CurrentPosition { get; set; }
         public string SideName { get; set; }
-        public CompetitorRecord CompetitorRecord { get; set; }
+        public List<int> ColumnData { get; set; }
     }
 }

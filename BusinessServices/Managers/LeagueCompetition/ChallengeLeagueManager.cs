@@ -62,17 +62,6 @@ namespace BusinessServices.Managers.LeagueCompetition
             }
         }
 
-        public override List<LeagueTableRowDto> GetLeagueStandings()
-        {
-            List<LeagueTableRowDto> standings = _challengeLeague.LeagueCompetitors.Select(lc => new LeagueTableRowDto()
-            {
-                SideName = lc.Side.Name,
-                CompetitorRecord = lc.CompetitorRecord
-            }).OrderBy(s => s.CompetitorRecord.Position).ToList();
-
-            return standings;
-        }
-
         public void CreateChallenge(LeagueCompetitor challenger, LeagueCompetitor defender, DateTime dateTimeOfPlay)
         {
             LeagueMatch leagueMatch = new LeagueMatch();
