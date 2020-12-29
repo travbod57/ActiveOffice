@@ -1,2 +1,2 @@
 master change
-change on feature 1
+second change on feature 1
