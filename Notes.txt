@@ -1,2 +1,2 @@
 master change
-second change on feature 1
+next iteration of changes on feature 1 - more - and more
