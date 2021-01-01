@@ -1,2 +1,2 @@
 MASTER
-dog2
+elephant2
